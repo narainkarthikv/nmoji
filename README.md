@@ -2,6 +2,19 @@
 
 Nmoji is a straightforward web application designed for quick emoji selection and filtering. This documentation provides an overview of the project, installation instructions, and contributing guidelines. 🔎😉
 
+## Tech Stack
+
+<table>
+    <tr>
+     <td>Frontend</td>
+     <td><img src="https://skillicons.dev/icons?i=html,javascript,tailwind" /></td>
+    </tr>
+    <tr>
+     <td>CI/CD</td>
+     <td><img src="https://skillicons.dev/icons?i=netlify,githubactions" /></td>
+    </tr>
+</table>
+
 ## Table of Contents
 - [Usage](#usage)
 - [Contributing](#contributing)
