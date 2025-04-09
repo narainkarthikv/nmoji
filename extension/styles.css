@@ -1,0 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 10px;
+    background-color: #f4f4f4;
+  }
+  
+  .container {
+    width: 250px;
+  }
+  
+  .emoji {
+    font-size: 24px;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+  
+  .emoji:hover {
+    transform: scale(1.2);
+  }
+  
