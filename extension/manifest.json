@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Nmoji Extension",
+  "version": "1.0",
+  "description": "Quick access to emojis via Nmoji extension.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "assets/favicon.ico"
+    }
+  },
+  "icons": {
+    "128": "assets/favicon.ico"
+  },
+  "permissions": [
+    "clipboardWrite"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["NmojiList.json"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
