@@ -139,7 +139,7 @@ body {
     padding: 10px;
     border-radius: 10px;
     background-color: #fff;
-    width: 70%;
+    width: 69%;
     /* margin: 0 auto; flex box already centers it for us we don't need to center it again with the margin*/
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
@@ -170,7 +170,7 @@ body {
 }
 
 .emoji-description {
-    width: 26%;
+    width: 27%;
     padding: 20px;
     border: 5px outset lightseagreen;
     border-radius: 10px;
@@ -307,4 +307,12 @@ input:checked + .slider {
 #theme-toggle:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
+}
+
+
+#relatedEmojiContainer {
+    display: flex;
+    flex-wrap: nowrap;        
+    overflow-x: auto;   
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }

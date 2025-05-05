@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             populateFilterOptions();
         } else {
             try {
-                const response = await fetch('./data/NmojiList.json');
+                const response = await fetch('./extension/NmojiList.json');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -181,6 +181,42 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="emoji-title">${emoji.description}</div>
             <div class="emoji-category">Category: ${emoji.category}</div>
             <div class="emoji-tags">Tags: #${emoji.tags ? emoji.tags.join(', #') : 'None'}</div>`;
+
+            updateRelatedEmojis(emoji);
+            
+    }
+
+    /**
+     * Add relevant emoji
+     */
+    function updateRelatedEmojis(selectedEmoji) {
+        const relatedContainer = document.getElementById('relatedEmojiContainer');
+        relatedContainer.innerHTML = ''; 
+    
+        const related = emojiData.filter(emoji => {
+            if (emoji.emoji === selectedEmoji.emoji) return false; 
+            const tagMatch = emoji.tags?.some(tag => selectedEmoji.tags?.includes(tag));
+            if(tagMatch){
+            console.log(tagMatch);
+            }
+            
+            // const categoryMatch = emoji.category === selectedEmoji.category;
+            return tagMatch;
+        }); 
+    
+        related.forEach(emoji => {
+            const emojiElement = document.createElement('div');
+            emojiElement.classList.add('emoji');
+            emojiElement.textContent = emoji.emoji;
+            emojiElement.title = emoji.description;
+            emojiElement.addEventListener('click', () => {
+                copyToClipboard(emoji.emoji, emojiElement);
+                updateDescription(emoji); 
+            });
+            relatedContainer.appendChild(emojiElement);
+        });
+    
+        lazyLoadEmojis(); // 触发动画加载
     }
 
     fetchEmojiData();
