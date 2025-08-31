@@ -129,9 +129,10 @@ body {
 }
 
 #emojiContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 8px;
     min-height: 350px;
     max-height: 350px;
     overflow-y: auto;
@@ -140,22 +141,24 @@ body {
     border-radius: 10px;
     background-color: #fff;
     width: 69%;
-    /* margin: 0 auto; flex box already centers it for us we don't need to center it again with the margin*/
+    align-items: center;
+    justify-items: center;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .emoji {
     text-align: center;
-    width: 50px;
-    height: 50px;
-    margin: 10px;
-    padding: 5px;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1.7em;
-    border-radius: 20px;
+    border-radius: 12px;
     cursor: pointer;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .emoji.clicked {
@@ -311,8 +314,40 @@ input:checked + .slider {
 
 
 #relatedEmojiContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 15px;
+    margin-top: 15px;
+    border: 3px outset lightseagreen;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.8);
+    max-height: 200px;
+    overflow-y: auto;
+    align-items: start;
+    justify-items: center;
+}
+
+#relatedEmojiContainer .emoji {
+    width: 45px;
+    height: 45px;
+    font-size: 1.6em;
     display: flex;
-    flex-wrap: nowrap;        
-    overflow-x: auto;   
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: relatedFadeIn 0.3s ease-in-out forwards;
+}
+
+@keyframes relatedFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
