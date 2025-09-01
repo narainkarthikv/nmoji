@@ -1,0 +1,203 @@
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { EmojiGrid } from './EmojiGrid';
+import { SearchBar } from './SearchBar';
+import { FilterBar } from './FilterBar';
+import { EmojiDescription } from './EmojiDescription';
+import { ThemeToggle } from './ThemeToggle';
+
+const AppContainer = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    gap: 16px;
+  }
+`;
+
+const MainContent = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+  align-items: start;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const SearchSection = styled.div`
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const FilterSection = styled.div`
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const Header = styled.header`
+  background-color: lightseagreen;
+  background-image: linear-gradient(135deg, lightseagreen, #2a9d8f);
+  padding: 16px max(20px, calc((100% - 1400px) / 2));
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    margin: 0;
+    font-size: calc(1.5rem + 0.5vw);
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    padding: 12px 16px;
+  }
+
+  body.dark-mode & {
+    background-image: linear-gradient(135deg, #2a9d8f, #264653);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+interface Emoji {
+  emoji: string;
+  description: string;
+  category: string;
+  tags?: string[];
+  aliases?: string[];
+}
+
+export function EmojiApp() {
+  const [emojis, setEmojis] = useState<Emoji[]>([]);
+  const [filteredEmojis, setFilteredEmojis] = useState<Emoji[]>([]);
+  const [selectedEmoji, setSelectedEmoji] = useState<Emoji | null>(null);
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+
+  useEffect(() => {
+    // Get emoji data from public directory
+    fetch('/NmojiList.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch emoji data');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Loaded emojis:', data.length);
+        setEmojis(data);
+        setFilteredEmojis(data);
+      })
+      .catch(error => {
+        console.error('Error loading emoji data:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', theme === 'dark');
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const handleSearch = (query: string) => {
+    if (!query) {
+      setFilteredEmojis(emojis);
+      return;
+    }
+
+    const searchValue = query.toLowerCase();
+    const filtered = emojis.filter(emoji => {
+      const descriptionMatch = emoji.description.toLowerCase().includes(searchValue);
+      const categoryMatch = emoji.category.toLowerCase().includes(searchValue);
+      const tagMatch = emoji.tags?.some(tag => tag.toLowerCase().includes(searchValue));
+      const aliasMatch = emoji.aliases?.some(alias => alias.toLowerCase().includes(searchValue));
+      
+      return descriptionMatch || categoryMatch || tagMatch || aliasMatch;
+    });
+
+    setFilteredEmojis(filtered);
+  };
+
+  const handleFilter = (category: string, tag: string, alias: string) => {
+    let filtered = [...emojis];
+
+    if (category) {
+      filtered = filtered.filter(emoji => emoji.category.toLowerCase() === category.toLowerCase());
+    }
+
+    if (tag) {
+      filtered = filtered.filter(emoji => emoji.tags?.includes(tag));
+    }
+
+    if (alias) {
+      filtered = filtered.filter(emoji => emoji.aliases?.includes(alias));
+    }
+
+    setFilteredEmojis(filtered);
+  };
+
+  const handleEmojiSelect = (emoji: Emoji) => {
+    setSelectedEmoji(emoji);
+    navigator.clipboard.writeText(emoji.emoji);
+  };
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  // Get a default emoji for initial display
+  useEffect(() => {
+    if (emojis.length > 0 && !selectedEmoji) {
+      setSelectedEmoji(emojis[0]);
+    }
+  }, [emojis]);
+
+  return (
+    <>
+      <Header>
+        <h1>Nmoji</h1>
+        <ThemeToggle theme={theme} onToggle={toggleTheme} />
+      </Header>
+      <AppContainer>
+        <SearchSection>
+          <SearchBar onSearch={handleSearch} />
+          <FilterSection>
+            <FilterBar onFilter={handleFilter} emojis={emojis} />
+          </FilterSection>
+        </SearchSection>
+        <MainContent>
+          <EmojiGrid 
+            emojis={filteredEmojis} 
+            onEmojiSelect={handleEmojiSelect} 
+            selectedEmoji={selectedEmoji}
+          />
+          <EmojiDescription 
+            emoji={selectedEmoji}
+            allEmojis={emojis}
+            onEmojiSelect={handleEmojiSelect}
+            defaultMessage={!emojis.length ? "Loading emojis..." : !selectedEmoji ? "Click an emoji to see more details!" : undefined}
+          />
+        </MainContent>
+      </AppContainer>
+    </>
+  );
+}

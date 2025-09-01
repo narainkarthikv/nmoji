@@ -1,80 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nmoji</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/darkmode.css">
-    <link rel="shortcut icon" href="./extension/assets/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="./extension/assets/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="./extension/assets/favicon.ico">
+    <meta name="description" content="Nmoji - A straightforward web application for quick emoji selection and filtering. Find, filter, and explore emojis by categories, tags, and names.">
+    <meta name="keywords" content="emoji, emoji selector, emoji filter, emoji search, web application, open source">
+    <meta name="author" content="Wisdom Fox Community">
+    <meta property="og:title" content="Nmoji - Easy Emoji Selection Tool">
+    <meta property="og:description" content="Find and filter emojis quickly with Nmoji. Search by name, category, or tags.">
+    <meta property="og:image" content="src/assets/images/Nmoji.png">
+    <meta property="og:url" content="https://nmoji.netlify.app">
+    <title>Nmoji - Easy Emoji Selection Tool</title>
+    <link rel="stylesheet" href="src/styles/main.css">
+    <link rel="stylesheet" href="src/styles/theme.css">
+    <link rel="stylesheet" href="src/styles/landing.css">
+    <link rel="shortcut icon" href="src/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="src/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="src/assets/images/favicon.ico">
 </head>
-
 <body>
-
-    <header class="header">
-        <h1>Nmoji</h1>
-        <div class="header">
-            <h1>Nmoji</h1>
-            <button id="theme-toggle">
-                <span id="theme-icon">🌞</span>
-            </button>            
-        </div>        
-    </header>
-
     <div class="container">
         <main>
-            <div class="Nmoji-body">
-                <div class="Nmoji-filter-container">
-                    <div class="search-bar">
-                        <input type="text" id="filterInput" class="filter-input" placeholder="Filter emojis by name...">
-                        <span class="search-icon">🔍</span>
+            <section class="hero">
+                <h1>Find the Perfect Emoji in Seconds</h1>
+                <p>A straightforward, fast, and intuitive emoji selection tool for everyone.</p>
+                <a href="src/pages/app.html" class="cta-button">Start Using Nmoji →</a>
+            </section>
+
+            <section class="features">
+                <h2>Why Choose Nmoji?</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🔍</span>
+                        <h3>Smart Search</h3>
+                        <p>Filter emojis by name, category, or tags</p>
                     </div>
-                    <div class="filter-bar">
-                        <select id="categoryFilter" class="filter-select">
-                            <option value="">Categories</option>
-
-                            <!-- Add more categories as needed -->
-                        </select>
-                        <select id="tagFilter" class="filter-select">
-                            <option value="">Tags</option>
-                            <!-- Populate with tags dynamically -->
-                        </select>
-                        <select id="aliasFilter" class="filter-select">
-                            <option value="">Filter by alias</option>
-                        </select>
+                    <div class="feature-card">
+                        <span class="feature-icon">⚡</span>
+                        <h3>Lightning Fast</h3>
+                        <p>Quick and responsive emoji selection</p>
                     </div>
-                </div>
-
-                <div id="emojiContainer" class="emoji-container">
-                    <!-- Emoji elements will be inserted here by JavaScript -->
-                </div>
-
-                <div class="emoji-description">
-                    <h2>Emote Description</h2>
-                    <p id="emojiDescription">Select an emoji to see its description here.</p>
-                    
-                    <br><hr><br>
-                    <h4> Related Emojis</h4>
-                    <div id="relatedEmojiContainer" class="emoji-container small">
-                        <!-- Related emojis will appear here -->
+                    <div class="feature-card">
+                        <span class="feature-icon">🌗</span>
+                        <h3>Dark Mode</h3>
+                        <p>Easy on your eyes with theme options</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">💡</span>
+                        <h3>Intuitive Design</h3>
+                        <p>Simple and user-friendly interface</p>
                     </div>
                 </div>
-                
-            </div>
-        </main>     
+            </section>
+
+            <section class="open-source">
+                <h2>Open Source Project</h2>
+                <p>Nmoji is completely open source and welcomes contributions from the community.</p>
+                <div class="action-buttons">
+                    <a href="https://github.com/narainkarthikv/Nmoji" class="github-button" target="_blank">View on GitHub</a>
+                    <a href="src/pages/app.html" class="try-button">Try Nmoji Now</a>
+                </div>
+            </section>
+        </main>
     </div>
 
-    <footer class="footer">
-        <p>&#169; 2025 Open-Source Project - <a class="link" href="https://www.github.com/narainkarthikv/Nmoji"
-                target="_blank">GitHub Repository</a></p>
-        <p>Developed by <a class="link" href="https://www.github.com/narainkarthikv" target="_blank">Wisdom Fox
-                Community</a></p>
-    </footer>
-
-    <script src="./js/script.js"></script>
+    <script src="src/scripts/main.js"></script>
 </body>
-
 </html>
