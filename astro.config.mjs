@@ -2,7 +2,11 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 
 export default defineConfig({
-  integrations: [react()],
+  integrations: [
+    react({
+      experimentalStyled: true // Enable styled-components support
+    })
+  ],
   output: 'static',
   build: {
     assets: '_assets'

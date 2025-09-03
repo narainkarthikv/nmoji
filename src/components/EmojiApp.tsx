@@ -1,84 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { EmojiGrid } from './EmojiGrid';
 import { SearchBar } from './SearchBar';
 import { FilterBar } from './FilterBar';
 import { EmojiDescription } from './EmojiDescription';
 import { ThemeToggle } from './ThemeToggle';
-
-const AppContainer = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
-  @media (max-width: 768px) {
-    padding: 16px;
-    gap: 16px;
-  }
-`;
-
-const MainContent = styled.div`
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
-  gap: 24px;
-  align-items: start;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const SearchSection = styled.div`
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-const FilterSection = styled.div`
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const Header = styled.header`
-  background-color: lightseagreen;
-  background-image: linear-gradient(135deg, lightseagreen, #2a9d8f);
-  padding: 16px max(20px, calc((100% - 1400px) / 2));
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  h1 {
-    margin: 0;
-    font-size: calc(1.5rem + 0.5vw);
-    color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  @media (max-width: 768px) {
-    padding: 12px 16px;
-  }
-
-  body.dark-mode & {
-    background-image: linear-gradient(135deg, #2a9d8f, #264653);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-`;
+import '../styles/EmojiApp.css';
 
 interface Emoji {
   emoji: string;
@@ -173,18 +99,18 @@ export function EmojiApp() {
 
   return (
     <>
-      <Header>
+      <header className="app-header">
         <h1>Nmoji</h1>
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
-      </Header>
-      <AppContainer>
-        <SearchSection>
+      </header>
+      <div className="app-container">
+        <div className="search-section">
           <SearchBar onSearch={handleSearch} />
-          <FilterSection>
+          <div className="filter-section">
             <FilterBar onFilter={handleFilter} emojis={emojis} />
-          </FilterSection>
-        </SearchSection>
-        <MainContent>
+          </div>
+        </div>
+        <div className="main-content">
           <EmojiGrid 
             emojis={filteredEmojis} 
             onEmojiSelect={handleEmojiSelect} 
@@ -196,8 +122,8 @@ export function EmojiApp() {
             onEmojiSelect={handleEmojiSelect}
             defaultMessage={!emojis.length ? "Loading emojis..." : !selectedEmoji ? "Click an emoji to see more details!" : undefined}
           />
-        </MainContent>
-      </AppContainer>
+        </div>
+      </div>
     </>
   );
 }
