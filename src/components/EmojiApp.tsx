@@ -18,30 +18,41 @@ export function EmojiApp() {
   const [emojis, setEmojis] = useState<Emoji[]>([]);
   const [filteredEmojis, setFilteredEmojis] = useState<Emoji[]>([]);
   const [selectedEmoji, setSelectedEmoji] = useState<Emoji | null>(null);
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+
+  // ✅ Safe localStorage read during SSR
+  const [theme, setTheme] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'light';
+    }
+    return 'light'; // default fallback
+  });
 
   useEffect(() => {
-    // Get emoji data from public directory
-    fetch('/NmojiList.json')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch emoji data');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Loaded emojis:', data.length);
-        setEmojis(data);
-        setFilteredEmojis(data);
-      })
-      .catch(error => {
-        console.error('Error loading emoji data:', error);
-      });
+    // ✅ Only run fetch in browser
+    if (typeof window !== 'undefined') {
+      fetch('/NmojiList.json')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch emoji data');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Loaded emojis:', data.length);
+          setEmojis(data);
+          setFilteredEmojis(data);
+        })
+        .catch(error => {
+          console.error('Error loading emoji data:', error);
+        });
+    }
   }, []);
 
   useEffect(() => {
-    document.body.classList.toggle('dark-mode', theme === 'dark');
-    localStorage.setItem('theme', theme);
+    if (typeof window !== 'undefined') {
+      document.body.classList.toggle('dark-mode', theme === 'dark');
+      localStorage.setItem('theme', theme);
+    }
   }, [theme]);
 
   const handleSearch = (query: string) => {
@@ -83,14 +94,16 @@ export function EmojiApp() {
 
   const handleEmojiSelect = (emoji: Emoji) => {
     setSelectedEmoji(emoji);
-    navigator.clipboard.writeText(emoji.emoji);
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(emoji.emoji).catch(err => console.error("Clipboard error:", err));
+    }
   };
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  // Get a default emoji for initial display
+  // Default emoji for first render
   useEffect(() => {
     if (emojis.length > 0 && !selectedEmoji) {
       setSelectedEmoji(emojis[0]);
@@ -120,7 +133,13 @@ export function EmojiApp() {
             emoji={selectedEmoji}
             allEmojis={emojis}
             onEmojiSelect={handleEmojiSelect}
-            defaultMessage={!emojis.length ? "Loading emojis..." : !selectedEmoji ? "Click an emoji to see more details!" : undefined}
+            defaultMessage={
+              !emojis.length 
+                ? "Loading emojis..." 
+                : !selectedEmoji 
+                  ? "Click an emoji to see more details!" 
+                  : undefined
+            }
           />
         </div>
       </div>
