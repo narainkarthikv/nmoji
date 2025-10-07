@@ -1,0 +1,126 @@
+/* Theme variables */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --bg-header: #ffffff;
+    --bg-card: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-color: #e0e0e0;
+    --accent-color: #4a7f6d;
+    --hover-color: lightseagreen;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode variables */
+body.dark-mode {
+    --bg-primary: #121212;
+    --bg-secondary: #1f1f1f;
+    --bg-header: #1f4043;
+    --bg-card: #333333;
+    --text-primary: #e0e0e0;
+    --text-secondary: #bbbbbb;
+    --border-color: #4a7f6d;
+    --accent-color: #4a7f6d;
+    --hover-color: lightseagreen;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Base styles with variables */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Header styles */
+.header {
+    background-color: var(--bg-header);
+}
+
+.filter-input,
+.filter-select {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.filter-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.search-icon {
+    color: var(--text-secondary);
+}
+
+#emojiContainer {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+#emojiContainer::-webkit-scrollbar-track,
+.filter-select::-webkit-scrollbar-track {
+    background-color: var(--bg-secondary);
+}
+
+.emoji {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.emoji:hover {
+    background-color: var(--hover-color);
+    color: #ffffff;
+}
+
+.emoji-description {
+    background-color: var(--bg-card);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.selected-emoji {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.emoji-title {
+    color: var(--text-primary);
+}
+
+.emoji-paragraph {
+    color: var(--text-secondary);
+}
+
+.footer {
+    background-color: var(--bg-header);
+}
+
+.footer .link {
+    color: var(--accent-color);
+}
+
+/* Theme toggle button styles */
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+#theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Dark mode transitions */
+body,
+.header,
+.filter-input,
+.filter-select,
+.emoji,
+.emoji-description,
+.footer {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}

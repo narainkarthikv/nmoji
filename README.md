@@ -7,7 +7,7 @@ Nmoji is a straightforward web application designed for quick emoji selection an
 <table>
     <tr>
      <td>Frontend</td>
-     <td><img src="https://skillicons.dev/icons?i=html,javascript,tailwind" /></td>
+     <td><img src="https://skillicons.dev/icons?i=react,astro,typescript" /></td>
     </tr>
     <tr>
      <td>CI/CD</td>
@@ -31,7 +31,46 @@ Nmoji is a straightforward web application designed for quick emoji selection an
 
 ## Usage
 
-1. Open `index.html` in your preferred web browser to view the application.
+1. Open `src/pages/index.html` in your preferred web browser to view the application.
+
+## Project Structure
+
+```
+nmoji/
+├── src/                      # Source files
+│   ├── assets/              # Static assets
+│   │   └── images/         # Image files
+│   ├── components/         # React components
+│   │   ├── EmojiApp.tsx   # Main application component
+│   │   ├── EmojiGrid.tsx  # Emoji grid display
+│   │   ├── FilterBar.tsx  # Category and tag filtering
+│   │   ├── SearchBar.tsx  # Search functionality
+│   │   ├── ThemeToggle.tsx # Dark/light mode toggle
+│   │   └── EmojiDescription.tsx # Emoji details panel
+│   ├── layouts/           # Astro layouts
+│   │   └── Layout.astro   # Main layout template
+│   ├── pages/             # Astro pages
+│   │   ├── index.astro    # Landing page
+│   │   └── app.html       # Application entry
+│   ├── scripts/           # Client-side scripts
+│   │   ├── app.js        # App initialization
+│   │   └── main.js       # Core functionality
+│   └── styles/            # Global styles
+│       ├── landing.css    # Landing page styles
+│       ├── main.css       # Main styles
+│       └── theme.css      # Theme variables
+├── extension/             # Browser extension files
+│   ├── manifest.json     # Extension manifest
+│   ├── NmojiList.json   # Emoji data
+│   ├── popup.html       # Extension popup
+│   ├── popup.js        # Popup logic
+│   └── styles.css      # Extension styles
+├── astro.config.mjs      # Astro configuration
+├── tsconfig.json         # TypeScript configuration
+├── Contributors.md       # List of contributors
+├── MIT-LICENSE.txt      # License information
+└── README.md            # Project documentation
+```
 
 ## Contributing
 

@@ -1,0 +1,63 @@
+.filter-container {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .filter-container {
+    gap: 8px;
+  }
+}
+
+.filter-select {
+  min-width: 150px;
+  max-width: 200px;
+  padding: 8px 36px 8px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  background-color: var(--card-background);
+  color: var(--text-color);
+  font-size: 0.9rem;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding-right: 36px;
+}
+
+.filter-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.1);
+  outline: none;
+}
+
+.filter-select:hover {
+  border-color: var(--primary-color);
+}
+
+body.dark-mode .filter-select:hover {
+  background-color: rgba(42, 157, 143, 0.1);
+}
+
+body.light-mode .filter-select:hover {
+  background-color: rgba(32, 178, 170, 0.05);
+}
+
+@media (max-width: 768px) {
+  .filter-select {
+    min-width: 130px;
+    padding: 6px 32px 6px 12px;
+  }
+}
+
+.filter-select option {
+  background-color: var(--card-background);
+  color: var(--text-color);
+  padding: 8px;
+}
