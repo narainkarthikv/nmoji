@@ -16,21 +16,31 @@ interface Props {
 
 export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(60px,1fr))] gap-3 min-h-[350px] max-h-[calc(100vh-200px)] overflow-y-auto border-3 border-[lightseagreen] p-4 rounded-2xl bg-white w-full max-w-[800px] items-start justify-items-center transition-all duration-300 shadow-md dark:bg-card-background dark:border-[#3a8b84] dark:shadow-lg md:max-h-[calc(100vh-250px)] md:p-3 md:gap-2 sm:grid-cols-[repeat(auto-fill,minmax(50px,1fr))] sm:p-2 sm:gap-1.5">
-      {emojis.slice(0, 40).map((emoji, index) => (
-        <div
-          key={emoji.emoji}
-          className={`text-center w-full aspect-square flex items-center justify-center text-[calc(1.2em+0.5vw)] rounded-xl cursor-pointer bg-white text-inherit shadow-sm transition-all duration-200 animate-fade-in opacity-0 relative scale-100 hover:translate-y-[-2px] hover:shadow-md hover:bg-primary/10 md:text-[calc(1em+0.5vw)] sm:text-[calc(0.9em+0.5vw)] dark:bg-card-background dark:shadow-md dark:hover:shadow-lg dark:hover:bg-primary/15
-            ${selectedEmoji?.emoji === emoji.emoji ? 'bg-primary text-white shadow-lg scale-105 hover:shadow-xl hover:bg-primary-dark dark:bg-primary dark:shadow-xl dark:hover:shadow-2xl' : ''}`}
-          onClick={() => onEmojiSelect(emoji)}
-          title={`${emoji.description} - Category: ${emoji.category}`}
-          style={{ 
-            animationDelay: `${(Math.floor(index / 8) + index % 8) * 50}ms`,
-          }}
-        >
-          {emoji.emoji}
-        </div>
-      ))}
+    <div className="w-full">
+      <div className="grid gap-4 auto-rows-fr grid-cols-[repeat(auto-fit,minmax(60px,1fr))] sm:grid-cols-[repeat(auto-fit,minmax(56px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(72px,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(80px,1fr))]">
+        {emojis.slice(0, 200).map((emoji, index) => {
+          const isSelected = selectedEmoji?.emoji === emoji.emoji;
+          return (
+            <button
+              key={emoji.emoji + index}
+              onClick={() => onEmojiSelect(emoji)}
+              aria-pressed={isSelected}
+              aria-label={`${emoji.description}. Category ${emoji.category}`}
+              title={`${emoji.description} — ${emoji.category}`}
+              className={`flex items-center justify-center aspect-square rounded-2xl p-2 transition-transform duration-200 ease-in-out select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 hover:scale-105 hover:shadow-lg transform bg-white dark:bg-slate-800 text-2xl shadow-sm
+                ${isSelected ? 'ring-2 ring-blue-400 scale-105 bg-blue-500 text-white shadow-xl' : 'hover:bg-blue-50 dark:hover:bg-slate-700'}`}
+              style={{ animationDelay: `${(index % 8) * 30}ms` }}
+            >
+              <span className="leading-none text-[clamp(1.2rem,3.5vw,2.2rem)]" aria-hidden>
+                {emoji.emoji}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      {emojis.length === 0 && (
+        <p className="text-center text-slate-500 dark:text-slate-400 mt-6">No emojis found.</p>
+      )}
     </div>
   );
 }

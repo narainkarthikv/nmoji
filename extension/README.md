@@ -18,8 +18,6 @@ Quick access to your favorite emojis right from your browser.
 - 🎨 Clean and responsive UI.
 - 🚀 Fast access without opening any website.
 
-
-
 ## 🙌 Contributions Welcome!
 
 Feel free to suggest features, improvements, or submit a pull request.

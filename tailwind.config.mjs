@@ -5,20 +5,37 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: 'rgb(32, 178, 170)',
-        'primary-dark': 'rgb(25, 145, 138)',
-        'card-background': '#1e1e1e',
+        // Primary: blue
+        primary: {
+          DEFAULT: '#2563eb', // blue-600
+          50: '#eef2ff',
+          100: '#e0e7ff',
+          200: '#c7d2fe',
+          300: '#a5b4fc',
+          400: '#818cf8',
+          500: '#6366f1',
+          600: '#4f46e5',
+        },
+        // Secondary: slate
+        secondary: {
+          DEFAULT: '#64748b',
+        },
+        // Accent: teal
+        accent: {
+          DEFAULT: '#0ea5a4',
+        },
+        'card-background': '#111827',
       },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-in-out forwards',
       },
       keyframes: {
         fadeIn: {
-          'from': {
+          from: {
             opacity: '0',
             transform: 'translateY(10px)',
           },
-          'to': {
+          to: {
             opacity: '1',
             transform: 'translateY(0)',
           },
@@ -27,4 +44,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

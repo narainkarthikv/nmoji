@@ -12,9 +12,7 @@
   "icons": {
     "128": "assets/favicon.ico"
   },
-  "permissions": [
-    "clipboardWrite"
-  ],
+  "permissions": ["clipboardWrite"],
   "web_accessible_resources": [
     {
       "resources": ["NmojiList.json"],

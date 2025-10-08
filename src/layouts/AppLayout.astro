@@ -1,0 +1,39 @@
+---
+import '../styles/base.css';
+import '../styles/landing.css';
+import '../styles/theme.css';
+import type { AstroComponentFactory } from 'astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nmoji App</title>
+  </head>
+  <body>
+    <!-- App wrapper: theme class is applied here instead of html to scope dark mode -->
+    <div id="app-wrapper" class="app-wrapper">
+      <main class="min-h-screen transition-colors duration-300">
+        <slot />
+      </main>
+    </div>
+
+    <script type="module">
+      // Listen for theme toggle events dispatched by Navbar and apply a scoped theme class
+      const wrapper = document.getElementById('app-wrapper');
+      const apply = (dark) => {
+        if (!wrapper) return;
+        if (dark) wrapper.classList.add('theme-dark'); else wrapper.classList.remove('theme-dark');
+      };
+
+      // Initialize from localStorage or prefers-color-scheme
+      const stored = localStorage.getItem('nmoji-dark');
+      const prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      apply(stored === 'true' || (!stored && prefers));
+
+      window.addEventListener('nmoji-toggle-theme', (e) => apply(e.detail.dark));
+    </script>
+  </body>
+</html>
