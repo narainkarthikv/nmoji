@@ -1,5 +1,6 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import AppLayout from '../layouts/AppLayout.astro';
+import Navbar from '../components/Navbar';
 import { EmojiApp } from '../components/EmojiApp';
 
 // Ensures proper styling for the app
@@ -7,16 +8,13 @@ import '../styles/main.css';
 import '../styles/theme.css';
 ---
 
-<Layout>
-  <div class="app-wrapper">
-    <EmojiApp client:load />
-  </div>
-</Layout>
+<AppLayout>
+  <EmojiApp client:load />
+</AppLayout>
 
 <style>
   .app-wrapper {
     width: 100%;
     min-height: 100vh;
-    padding-top: 60px;
   }
 </style>

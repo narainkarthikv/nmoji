@@ -16,6 +16,7 @@ Nmoji is a straightforward web application designed for quick emoji selection an
 </table>
 
 ## Table of Contents
+
 - [Usage](#usage)
 - [Contributing](#contributing)
   - [Forking the Repository](#forking-the-repository)
@@ -84,47 +85,47 @@ We welcome contributions! To contribute to Nmoji, follow these steps:
 ### Cloning the Repository
 
 2. Clone your forked repository to your local machine:
-    ```sh
-    git clone https://github.com/your-username/Nmoji.git
-    ```
+   ```sh
+   git clone https://github.com/your-username/Nmoji.git
+   ```
 3. Navigate to the project directory:
-    ```sh
-    cd Nmoji
-    ```
+   ```sh
+   cd Nmoji
+   ```
 
 ### Creating a Branch
 
 4. Create a new branch for your feature or bug fix (create a branch according to the issue you're working on):
-    ```sh
-    git switch -c your-branch-name
-    ```
+   ```sh
+   git switch -c your-branch-name
+   ```
 
 ### Making Changes
 
 5. Make your changes to the codebase. You can edit the files using your preferred code editor.
 
 6. Don't forget to add your name to `Contributors.md` after contributing
-    ```sh
-    -[Username](https://github.com/your-username) **Your message** 
-    ```
+   ```sh
+   -[Username](https://github.com/your-username) **Your message**
+   ```
 
 ### Committing Changes
 
 7. Add the changes to the staging area:
-    ```sh
-    git add .
-    ```
+   ```sh
+   git add .
+   ```
 8. Commit the changes with a descriptive message:
-    ```sh
-    git commit -m "Description of your changes"
-    ```
+   ```sh
+   git commit -m "Description of your changes"
+   ```
 
 ### Pushing Changes
 
 9. Push the changes to your forked repository:
-    ```sh
-    git push origin your-branch-name
-    ```
+   ```sh
+   git push origin your-branch-name
+   ```
 
 ### Creating a Pull Request
 
@@ -147,4 +148,4 @@ This is just the beginning! I look forward to making more meaningful contributio
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE]([LICENSE](https://github.com/narainkarthikv/Nmoji/blob/main/MIT-LICENSE.txt)) file for details.
+This project is licensed under the MIT License - see the [LICENSE](<[LICENSE](https://github.com/narainkarthikv/Nmoji/blob/main/MIT-LICENSE.txt)>) file for details.

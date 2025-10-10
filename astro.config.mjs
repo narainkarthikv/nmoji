@@ -5,7 +5,7 @@ import tailwind from '@astrojs/tailwind';
 export default defineConfig({
   integrations: [
     react({
-      experimentalStyled: true // Enable styled-components support
+      experimentalStyled: true, // Enable styled-components support
     }),
     tailwind({
       applyBaseStyles: false,
@@ -13,10 +13,10 @@ export default defineConfig({
   ],
   output: 'static',
   build: {
-    assets: '_assets'
+    assets: '_assets',
   },
   server: {
     port: 3000,
-    host: true
-  }
+    host: true,
+  },
 });
