@@ -1,66 +1,130 @@
-import React, { useState, useEffect } from 'react';
-
-interface Emoji {
-  emoji: string;
-  description: string;
-  category: string;
-  tags?: string[];
-  aliases?: string[];
-}
+import React, { useState, useEffect, useCallback } from 'react';
+import type { Emoji } from '../types/emoji';
+import { extractCategories, extractTags, extractAliases } from '../utils/emoji';
 
 interface Props {
   emojis: Emoji[];
   onFilter: (category: string, tag: string, alias: string) => void;
+  compact?: boolean;
 }
 
-const selectClasses = `min-w-[140px] max-w-[220px] px-4 py-2 pr-9 border border-slate-200 rounded-2xl transition-all duration-200 bg-white/95 dark:bg-slate-800/95 text-slate-900 dark:text-slate-100 text-sm cursor-pointer appearance-none bg-[url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")] bg-no-repeat bg-[right_12px_center] bg-[length:14px] focus:border-blue-400 focus:shadow-[0_0_0_6px_rgba(59,130,246,0.08)] focus:outline-none hover:border-slate-300 dark:border-slate-700 md:min-w-[130px] md:py-1.5 md:px-3`;
+const selectClasses = `px-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-full transition-all duration-200 bg-white/95 dark:bg-slate-800/95 text-slate-900 dark:text-slate-100 text-sm cursor-pointer appearance-none bg-[url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")] bg-no-repeat bg-[right_10px_center] bg-[length:12px] focus:border-blue-400 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] focus:outline-none hover:border-slate-400 dark:hover:border-slate-500`;
 
-export function FilterBar({ emojis, onFilter }: Props) {
+export function FilterBar({ emojis, onFilter, compact = false }: Props) {
   const [categories, setCategories] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [aliases, setAliases] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedTag, setSelectedTag] = useState('');
   const [selectedAlias, setSelectedAlias] = useState('');
-  const [open, setOpen] = useState(false);
 
+  // Extract unique values from emojis
   useEffect(() => {
-    const uniqueCategories = new Set(emojis.map((emoji) => emoji.category));
-    const uniqueTags = new Set(emojis.flatMap((emoji) => emoji.tags || []));
-    const uniqueAliases = new Set(emojis.flatMap((emoji) => emoji.aliases || []));
-
-    setCategories(Array.from(uniqueCategories));
-    setTags(Array.from(uniqueTags));
-    setAliases(Array.from(uniqueAliases));
+    setCategories(extractCategories(emojis));
+    setTags(extractTags(emojis));
+    setAliases(extractAliases(emojis));
   }, [emojis]);
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value);
-    onFilter(e.target.value, selectedTag, selectedAlias);
-  };
+  // Handle filter changes with useCallback to prevent unnecessary re-renders
+  const handleCategoryChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const value = e.target.value;
+      setSelectedCategory(value);
+      onFilter(value, selectedTag, selectedAlias);
+    },
+    [selectedTag, selectedAlias, onFilter],
+  );
 
-  const handleTagChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTag(e.target.value);
-    onFilter(selectedCategory, e.target.value, selectedAlias);
-  };
+  const handleTagChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const value = e.target.value;
+      setSelectedTag(value);
+      onFilter(selectedCategory, value, selectedAlias);
+    },
+    [selectedCategory, selectedAlias, onFilter],
+  );
 
-  const handleAliasChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedAlias(e.target.value);
-    onFilter(selectedCategory, selectedTag, e.target.value);
-  };
+  const handleAliasChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const value = e.target.value;
+      setSelectedAlias(value);
+      onFilter(selectedCategory, selectedTag, value);
+    },
+    [selectedCategory, selectedTag, onFilter],
+  );
+
+  if (compact) {
+    return (
+      <div className="flex gap-2 flex-wrap">
+        <label className="sr-only" htmlFor="category-select">
+          Category filter
+        </label>
+        <select
+          id="category-select"
+          className={`${selectClasses} min-w-[120px]`}
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          aria-label="Filter emojis by category"
+        >
+          <option value="">Categories</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+
+        <label className="sr-only" htmlFor="tag-select">
+          Tag filter
+        </label>
+        <select
+          id="tag-select"
+          className={`${selectClasses} min-w-[100px]`}
+          value={selectedTag}
+          onChange={handleTagChange}
+          aria-label="Filter emojis by tag"
+        >
+          <option value="">Tags</option>
+          {tags.map((tag) => (
+            <option key={tag} value={tag}>
+              {tag}
+            </option>
+          ))}
+        </select>
+
+        <label className="sr-only" htmlFor="alias-select">
+          Alias filter
+        </label>
+        <select
+          id="alias-select"
+          className={`${selectClasses} min-w-[100px]`}
+          value={selectedAlias}
+          onChange={handleAliasChange}
+          aria-label="Filter emojis by alias"
+        >
+          <option value="">Aliases</option>
+          {aliases.map((alias) => (
+            <option key={alias} value={alias}>
+              {alias}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
 
   return (
     <div>
       <div className="hidden lg:flex gap-3 flex-wrap justify-start w-full">
         <label className="sr-only" htmlFor="category-select">
-          Category
+          Category filter
         </label>
         <select
           id="category-select"
-          className={selectClasses}
+          className={`${selectClasses} min-w-[140px] max-w-[220px]`}
           value={selectedCategory}
           onChange={handleCategoryChange}
-          aria-label="Filter by category"
+          aria-label="Filter emojis by category"
         >
           <option value="">All Categories</option>
           {categories.map((category) => (
@@ -71,14 +135,14 @@ export function FilterBar({ emojis, onFilter }: Props) {
         </select>
 
         <label className="sr-only" htmlFor="tag-select">
-          Tag
+          Tag filter
         </label>
         <select
           id="tag-select"
-          className={selectClasses}
+          className={`${selectClasses} min-w-[140px] max-w-[220px]`}
           value={selectedTag}
           onChange={handleTagChange}
-          aria-label="Filter by tag"
+          aria-label="Filter emojis by tag"
         >
           <option value="">All Tags</option>
           {tags.map((tag) => (
@@ -89,14 +153,14 @@ export function FilterBar({ emojis, onFilter }: Props) {
         </select>
 
         <label className="sr-only" htmlFor="alias-select">
-          Alias
+          Alias filter
         </label>
         <select
           id="alias-select"
-          className={selectClasses}
+          className={`${selectClasses} min-w-[140px] max-w-[220px]`}
           value={selectedAlias}
           onChange={handleAliasChange}
-          aria-label="Filter by alias"
+          aria-label="Filter emojis by alias"
         >
           <option value="">All Aliases</option>
           {aliases.map((alias) => (
@@ -107,59 +171,47 @@ export function FilterBar({ emojis, onFilter }: Props) {
         </select>
       </div>
 
-      {/* Mobile accordion / compact */}
-      <div className="lg:hidden">
-        <button
-          className="w-full flex items-center justify-between px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-md"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="mobile-filters"
+      {/* Mobile accordion */}
+      <div className="lg:hidden flex flex-col gap-2">
+        <select
+          className={`${selectClasses} w-full`}
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          aria-label="Mobile filter by category"
         >
-          <span className="text-sm font-medium">Filters</span>
-          <span className="text-sm text-slate-500">{open ? 'Hide' : 'Show'}</span>
-        </button>
-
-        <div id="mobile-filters" className={`${open ? 'block' : 'hidden'} mt-2 space-y-2`}>
-          <select
-            className={selectClasses}
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-            aria-label="Mobile filter by category"
-          >
-            <option value="">All Categories</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-          <select
-            className={selectClasses}
-            value={selectedTag}
-            onChange={handleTagChange}
-            aria-label="Mobile filter by tag"
-          >
-            <option value="">All Tags</option>
-            {tags.map((tag) => (
-              <option key={tag} value={tag}>
-                {tag}
-              </option>
-            ))}
-          </select>
-          <select
-            className={selectClasses}
-            value={selectedAlias}
-            onChange={handleAliasChange}
-            aria-label="Mobile filter by alias"
-          >
-            <option value="">All Aliases</option>
-            {aliases.map((alias) => (
-              <option key={alias} value={alias}>
-                {alias}
-              </option>
-            ))}
-          </select>
-        </div>
+          <option value="">All Categories</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+        <select
+          className={`${selectClasses} w-full`}
+          value={selectedTag}
+          onChange={handleTagChange}
+          aria-label="Mobile filter by tag"
+        >
+          <option value="">All Tags</option>
+          {tags.map((tag) => (
+            <option key={tag} value={tag}>
+              {tag}
+            </option>
+          ))}
+        </select>
+        <select
+          className={`${selectClasses} w-full`}
+          value={selectedAlias}
+          onChange={handleAliasChange}
+          aria-label="Mobile filter by alias"
+        >
+          <option value="">All Aliases</option>
+          {aliases.map((alias) => (
+            <option key={alias} value={alias}>
+              {alias}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );

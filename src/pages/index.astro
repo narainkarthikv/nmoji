@@ -6,76 +6,99 @@ import Button from '../components/ui/Button';
 
 // Note: preview is imported so bundlers produce the correct asset URL
 ---
----
 
 <Layout>
-    <div class="container">
-        <main>
-            <section class="hero">
-                <div class="hero-inner">
-                    <div class="hero-copy">
-                        <span class="badge">Open Source · Fast · Lightweight</span>
-                        <h1>Find the Perfect Emoji in Seconds</h1>
-                        <p class="lead">Nmoji helps you discover, filter and copy emojis quickly — built for speed and delight. Use it in the browser or as a lightweight extension.</p>
+  <div class="container">
+    <main id="main-content">
+      <section class="hero">
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <span class="badge">Open Source · Fast · Lightweight</span>
+            <h1>Find the Perfect Emoji in Seconds</h1>
+            <p class="lead">
+              Nmoji helps you discover, filter and copy emojis quickly — built for speed and
+              delight. Use it in the browser or as a lightweight extension.
+            </p>
 
-                        <div class="hero-ctas">
-                            <Button href="/app" variant="primary">Try Nmoji — Free</Button>
-                            <Button href="https://github.com/narainkarthikv/Nmoji" variant="secondary" className="ml-2" target="_blank">View on GitHub</Button>
-                        </div>
+            <div class="hero-ctas">
+              <Button href="/app" variant="primary">Try Nmoji — Free</Button>
+              <Button
+                href="https://github.com/narainkarthikv/Nmoji"
+                variant="secondary"
+                className="ml-2"
+                target="_blank"
+              >
+                View on GitHub
+              </Button>
+            </div>
 
-                        <ul class="quick-features">
-                            <li>🔎 Instant search & filters</li>
-                            <li>⚡ Blazing fast, minimal footprint</li>
-                            <li>🌗 Theme friendly (dark/light)</li>
-                        </ul>
-                    </div>
+            <ul class="quick-features">
+              <li>🔎 Instant search & filters</li>
+              <li>⚡ Blazing fast, minimal footprint</li>
+              <li>🌗 Theme friendly (dark/light)</li>
+            </ul>
+          </div>
 
-                    <div class="hero-preview" aria-hidden="true">
-                        <div class="preview-card">
-                            <img src={preview} alt="Nmoji preview" class="object-cover rounded-xl max-w-full mx-auto" />
-                            <div class="preview-footer">
-                                <Button href="/app" variant="primary" className="small-cta">Open app</Button>
-                                <span class="preview-hint">Click to explore emojis</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+          <div class="hero-preview" aria-hidden="true">
+            <div class="preview-card">
+              <img
+                src={preview}
+                alt="Nmoji emoji browser interface showing search and emoji selection"
+                class="object-cover rounded-xl max-w-full mx-auto"
+                loading="lazy"
+                width="500"
+                height="400"
+              />
+              <div class="preview-footer">
+                <Button href="/app" variant="primary" className="small-cta">Open app</Button>
+                <span class="preview-hint">Click to explore emojis</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <section class="features">
-                <h2>Why Choose Nmoji?</h2>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <span class="feature-icon">🔍</span>
-                        <h3>Smart Search</h3>
-                        <p>Filter emojis by name, category, or tags</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="feature-icon">⚡</span>
-                        <h3>Lightning Fast</h3>
-                        <p>Quick and responsive emoji selection</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="feature-icon">🌗</span>
-                        <h3>Dark Mode</h3>
-                        <p>Easy on your eyes with theme options</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="feature-icon">💡</span>
-                        <h3>Intuitive Design</h3>
-                        <p>Simple and user-friendly interface</p>
-                    </div>
-                </div>
-            </section>
+      <section class="features">
+        <h2>Why Choose Nmoji?</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <span class="feature-icon" aria-hidden="true">🔍</span>
+            <h3>Smart Search</h3>
+            <p>Filter emojis by name, category, or tags</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon" aria-hidden="true">⚡</span>
+            <h3>Lightning Fast</h3>
+            <p>Quick and responsive emoji selection</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon" aria-hidden="true">🌗</span>
+            <h3>Dark Mode</h3>
+            <p>Easy on your eyes with theme options</p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon" aria-hidden="true">💡</span>
+            <h3>Intuitive Design</h3>
+            <p>Simple and user-friendly interface</p>
+          </div>
+        </div>
+      </section>
 
-            <section class="open-source">
-                <h2>Open Source Project</h2>
-                <p>Nmoji is completely open source and welcomes contributions from the community.</p>
-                <div class="action-buttons">
-                    <Button href="https://github.com/narainkarthikv/Nmoji" variant="secondary" className="mr-2" target="_blank">View on GitHub</Button>
-                    <Button href="/app" variant="primary">Try Nmoji Now</Button>
-                </div>
-            </section>
-        </main>
-    </div>
+      <section class="open-source">
+        <h2>Open Source Project</h2>
+        <p>Nmoji is completely open source and welcomes contributions from the community.</p>
+        <div class="action-buttons">
+          <Button
+            href="https://github.com/narainkarthikv/Nmoji"
+            variant="secondary"
+            className="mr-2"
+            target="_blank"
+          >
+            View on GitHub
+          </Button>
+          <Button href="/app" variant="primary">Try Nmoji Now</Button>
+        </div>
+      </section>
+    </main>
+  </div>
 </Layout>

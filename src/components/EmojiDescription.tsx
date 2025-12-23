@@ -1,12 +1,6 @@
-import React, { useMemo, useState, useEffect } from 'react';
-
-interface Emoji {
-  emoji: string;
-  description: string;
-  category: string;
-  tags?: string[];
-  aliases?: string[];
-}
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import type { Emoji } from '../types/emoji';
+import { findRelatedEmojis } from '../utils/emoji';
 
 interface Props {
   emoji?: Emoji | null;
@@ -21,42 +15,28 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
   // Auto open mobile drawer when selection changes on small screens
   useEffect(() => {
     if (!emoji) return;
-    // Simple media check
-    const isSmall =
-      typeof window !== 'undefined' && window.matchMedia('(max-width: 1024px)').matches;
+    const isSmall = typeof window !== 'undefined' && window.matchMedia('(max-width: 1024px)').matches;
     if (isSmall) setOpenMobile(true);
   }, [emoji]);
+
+  // Memoized related emojis calculation
   const relatedEmojis = useMemo(() => {
     if (!emoji) return [];
-
-    const relatedByTag = new Set<Emoji>();
-    const relatedByCategory = new Set<Emoji>();
-
-    if (emoji.tags) {
-      emoji.tags.forEach((tag) => {
-        allEmojis.forEach((e) => {
-          if (e.emoji !== emoji.emoji && e.tags?.includes(tag)) {
-            relatedByTag.add(e);
-          }
-        });
-      });
-    }
-
-    allEmojis.forEach((e) => {
-      if (e.emoji !== emoji.emoji && e.category === emoji.category) {
-        relatedByCategory.add(e);
-      }
-    });
-
-    const related = Array.from(new Set([...relatedByTag, ...relatedByCategory])).slice(0, 12);
-
-    return related;
+    return findRelatedEmojis(emoji, allEmojis, 12);
   }, [emoji, allEmojis]);
 
+  // Memoized popular emojis (first 8, excluding current)
   const popularEmojis = useMemo(() => {
     if (!allEmojis?.length) return [];
     return allEmojis.filter((e) => e.emoji !== emoji?.emoji).slice(0, 8);
   }, [allEmojis, emoji]);
+
+  const handleRelatedEmojiSelect = useCallback(
+    (relatedEmoji: Emoji) => {
+      onEmojiSelect(relatedEmoji);
+    },
+    [onEmojiSelect],
+  );
 
   return (
     <div>
@@ -77,16 +57,19 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
         id="emoji-detail"
         role="region"
         aria-label="Emoji details panel"
-        className={`w-full bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-md dark:shadow-lg transition-all duration-300 overflow-hidden lg:relative ${openMobile ? 'fixed left-4 right-4 bottom-4 z-40 max-h-[65vh] lg:static lg:max-h-none' : ''}`}
+        className={`w-full bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-md dark:shadow-lg transition-all duration-300 overflow-auto lg:overflow-visible lg:relative ${openMobile ? 'fixed left-4 right-4 bottom-4 z-40 max-h-[65vh] lg:static lg:max-h-none' : 'hidden lg:block'}`}
       >
         {defaultMessage || !emoji ? (
-          <p className="text-center text-slate-500 dark:text-slate-400 opacity-80 py-8">
+          <p
+            className="text-center text-slate-500 dark:text-slate-400 opacity-80 py-8"
+            role="status"
+          >
             {defaultMessage || 'Loading emojis...'}
           </p>
         ) : (
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 flex items-center justify-center rounded-lg bg-white shadow-md text-3xl dark:bg-slate-700">
+              <div className="w-14 h-14 flex items-center justify-center rounded-lg bg-white shadow-md text-3xl dark:bg-slate-700" aria-hidden="true">
                 {emoji.emoji}
               </div>
               <div>
@@ -96,7 +79,7 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
             </div>
 
             <div className="grid grid-cols-1 gap-3 text-sm text-slate-700 dark:text-slate-300">
-              {emoji.tags && (
+              {emoji.tags && emoji.tags.length > 0 && (
                 <div>
                   <div className="font-medium text-slate-600 dark:text-slate-300">Tags</div>
                   <div className="mt-2 flex flex-wrap gap-2">
@@ -112,7 +95,7 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
                 </div>
               )}
 
-              {emoji.aliases && (
+              {emoji.aliases && emoji.aliases.length > 0 && (
                 <div>
                   <div className="font-medium text-slate-600 dark:text-slate-300">Aliases</div>
                   <div className="mt-1 text-sm text-slate-700 dark:text-slate-300">
@@ -123,39 +106,43 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
             </div>
 
             <div className="space-y-4">
-              <div className="card bg-slate-50 dark:bg-slate-700 p-3 rounded-lg">
-                <h4 className="text-sm font-semibold">Related</h4>
-                <div className="mt-3 grid grid-cols-6 gap-2">
-                  {relatedEmojis.map((related, idx) => (
-                    <button
-                      key={related.emoji + idx}
-                      onClick={() => onEmojiSelect(related)}
-                      title={related.description}
-                      className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 hover:scale-105 transition shadow-sm"
-                      aria-label={`Select ${related.description}`}
-                    >
-                      {related.emoji}
-                    </button>
-                  ))}
+              {relatedEmojis.length > 0 && (
+                <div className="bg-slate-50 dark:bg-slate-700 p-3 rounded-lg">
+                  <h4 className="text-sm font-semibold">Related</h4>
+                  <div className="mt-3 grid grid-cols-6 gap-2">
+                    {relatedEmojis.map((related, idx) => (
+                      <button
+                        key={`related-${related.emoji}-${idx}`}
+                        onClick={() => handleRelatedEmojiSelect(related)}
+                        title={related.description}
+                        className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 hover:scale-105 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        aria-label={`Select ${related.description}`}
+                      >
+                        {related.emoji}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              <div className="card bg-slate-50 dark:bg-slate-700 p-3 rounded-lg">
-                <h4 className="text-sm font-semibold">Popular</h4>
-                <div className="mt-3 grid grid-cols-6 gap-2">
-                  {popularEmojis.map((popular, idx) => (
-                    <button
-                      key={popular.emoji + idx}
-                      onClick={() => onEmojiSelect(popular)}
-                      title={popular.description}
-                      className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 hover:scale-105 transition shadow-sm"
-                      aria-label={`Select ${popular.description}`}
-                    >
-                      {popular.emoji}
-                    </button>
-                  ))}
+              {popularEmojis.length > 0 && (
+                <div className="bg-slate-50 dark:bg-slate-700 p-3 rounded-lg">
+                  <h4 className="text-sm font-semibold">Popular</h4>
+                  <div className="mt-3 grid grid-cols-6 gap-2">
+                    {popularEmojis.map((popular, idx) => (
+                      <button
+                        key={`popular-${popular.emoji}-${idx}`}
+                        onClick={() => handleRelatedEmojiSelect(popular)}
+                        title={popular.description}
+                        className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 hover:scale-105 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        aria-label={`Select ${popular.description}`}
+                      >
+                        {popular.emoji}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         )}
