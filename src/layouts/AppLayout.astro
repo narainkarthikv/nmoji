@@ -41,12 +41,10 @@ const description = 'Browse and search through emojis with categories, tags, and
       }
     </script>
   </head>
-  <body>
+  <body class="overflow-hidden">
     <!-- App wrapper: theme class is applied here instead of html to scope dark mode -->
-    <div id="app-wrapper" class="app-wrapper">
-      <main class="min-h-screen transition-colors duration-300">
-        <slot />
-      </main>
+    <div id="app-wrapper" class="app-wrapper h-screen w-screen overflow-hidden">
+      <slot />
 
       <!-- Skip to content link for accessibility -->
       <a href="#main-content" class="sr-only focus:not-sr-only">Skip to main content</a>

@@ -1,10 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/landing.css';
-import preview from '../assets/images/nmoji-preview.png';
 import Button from '../components/ui/Button';
 
-// Note: preview is imported so bundlers produce the correct asset URL
+// Note: Using homepage-banner.png from public folder for optimal asset serving
+const preview = '/homepage-banner.png';
 ---
 
 <Layout>

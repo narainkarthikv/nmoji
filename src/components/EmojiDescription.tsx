@@ -15,7 +15,8 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
   // Auto open mobile drawer when selection changes on small screens
   useEffect(() => {
     if (!emoji) return;
-    const isSmall = typeof window !== 'undefined' && window.matchMedia('(max-width: 1024px)').matches;
+    const isSmall =
+      typeof window !== 'undefined' && window.matchMedia('(max-width: 1024px)').matches;
     if (isSmall) setOpenMobile(true);
   }, [emoji]);
 
@@ -69,7 +70,10 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
         ) : (
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 flex items-center justify-center rounded-lg bg-white shadow-md text-3xl dark:bg-slate-700" aria-hidden="true">
+              <div
+                className="w-14 h-14 flex items-center justify-center rounded-lg bg-white shadow-md text-3xl dark:bg-slate-700"
+                aria-hidden="true"
+              >
                 {emoji.emoji}
               </div>
               <div>

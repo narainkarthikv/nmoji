@@ -179,6 +179,7 @@ nmoji/
 - **Astro Integration** — Static site generation with React islands architecture
 
 For detailed implementation info, see:
+
 - [Quick Start Guide](./docs/QUICK_START.md)
 - [Optimization Guide](./docs/OPTIMIZATION_GUIDE.md)
 - [Deployment Guide](./docs/DEPLOYMENT.md)
@@ -218,6 +219,7 @@ git push origin feature/your-feature-name
 ```
 
 **Guidelines:**
+
 - Keep commits focused and descriptive
 - Test locally with `npm run dev` before pushing
 - Update documentation if needed
@@ -229,22 +231,26 @@ git push origin feature/your-feature-name
 ## 🔍 Debugging & Performance
 
 **Development mode:**
+
 ```bash
 npm run dev
 ```
 
 **Check for TypeScript errors:**
+
 ```bash
 npm run astro -- check
 ```
 
 **Build and test production bundle:**
+
 ```bash
 npm run build
 npm run preview
 ```
 
 **Performance tips:**
+
 - See [OPTIMIZATION_GUIDE.md](./docs/OPTIMIZATION_GUIDE.md) for detailed performance tuning
 - Use React DevTools to profile components
 - Check lighthouse in browser DevTools

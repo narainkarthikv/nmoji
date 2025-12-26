@@ -4,7 +4,8 @@
 
 export const SITE_CONFIG = {
   name: 'Nmoji',
-  description: 'Find and filter emojis quickly with Nmoji. Search by name, category, tags, or aliases.',
+  description:
+    'Find and filter emojis quickly with Nmoji. Search by name, category, tags, or aliases.',
   url: 'https://nmoji.netlify.app',
   repo: 'https://github.com/narainkarthikv/Nmoji',
   author: 'Wisdom Fox Community',
