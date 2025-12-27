@@ -37,7 +37,10 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
 
   // Calculate visible emoji indices
   useEffect(() => {
-    const startRow = Math.max(0, Math.floor((scrollTop - OVERSCAN * EMOJI_CELL_HEIGHT) / EMOJI_CELL_HEIGHT));
+    const startRow = Math.max(
+      0,
+      Math.floor((scrollTop - OVERSCAN * EMOJI_CELL_HEIGHT) / EMOJI_CELL_HEIGHT),
+    );
     const endRow = Math.min(
       rowCount,
       Math.ceil((scrollTop + containerHeight + OVERSCAN * EMOJI_CELL_HEIGHT) / EMOJI_CELL_HEIGHT),
