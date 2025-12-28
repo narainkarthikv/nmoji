@@ -1,6 +1,5 @@
 ---
 import AppLayout from '../layouts/AppLayout.astro';
-import Navbar from '../components/Navbar';
 import { EmojiApp } from '../components/EmojiApp';
 
 // Ensures proper styling for the app
@@ -9,7 +8,7 @@ import '../styles/theme.css';
 ---
 
 <AppLayout>
-  <EmojiApp client:load />
+  <EmojiApp client:idle />
 </AppLayout>
 
 <style>

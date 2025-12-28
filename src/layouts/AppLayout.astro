@@ -1,8 +1,9 @@
 ---
 import '../styles/base.css';
-import '../styles/landing.css';
 import '../styles/theme.css';
-import type { AstroComponentFactory } from 'astro';
+
+const title = 'Nmoji - Emoji Browser';
+const description = 'Browse and search through emojis with categories, tags, and filters. Copy emojis to clipboard instantly.';
 ---
 
 <!DOCTYPE html>
@@ -10,30 +11,64 @@ import type { AstroComponentFactory } from 'astro';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nmoji App</title>
-  </head>
-  <body>
-    <!-- App wrapper: theme class is applied here instead of html to scope dark mode -->
-    <div id="app-wrapper" class="app-wrapper">
-      <main class="min-h-screen transition-colors duration-300">
-        <slot />
-      </main>
-    </div>
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://nmoji.netlify.app/app" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://nmoji.netlify.app/app" />
+
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <title>{title}</title>
 
     <script type="module">
-      // Listen for theme toggle events dispatched by Navbar and apply a scoped theme class
-      const wrapper = document.getElementById('app-wrapper');
-      const apply = (dark) => {
-        if (!wrapper) return;
-        if (dark) wrapper.classList.add('theme-dark'); else wrapper.classList.remove('theme-dark');
-      };
+      // Initialize theme from localStorage on page load
+      // This prevents theme flash during page load
+      const storedTheme = localStorage.getItem('nmoji-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = storedTheme === 'dark' || (!storedTheme && prefersDark);
 
-      // Initialize from localStorage or prefers-color-scheme
-      const stored = localStorage.getItem('nmoji-dark');
-      const prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      apply(stored === 'true' || (!stored && prefers));
-
-      window.addEventListener('nmoji-toggle-theme', (e) => apply(e.detail.dark));
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark-mode');
+      }
     </script>
+  </head>
+  <body class="overflow-hidden">
+    <!-- App wrapper: theme class is applied here instead of html to scope dark mode -->
+    <div id="app-wrapper" class="app-wrapper h-screen w-screen overflow-hidden">
+      <slot />
+
+      <!-- Skip to content link for accessibility -->
+      <a href="#main-content" class="sr-only focus:not-sr-only">Skip to main content</a>
+    </div>
+
+    <style is:global>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .sr-only:not(:focus, :focus-within) {
+        clip: rect(0, 0, 0, 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+    </style>
   </body>
 </html>
