@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { Emoji } from '../types/emoji';
 import { extractCategories, extractTags, extractAliases } from '../utils/emoji';
 
@@ -8,7 +8,7 @@ interface Props {
   compact?: boolean;
 }
 
-const selectClasses = `px-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-full transition-all duration-200 bg-white/95 dark:bg-slate-800/95 text-slate-900 dark:text-slate-100 text-sm cursor-pointer appearance-none bg-[url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")] bg-no-repeat bg-[right_10px_center] bg-[length:12px] focus:border-blue-400 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] focus:outline-none hover:border-slate-400 dark:hover:border-slate-500`;
+const selectClasses = `px-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-full transition-all duration-300 bg-white/95 dark:bg-slate-800/95 text-slate-900 dark:text-slate-100 text-sm cursor-pointer appearance-none bg-[url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")] bg-no-repeat bg-[right_10px_center] bg-[length:12px] focus:border-blue-400 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] focus:outline-none hover:border-slate-400 dark:hover:border-slate-500 motion-safe:hover:scale-105 motion-safe:active:scale-95`;
 
 export function FilterBar({ emojis, onFilter, compact = false }: Props) {
   const [categories, setCategories] = useState<string[]>([]);
@@ -17,6 +17,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedTag, setSelectedTag] = useState('');
   const [selectedAlias, setSelectedAlias] = useState('');
+  const filterTimeoutRef = useRef<NodeJS.Timeout>();
 
   // Extract unique values from emojis
   useEffect(() => {
@@ -25,33 +26,51 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
     setAliases(extractAliases(emojis));
   }, [emojis]);
 
-  // Handle filter changes with useCallback to prevent unnecessary re-renders
+  // Debounced filter update to prevent excessive filtering
+  const debouncedFilter = useCallback(
+    (category: string, tag: string, alias: string) => {
+      if (filterTimeoutRef.current) clearTimeout(filterTimeoutRef.current);
+      filterTimeoutRef.current = setTimeout(() => {
+        onFilter(category, tag, alias);
+      }, 80);
+    },
+    [onFilter],
+  );
+
+  // Handle filter changes with debouncing
   const handleCategoryChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       const value = e.target.value;
       setSelectedCategory(value);
-      onFilter(value, selectedTag, selectedAlias);
+      debouncedFilter(value, selectedTag, selectedAlias);
     },
-    [selectedTag, selectedAlias, onFilter],
+    [selectedTag, selectedAlias, debouncedFilter],
   );
 
   const handleTagChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       const value = e.target.value;
       setSelectedTag(value);
-      onFilter(selectedCategory, value, selectedAlias);
+      debouncedFilter(selectedCategory, value, selectedAlias);
     },
-    [selectedCategory, selectedAlias, onFilter],
+    [selectedCategory, selectedAlias, debouncedFilter],
   );
 
   const handleAliasChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       const value = e.target.value;
       setSelectedAlias(value);
-      onFilter(selectedCategory, selectedTag, value);
+      debouncedFilter(selectedCategory, selectedTag, value);
     },
-    [selectedCategory, selectedTag, onFilter],
+    [selectedCategory, selectedTag, debouncedFilter],
   );
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (filterTimeoutRef.current) clearTimeout(filterTimeoutRef.current);
+    };
+  }, []);
 
   if (compact) {
     return (
