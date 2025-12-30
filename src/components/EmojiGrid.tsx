@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import type { Emoji } from '../types/emoji';
 
 interface Props {
@@ -11,55 +11,48 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
-  const [visibleIndices, setVisibleIndices] = useState<Set<number>>(new Set());
+  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
 
-  const COLUMN_COUNT = 9; // Base column count for desktop, will adjust responsively
-  const EMOJI_CELL_HEIGHT = 92; // pixels (80px emoji + 12px gap)
-  const OVERSCAN = 3; // Render 3 rows outside viewport
+  const COLUMN_COUNT = 9;
+  const EMOJI_CELL_HEIGHT = 92;
+  const OVERSCAN = 3;
+  const SCROLL_THROTTLE = 16; // ~60fps
 
-  // Calculate grid dimensions
   const rowCount = Math.ceil(emojis.length / COLUMN_COUNT);
   const gridHeight = rowCount * EMOJI_CELL_HEIGHT;
 
-  // Calculate visible range based on scroll position
+  // Throttled scroll handler - update at most every 16ms (60fps)
+  const handleScroll = useCallback(() => {
+    if (!containerRef.current) return;
+    setScrollTop(containerRef.current.scrollTop);
+  }, []);
+
+  // Attach throttled scroll listener
   useEffect(() => {
     if (!containerRef.current || containerHeight === 0) return;
 
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      setScrollTop(containerRef.current.scrollTop);
+    const container = containerRef.current;
+    let lastScrollTime = Date.now();
+
+    const throttledScroll = () => {
+      const now = Date.now();
+      if (now - lastScrollTime >= SCROLL_THROTTLE) {
+        handleScroll();
+        lastScrollTime = now;
+      } else {
+        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+        scrollTimeoutRef.current = setTimeout(handleScroll, SCROLL_THROTTLE);
+      }
     };
 
-    const container = containerRef.current;
-    container.addEventListener('scroll', handleScroll, { passive: true });
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, [containerHeight]);
+    container.addEventListener('scroll', throttledScroll, { passive: true });
+    return () => {
+      container.removeEventListener('scroll', throttledScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
+  }, [containerHeight, handleScroll, SCROLL_THROTTLE]);
 
-  // Calculate visible emoji indices
-  useEffect(() => {
-    const startRow = Math.max(
-      0,
-      Math.floor((scrollTop - OVERSCAN * EMOJI_CELL_HEIGHT) / EMOJI_CELL_HEIGHT),
-    );
-    const endRow = Math.min(
-      rowCount,
-      Math.ceil((scrollTop + containerHeight + OVERSCAN * EMOJI_CELL_HEIGHT) / EMOJI_CELL_HEIGHT),
-    );
-
-    const newVisibleIndices = new Set<number>();
-    for (let row = startRow; row < endRow; row++) {
-      for (let col = 0; col < COLUMN_COUNT; col++) {
-        const index = row * COLUMN_COUNT + col;
-        if (index < emojis.length) {
-          newVisibleIndices.add(index);
-        }
-      }
-    }
-
-    setVisibleIndices(newVisibleIndices);
-  }, [scrollTop, containerHeight, emojis.length, rowCount]);
-
-  // Set container height on mount and resize
+  // Set container height on mount and resize with debouncing
   useEffect(() => {
     const updateHeight = () => {
       if (containerRef.current?.parentElement) {
@@ -68,12 +61,21 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
     };
 
     updateHeight();
-    const resizeObserver = new ResizeObserver(updateHeight);
+    let resizeTimeout: NodeJS.Timeout;
+    const resizeObserver = new ResizeObserver(() => {
+      // Debounce resize updates to avoid thrashing
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updateHeight, 100);
+    });
+
     if (containerRef.current?.parentElement) {
       resizeObserver.observe(containerRef.current.parentElement);
     }
 
-    return () => resizeObserver.disconnect();
+    return () => {
+      resizeObserver.disconnect();
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+    };
   }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent, emoji: Emoji) => {
@@ -83,11 +85,34 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
     }
   };
 
-  // Memoize grid rows for better performance
+  // Calculate visible row range for efficient rendering
+  const visibleRowRange = useMemo(() => {
+    const startRow = Math.max(
+      0,
+      Math.floor((scrollTop - OVERSCAN * EMOJI_CELL_HEIGHT) / EMOJI_CELL_HEIGHT),
+    );
+    const endRow = Math.min(
+      rowCount,
+      Math.ceil((scrollTop + containerHeight + OVERSCAN * EMOJI_CELL_HEIGHT) / EMOJI_CELL_HEIGHT),
+    );
+    return { startRow, endRow };
+  }, [scrollTop, containerHeight, rowCount]);
+
+  // Render only visible rows to optimize DOM
   const visibleRows = useMemo(() => {
     const rows: React.ReactNode[] = [];
+    const { startRow, endRow } = visibleRowRange;
 
-    for (let row = 0; row < rowCount; row++) {
+    // Calculate spacer heights to maintain scroll behavior
+    const offsetBefore = startRow * EMOJI_CELL_HEIGHT;
+    const offsetAfter = (rowCount - endRow) * EMOJI_CELL_HEIGHT;
+
+    // Top spacer to push visible content to correct scroll position
+    if (offsetBefore > 0) {
+      rows.push(<div key="spacer-before" style={{ height: `${offsetBefore}px` }} />);
+    }
+
+    for (let row = startRow; row < endRow; row++) {
       const rowStart = row * COLUMN_COUNT;
       const rowEmojis = emojis.slice(rowStart, rowStart + COLUMN_COUNT);
 
@@ -98,7 +123,6 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
         >
           {rowEmojis.map((emoji, colIndex) => {
             const index = rowStart + colIndex;
-            const isVisible = visibleIndices.has(index);
 
             return (
               <button
@@ -108,9 +132,8 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
                 aria-pressed={selectedEmoji?.emoji === emoji.emoji}
                 aria-label={`${emoji.description}. Category: ${emoji.category}`}
                 title={`${emoji.description} — ${emoji.category}`}
-                className={`flex items-center justify-center aspect-square rounded-2xl p-2 transition-all duration-150 ease-out select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 hover:scale-105 hover:shadow-lg bg-white dark:bg-slate-800 text-2xl shadow-sm
-                  ${selectedEmoji?.emoji === emoji.emoji ? 'ring-2 ring-blue-400 scale-110 bg-blue-500 text-white shadow-xl' : 'hover:bg-slate-50 dark:hover:bg-slate-700'}
-                  ${isVisible ? 'animate-pop-in' : 'opacity-0'}`}
+                className={`flex items-center justify-center aspect-square rounded-2xl p-2 transition-all duration-200 ease-out select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 focus:ring-offset-slate-50 dark:focus:ring-offset-slate-900 bg-white dark:bg-slate-800 text-2xl shadow-sm hover:shadow-md dark:hover:shadow-lg active:scale-95 motion-safe:hover:scale-105 motion-safe:active:scale-95 animate-pop-in
+                  ${selectedEmoji?.emoji === emoji.emoji ? 'ring-2 ring-blue-400 scale-110 bg-blue-500 text-white shadow-lg dark:shadow-2xl' : 'hover:bg-slate-50 dark:hover:bg-slate-700'}`}
                 style={{
                   animationDelay: `${(index % 12) * 15}ms`,
                   willChange: 'transform, opacity',
@@ -126,8 +149,13 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
       );
     }
 
+    // Bottom spacer to maintain correct scroll height
+    if (offsetAfter > 0) {
+      rows.push(<div key="spacer-after" style={{ height: `${offsetAfter}px` }} />);
+    }
+
     return rows;
-  }, [emojis, rowCount, selectedEmoji, visibleIndices]);
+  }, [emojis, visibleRowRange, selectedEmoji, COLUMN_COUNT, rowCount, EMOJI_CELL_HEIGHT]);
 
   return (
     <div className="w-full h-full flex flex-col">

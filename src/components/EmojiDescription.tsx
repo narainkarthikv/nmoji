@@ -48,7 +48,7 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
           aria-expanded={openMobile}
           aria-controls="emoji-detail"
           onClick={() => setOpenMobile((v) => !v)}
-          className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+          className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200 motion-safe:hover:scale-105 motion-safe:active:scale-95"
         >
           {openMobile ? 'Close' : 'Open'}
         </button>
@@ -58,7 +58,7 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
         id="emoji-detail"
         role="region"
         aria-label="Emoji details panel"
-        className={`w-full bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-md dark:shadow-lg transition-all duration-300 overflow-auto lg:overflow-visible lg:relative ${openMobile ? 'fixed left-4 right-4 bottom-4 z-40 max-h-[65vh] lg:static lg:max-h-none' : 'hidden lg:block'}`}
+        className={`w-full bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-md dark:shadow-lg transition-all duration-300 ease-out overflow-auto lg:overflow-visible lg:relative ${openMobile ? 'fixed left-4 right-4 bottom-4 z-40 max-h-[65vh] lg:static lg:max-h-none animate-slide-in-up lg:animate-none' : 'hidden lg:block'}`}
       >
         {defaultMessage || !emoji ? (
           <p
@@ -111,7 +111,7 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
 
             <div className="space-y-4">
               {relatedEmojis.length > 0 && (
-                <div className="bg-slate-50 dark:bg-slate-700 p-3 rounded-lg">
+                <div className="bg-slate-50 dark:bg-slate-700 p-3 rounded-lg animate-fade-in-up">
                   <h4 className="text-sm font-semibold">Related</h4>
                   <div className="mt-3 grid grid-cols-6 gap-2">
                     {relatedEmojis.map((related, idx) => (
@@ -119,7 +119,7 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
                         key={`related-${related.emoji}-${idx}`}
                         onClick={() => handleRelatedEmojiSelect(related)}
                         title={related.description}
-                        className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 hover:scale-105 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 motion-safe:hover:scale-110 motion-safe:hover:shadow-md motion-safe:active:scale-95"
                         aria-label={`Select ${related.description}`}
                       >
                         {related.emoji}
@@ -130,7 +130,7 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
               )}
 
               {popularEmojis.length > 0 && (
-                <div className="bg-slate-50 dark:bg-slate-700 p-3 rounded-lg">
+                <div className="bg-slate-50 dark:bg-slate-700 p-3 rounded-lg animate-fade-in-up" style={{ animationDelay: '100ms' }}>
                   <h4 className="text-sm font-semibold">Popular</h4>
                   <div className="mt-3 grid grid-cols-6 gap-2">
                     {popularEmojis.map((popular, idx) => (
@@ -138,7 +138,7 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
                         key={`popular-${popular.emoji}-${idx}`}
                         onClick={() => handleRelatedEmojiSelect(popular)}
                         title={popular.description}
-                        className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 hover:scale-105 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 motion-safe:hover:scale-110 motion-safe:hover:shadow-md motion-safe:active:scale-95"
                         aria-label={`Select ${popular.description}`}
                       >
                         {popular.emoji}
