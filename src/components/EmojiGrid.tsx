@@ -78,12 +78,15 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
     };
   }, []);
 
-  const handleKeyDown = (e: React.KeyboardEvent, emoji: Emoji) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onEmojiSelect(emoji);
-    }
-  };
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent, emoji: Emoji) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onEmojiSelect(emoji);
+      }
+    },
+    [onEmojiSelect],
+  );
 
   // Calculate visible row range for efficient rendering
   const visibleRowRange = useMemo(() => {

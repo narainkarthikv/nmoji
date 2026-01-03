@@ -32,12 +32,16 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
     return allEmojis.filter((e) => e.emoji !== emoji?.emoji).slice(0, 8);
   }, [allEmojis, emoji]);
 
+  // Memoized handler to prevent unnecessary re-renders of related emoji buttons
   const handleRelatedEmojiSelect = useCallback(
     (relatedEmoji: Emoji) => {
       onEmojiSelect(relatedEmoji);
     },
     [onEmojiSelect],
   );
+
+  // Early exit if no emoji to display
+  const shouldShowDetails = Boolean(emoji);
 
   return (
     <div>
@@ -60,7 +64,7 @@ export function EmojiDescription({ emoji, allEmojis, onEmojiSelect, defaultMessa
         aria-label="Emoji details panel"
         className={`w-full bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-md dark:shadow-lg transition-all duration-300 ease-out overflow-auto lg:overflow-visible lg:relative ${openMobile ? 'fixed left-4 right-4 bottom-4 z-40 max-h-[65vh] lg:static lg:max-h-none animate-slide-in-up lg:animate-none' : 'hidden lg:block'}`}
       >
-        {defaultMessage || !emoji ? (
+        {!shouldShowDetails ? (
           <p
             className="text-center text-slate-500 dark:text-slate-400 opacity-80 py-8"
             role="status"

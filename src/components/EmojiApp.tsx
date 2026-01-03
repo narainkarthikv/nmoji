@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { EmojiGrid } from './EmojiGrid';
 import { SearchBar } from './SearchBar';
 import { FilterBar } from './FilterBar';
@@ -52,12 +52,12 @@ export function EmojiApp() {
     saveTheme(theme);
   }, [theme]);
 
-  const handleSearch = (query: string) => {
+  const handleSearch = useCallback((query: string) => {
     const results = searchEmojis(emojis, query);
     setFilteredEmojis(results);
-  };
+  }, [emojis]);
 
-  const handleFilter = (category: string, tag: string, alias: string) => {
+  const handleFilter = useCallback((category: string, tag: string, alias: string) => {
     const results = filterEmojis(
       emojis,
       category || undefined,
@@ -65,9 +65,9 @@ export function EmojiApp() {
       alias || undefined,
     );
     setFilteredEmojis(results);
-  };
+  }, [emojis]);
 
-  const handleEmojiSelect = (emoji: Emoji) => {
+  const handleEmojiSelect = useCallback((emoji: Emoji) => {
     setSelectedEmoji(emoji);
     // Copy to clipboard
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
@@ -75,11 +75,11 @@ export function EmojiApp() {
         console.error('Clipboard error:', err);
       });
     }
-  };
+  }, []);
 
-  const handleThemeToggle = () => {
+  const handleThemeToggle = useCallback(() => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-  };
+  }, []);
 
   if (error) {
     return (

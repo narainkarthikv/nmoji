@@ -1,8 +1,10 @@
+import { useState, useEffect, useRef } from 'react';
+
 // Lightweight debounce utility for scroll and resize events
 export function useDebounce<T>(value: T, delay: number = 16): T {
-  const [debouncedValue, setDebouncedValue] = React.useState(value);
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
@@ -15,10 +17,10 @@ export function useDebounce<T>(value: T, delay: number = 16): T {
 
 // Throttle for high-frequency events (like scroll)
 export function useThrottle<T>(callback: (value: T) => void, value: T, delay: number = 16) {
-  const lastRun = React.useRef(Date.now());
-  const timeoutRef = React.useRef<NodeJS.Timeout>();
+  const lastRun = useRef(Date.now());
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const now = Date.now();
     const timeSinceLastRun = now - lastRun.current;
 
