@@ -29,6 +29,9 @@ export default defineConfig({
     prefetchAll: true,
   },
   vite: {
+    resolve: {
+      dedupe: ['react', 'react-dom'],
+    },
     // Optimize Vite bundling
     build: {
       rollupOptions: {

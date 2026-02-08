@@ -16,7 +16,11 @@ export function useDebounce<T>(value: T, delay: number = 16): T {
 }
 
 // Throttle for high-frequency events (like scroll)
-export function useThrottle<T>(callback: (value: T) => void, value: T, delay: number = 16) {
+export function useThrottle<T>(
+  callback: (value: T) => void,
+  value: T,
+  delay: number = 16
+) {
   const lastRun = useRef(Date.now());
   const timeoutRef = useRef<NodeJS.Timeout>();
 

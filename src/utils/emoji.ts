@@ -16,10 +16,16 @@ export function searchEmojis(emojis: Emoji[], query: string): Emoji[] {
 
   const searchValue = query.toLowerCase();
   return emojis.filter((emoji) => {
-    const descriptionMatch = emoji.description.toLowerCase().includes(searchValue);
+    const descriptionMatch = emoji.description
+      .toLowerCase()
+      .includes(searchValue);
     const categoryMatch = emoji.category.toLowerCase().includes(searchValue);
-    const tagMatch = emoji.tags?.some((tag) => tag.toLowerCase().includes(searchValue));
-    const aliasMatch = emoji.aliases?.some((alias) => alias.toLowerCase().includes(searchValue));
+    const tagMatch = emoji.tags?.some((tag) =>
+      tag.toLowerCase().includes(searchValue)
+    );
+    const aliasMatch = emoji.aliases?.some((alias) =>
+      alias.toLowerCase().includes(searchValue)
+    );
 
     return descriptionMatch || categoryMatch || tagMatch || aliasMatch;
   });
@@ -37,12 +43,14 @@ export function filterEmojis(
   emojis: Emoji[],
   category?: string,
   tag?: string,
-  alias?: string,
+  alias?: string
 ): Emoji[] {
   let filtered = [...emojis];
 
   if (category) {
-    filtered = filtered.filter((emoji) => emoji.category.toLowerCase() === category.toLowerCase());
+    filtered = filtered.filter(
+      (emoji) => emoji.category.toLowerCase() === category.toLowerCase()
+    );
   }
 
   if (tag) {
@@ -80,7 +88,11 @@ export function extractAliases(emojis: Emoji[]): string[] {
 /**
  * Find related emojis by tags and category
  */
-export function findRelatedEmojis(emoji: Emoji, allEmojis: Emoji[], limit = 12): Emoji[] {
+export function findRelatedEmojis(
+  emoji: Emoji,
+  allEmojis: Emoji[],
+  limit = 12
+): Emoji[] {
   const relatedByTag = new Set<Emoji>();
   const relatedByCategory = new Set<Emoji>();
 
@@ -100,5 +112,8 @@ export function findRelatedEmojis(emoji: Emoji, allEmojis: Emoji[], limit = 12):
     }
   });
 
-  return Array.from(new Set([...relatedByTag, ...relatedByCategory])).slice(0, limit);
+  return Array.from(new Set([...relatedByTag, ...relatedByCategory])).slice(
+    0,
+    limit
+  );
 }

@@ -1,22 +1,16 @@
+![License](https://img.shields.io/github/license/narainkarthikv/Nmoji)
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Last Commit](https://img.shields.io/github/last-commit/narainkarthikv/Nmoji)
+[![GitHub issues](https://img.shields.io/github/issues/narainkarthikv/Nmoji)](https://github.com/narainkarthikv/Nmoji/issues)
+[![GitHub stars](https://img.shields.io/github/stars/narainkarthikv/Nmoji)](https://github.com/narainkarthikv/Nmoji/stargazers)
+
 # 🔎 Nmoji
 
-> **Quick emoji selection and filtering—beautifully designed and optimized**
+**Quick emoji selection and filtering—beautifully designed and optimized**
 
-Welcome to **Nmoji**! A straightforward, high-performance web application for quick emoji search, discovery, and filtering. Whether you need to find the perfect emoji for your message or explore by category, Nmoji makes it fast and fun. 😉✨
+Nmoji is a lightweight, high-performance web application for quick emoji search, discovery, and filtering. Whether you need to find the perfect emoji for your message or explore by category, Nmoji makes it fast and fun. 😉✨
 
-[![GitHub issues](https://img.shields.io/github/issues/narainkarthikv/Nmoji?style=flat-square)](https://github.com/narainkarthikv/Nmoji/issues)
-[![GitHub forks](https://img.shields.io/github/forks/narainkarthikv/Nmoji?style=flat-square)](https://github.com/narainkarthikv/Nmoji/network)
-[![GitHub stars](https://img.shields.io/github/stars/narainkarthikv/Nmoji?style=flat-square)](https://github.com/narainkarthikv/Nmoji/stargazers)
-[![MIT License](https://img.shields.io/github/license/narainkarthikv/Nmoji?style=flat-square)](./MIT-LICENSE.txt)
-[![Version](https://img.shields.io/github/package-json/v/narainkarthikv/Nmoji?style=flat-square)](./package.json)
-
----
-
-## 🌟 Why Nmoji?
-
-**Nmoji** is a lightweight, performance-focused project designed to help you **discover emojis quickly**, **learn modern web development**, and **contribute to a friendly community**. Whether you're looking for a specific emoji or exploring what's available, Nmoji provides a smooth, responsive experience.
-
-✨ **Key Features:**
+## ✨ Features
 
 - 🔍 **Advanced Search** — Search by emoji name, description, category, tags, and aliases
 - 🏷️ **Filter by Category** — Browse emojis organized by type (smileys, animals, food, etc.)
@@ -29,83 +23,62 @@ Welcome to **Nmoji**! A straightforward, high-performance web application for qu
 - 🚀 **Easy Setup** — Clone, install, and run in minutes
 - 📚 **Well Documented** — Includes optimization guides and deployment docs
 
----
+## 🔐 Privacy & Security First
 
-## 📑 Table of Contents
+- **Zero Server Dependency**: No backend, no cloud, no data transmission
+- **Local Operation**: Runs entirely in your browser
+- **No Tracking**: No analytics, no cookies, no telemetry
+- **Open Source**: Transparent and auditable code
 
-- [Why Nmoji?](#-why-nmoji)
-- [Tech Stack](#-tech-stack)
-- [Local Development](#-local-development)
-- [Building for Production](#-building-for-production)
-- [Project Structure](#-project-structure)
-- [Contributing](#-contributing)
-- [Debugging & Performance](#-debugging--performance)
-- [Contributors](#-contributors)
-- [License](#-license)
+## 🚀 Quick Start
 
----
+### Prerequisites
 
-## 🛠️ Tech Stack
+- **Node.js** 18.0.0 or higher
+- **npm** 9.0.0 or higher
 
-- **Frontend:** `React` (v18) + `TypeScript` + `TailwindCSS`
-- **Framework:** `Astro` (v5) for static site generation
-- **Styling:** TailwindCSS with custom theme system
-- **Build:** Astro with optimized Vite configuration
-- **CI/CD:** GitHub Actions, Netlify deployment
-
----
-
-## 💻 Local Development
-
-**Prerequisites:** Node 18+ and npm
-
-**Install and run:**
+### Local Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/narainkarthikv/Nmoji.git
+cd Nmoji
+
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
 ```
 
-The app will start at `http://localhost:3000`. Open your browser and begin exploring!
+Visit **http://localhost:3000** to see the app.
 
-**Build for production:**
+### Production Build
 
 ```bash
 npm run build
-```
-
-**Preview production build:**
-
-```bash
 npm run preview
 ```
 
-**Lint code:**
+## 🛠️ Tech Stack
 
-```bash
-npm run astro -- --help
-```
+### Frontend
 
-**Clean build artifacts:**
+- **React 18** - UI library
+- **TypeScript** - Type-safe JavaScript
+- **Astro** - Static site generation
+- **Tailwind CSS** - Utility-first styling
+- **Vite** - Fast build tool
 
-```bash
-npm run clean
-```
+<p align="center">
+<img src="https://skillicons.dev/icons?i=react,astro,ts,tailwind,vite" alt="Tech Stack" />
+</p>
 
----
-
-## 📂 Project Structure
+## 📁 Project Structure
 
 ```
 nmoji/
-├── docs/                     # Documentation
-│   ├── QUICK_START.md       # Getting started guide
-│   ├── DEPLOYMENT.md        # Deployment instructions
-│   ├── OPTIMIZATION_GUIDE.md # Performance optimization
-│   └── CHANGES_SUMMARY.md    # Recent changes
 ├── src/
-│   ├── assets/              # Static assets (images, fonts)
-│   │   └── images/         # Image files
 │   ├── components/          # React components
 │   │   ├── EmojiApp.tsx    # Main application component
 │   │   ├── EmojiGrid.tsx   # Emoji grid display
@@ -115,158 +88,116 @@ nmoji/
 │   │   ├── Navbar.tsx      # Navigation bar
 │   │   ├── ThemeToggle.tsx # Dark/light mode toggle
 │   │   └── ui/             # Reusable UI components
-│   │       ├── Button.tsx
-│   │       ├── ButtonPrimary.tsx
-│   │       └── ButtonSecondary.tsx
 │   ├── layouts/             # Astro page layouts
-│   │   ├── Layout.astro     # Main layout
-│   │   └── AppLayout.astro  # App-specific layout
 │   ├── pages/               # Astro pages (routes)
-│   │   ├── index.astro      # Landing page
-│   │   └── app.astro        # Application page
 │   ├── scripts/             # Client-side JavaScript
-│   │   ├── app.js          # App initialization
-│   │   └── main.js         # Core functionality
 │   ├── styles/              # Global CSS
-│   │   ├── base.css        # Base styles
-│   │   ├── main.css        # Main styles
-│   │   ├── landing.css     # Landing page styles
-│   │   ├── theme.css       # Theme variables
-│   │   ├── EmojiApp.css
-│   │   ├── EmojiGrid.css
-│   │   ├── FilterBar.css
-│   │   ├── SearchBar.css
-│   │   ├── EmojiDescription.css
-│   │   └── ThemeToggle.css
 │   ├── types/               # TypeScript type definitions
-│   │   └── emoji.ts        # Emoji type interfaces
 │   ├── utils/               # Utility functions
-│   │   ├── emoji.ts        # Emoji search & filter logic
-│   │   └── theme.ts        # Theme management utilities
-│   ├── lib/                 # Library utilities
-│   │   └── constants.ts     # App-wide configuration
-│   └── env.d.ts             # TypeScript ambient declarations
+│   └── lib/                 # Library utilities
 ├── extension/               # Browser extension (Chrome/Firefox)
-│   ├── manifest.json       # Extension manifest
-│   ├── NmojiList.json      # Emoji data for extension
-│   ├── popup.html          # Extension popup UI
-│   ├── popup.js            # Extension popup logic
-│   ├── styles.css          # Extension styles
-│   └── README.md           # Extension documentation
 ├── public/                  # Static public assets
-│   └── NmojiList.json       # Emoji database
 ├── astro.config.mjs         # Astro configuration
 ├── tsconfig.json            # TypeScript configuration
 ├── tailwind.config.mjs       # TailwindCSS configuration
-├── postcss.config.js         # PostCSS configuration
 ├── package.json             # Project metadata & dependencies
-├── Contributors.md          # List of contributors
-├── MIT-LICENSE.txt         # MIT License
 └── README.md               # This file
 ```
 
----
+## 🔑 Environment Variables
 
-## 🚀 What's Implemented
+Nmoji does not require any environment variables for local development.
 
-- **Emoji Search Engine** — Search across emoji names, descriptions, categories, tags, and aliases
-- **Smart Filtering** — Filter by category, tags, or custom criteria
-- **Theme System** — Dark/light mode with localStorage persistence
-- **Performance Optimizations** — Code splitting, lazy loading, asset optimization
-- **Responsive Design** — Mobile-first, adapts to all screen sizes
-- **Browser Extension** — Quick access to emoji picker as a browser extension
-- **TypeScript Support** — Fully typed for better development experience
-- **Astro Integration** — Static site generation with React islands architecture
+## 🧪 Development
 
-For detailed implementation info, see:
+### Available Scripts
 
-- [Quick Start Guide](./docs/QUICK_START.md)
-- [Optimization Guide](./docs/OPTIMIZATION_GUIDE.md)
-- [Deployment Guide](./docs/DEPLOYMENT.md)
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run clean        # Clean build artifacts
+npm run astro        # Run Astro commands
+```
 
----
+### Code Style Guidelines
+
+- **Formatting**: Follow existing conventions and 2-space indentation
+- **React**: Functional components with hooks
+- **TypeScript**: Prefer typed props and models
+- **Accessibility**: Semantic HTML and keyboard navigation
+
+### Formatting (Prettier)
+
+```bash
+# Check formatting
+npx prettier --check .
+
+# Write formatting fixes
+npx prettier --write .
+```
 
 ## 🤝 Contributing
 
-We welcome contributions from everyone! To contribute to Nmoji, follow these steps:
+We welcome contributions from the community! Here's how to get started:
 
-**Standard workflow:**
+1. **Read the Guidelines**: Check [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed instructions
+2. **Pick an Issue**: Browse [open issues](https://github.com/narainkarthikv/Nmoji/issues) or create a new one
+3. **Fork & Branch**: Create a feature branch from your fork
+4. **Code**: Follow our code style and commit conventions
+5. **Test**: Ensure everything works locally
+6. **Submit PR**: Open a pull request with a clear description
 
-```bash
-# 1. Fork the repository on GitHub
+### Ways to Contribute
 
-# 2. Clone your fork
-git clone https://github.com/your-username/Nmoji.git
-cd Nmoji
+- 🐛 **Fix bugs** and improve stability
+- ✨ **Add features** that enhance emoji discovery
+- 📚 **Improve documentation** and examples
+- 🎨 **Enhance UI/UX** and accessibility
+- ⚡ **Optimize performance**
+- 🌍 **Add translations** and i18n support
 
-# 3. Create a branch for your feature
-git switch -c feature/your-feature-name
+## 💬 Community & Support
 
-# 4. Make your changes and test them
-npm run dev
+- **Issues**: [Report bugs or request features](https://github.com/narainkarthikv/Nmoji/issues)
+- **Discussions**: [Ask questions and share ideas](https://github.com/narainkarthikv/Nmoji/discussions)
+- **Pull Requests**: [Contribute code improvements](https://github.com/narainkarthikv/Nmoji/pulls)
 
-# 5. Add yourself to Contributors.md
-# Format: -[Username](https://github.com/your-username) **Your contribution**
+## 📖 Documentation
 
-# 6. Commit with a descriptive message
-git add .
-git commit -m "feat: add your feature description"
+- [Contributing Guide](./CONTRIBUTING.md) - How to contribute
+- [Code of Conduct](./CODE_OF_CONDUCT.md) - Community guidelines
+- [Security Policy](./SECURITY.md) - How to report vulnerabilities
+- [Contributors](./Contributors.md) - Contributor list
+- [License](./MIT-LICENSE.txt) - MIT License details
 
-# 7. Push to your fork
-git push origin feature/your-feature-name
+## 🔒 Security
 
-# 8. Open a Pull Request on GitHub
-```
-
-**Guidelines:**
-
-- Keep commits focused and descriptive
-- Test locally with `npm run dev` before pushing
-- Update documentation if needed
-- Add yourself to `Contributors.md`
-- Follow the existing code style
-
----
-
-## 🔍 Debugging & Performance
-
-**Development mode:**
-
-```bash
-npm run dev
-```
-
-**Check for TypeScript errors:**
-
-```bash
-npm run astro -- check
-```
-
-**Build and test production bundle:**
-
-```bash
-npm run build
-npm run preview
-```
-
-**Performance tips:**
-
-- See [OPTIMIZATION_GUIDE.md](./docs/OPTIMIZATION_GUIDE.md) for detailed performance tuning
-- Use React DevTools to profile components
-- Check lighthouse in browser DevTools
-
----
-
-## 👥 Contributors
-
-We appreciate the contributions of the following individuals:
-
-[View all contributors →](./Contributors.md)
-
-This project is stronger because of our amazing community! Thank you for contributing! ❤️
-
----
+We take security seriously. If you discover a security vulnerability, please see our [Security Policy](./SECURITY.md) for reporting instructions.
 
 ## 📜 License
 
-This project is licensed under the MIT License—see the [MIT-LICENSE.txt](./MIT-LICENSE.txt) file for details.
+This project is licensed under the **MIT License** - see [MIT-LICENSE.txt](./MIT-LICENSE.txt) for details.
+
+**Summary:** You are free to use, modify, and distribute this software for any purpose, including commercial use.
+
+## 🌟 Show Your Support
+
+If Nmoji helps you find the perfect emoji:
+
+- ⭐ Star the repository
+- 🐛 Report issues you encounter
+- 💡 Share your feature ideas
+- 🤝 Contribute code or docs
+- 📢 Tell others about the project
+
+## 🔗 Links
+
+- **Live Demo**: [https://nmoji.netlify.app/](https://nmoji.netlify.app/)
+- **Repository**: [https://github.com/narainkarthikv/Nmoji](https://github.com/narainkarthikv/Nmoji)
+
+---
+
+**Built with ❤️ by the Wisdom Fox community**
+
+Let's build the best emoji picker together! 🚀

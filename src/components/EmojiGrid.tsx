@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from 'react';
 import type { Emoji } from '../types/emoji';
 
 interface Props {
@@ -85,18 +91,21 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
         onEmojiSelect(emoji);
       }
     },
-    [onEmojiSelect],
+    [onEmojiSelect]
   );
 
   // Calculate visible row range for efficient rendering
   const visibleRowRange = useMemo(() => {
     const startRow = Math.max(
       0,
-      Math.floor((scrollTop - OVERSCAN * EMOJI_CELL_HEIGHT) / EMOJI_CELL_HEIGHT),
+      Math.floor((scrollTop - OVERSCAN * EMOJI_CELL_HEIGHT) / EMOJI_CELL_HEIGHT)
     );
     const endRow = Math.min(
       rowCount,
-      Math.ceil((scrollTop + containerHeight + OVERSCAN * EMOJI_CELL_HEIGHT) / EMOJI_CELL_HEIGHT),
+      Math.ceil(
+        (scrollTop + containerHeight + OVERSCAN * EMOJI_CELL_HEIGHT) /
+          EMOJI_CELL_HEIGHT
+      )
     );
     return { startRow, endRow };
   }, [scrollTop, containerHeight, rowCount]);
@@ -112,7 +121,9 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
 
     // Top spacer to push visible content to correct scroll position
     if (offsetBefore > 0) {
-      rows.push(<div key="spacer-before" style={{ height: `${offsetBefore}px` }} />);
+      rows.push(
+        <div key='spacer-before' style={{ height: `${offsetBefore}px` }} />
+      );
     }
 
     for (let row = startRow; row < endRow; row++) {
@@ -120,10 +131,7 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
       const rowEmojis = emojis.slice(rowStart, rowStart + COLUMN_COUNT);
 
       rows.push(
-        <div
-          key={`row-${row}`}
-          className="grid gap-3 grid-cols-[repeat(auto-fit,minmax(64px,1fr))] sm:grid-cols-[repeat(auto-fit,minmax(60px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(72px,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(80px,1fr))]"
-        >
+        <div key={`row-${row}`} className='grid grid-cols-9 gap-3 md:gap-4'>
           {rowEmojis.map((emoji, colIndex) => {
             const index = rowStart + colIndex;
 
@@ -135,43 +143,54 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
                 aria-pressed={selectedEmoji?.emoji === emoji.emoji}
                 aria-label={`${emoji.description}. Category: ${emoji.category}`}
                 title={`${emoji.description} — ${emoji.category}`}
-                className={`flex items-center justify-center aspect-square rounded-2xl p-2 transition-all duration-200 ease-out select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 focus:ring-offset-slate-50 dark:focus:ring-offset-slate-900 bg-white dark:bg-slate-800 text-2xl shadow-sm hover:shadow-md dark:hover:shadow-lg active:scale-95 motion-safe:hover:scale-105 motion-safe:active:scale-95 animate-pop-in
-                  ${selectedEmoji?.emoji === emoji.emoji ? 'ring-2 ring-blue-400 scale-110 bg-blue-500 text-white shadow-lg dark:shadow-2xl' : 'hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                className={`flex items-center justify-center aspect-square rounded-2xl p-2 transition-all duration-200 ease-out select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[color-mix(in_srgb,var(--color-action-default)_70%,var(--color-action-hover)_30%)] focus:ring-offset-[var(--color-bg-primary)] bg-[color-mix(in_srgb,var(--color-surface-primary)_92%,transparent_8%)] text-2xl shadow-[0_12px_30px_-22px_rgba(0,0,0,0.55)] hover:shadow-[0_18px_36px_-22px_rgba(0,0,0,0.55)] active:scale-95 motion-safe:hover:scale-105 motion-safe:active:scale-95 animate-pop-in
+                  ${selectedEmoji?.emoji === emoji.emoji ? 'ring-2 ring-[color-mix(in_srgb,var(--color-action-default)_80%,var(--color-action-hover)_20%)] scale-110 bg-[color-mix(in_srgb,var(--color-action-default)_90%,var(--color-action-hover)_10%)] text-[var(--color-text-inverse)] shadow-[0_20px_50px_-22px_rgba(0,0,0,0.65)]' : 'hover:bg-[var(--color-surface-secondary)]'}`}
                 style={{
                   animationDelay: `${(index % 12) * 15}ms`,
                   willChange: 'transform, opacity',
-                }}
-              >
-                <span className="leading-none text-[clamp(1.5rem,4vw,2.4rem)]" aria-hidden="true">
+                }}>
+                <span
+                  className='leading-none text-[clamp(1.5rem,4vw,2.4rem)]'
+                  aria-hidden='true'>
                   {emoji.emoji}
                 </span>
               </button>
             );
           })}
-        </div>,
+        </div>
       );
     }
 
     // Bottom spacer to maintain correct scroll height
     if (offsetAfter > 0) {
-      rows.push(<div key="spacer-after" style={{ height: `${offsetAfter}px` }} />);
+      rows.push(
+        <div key='spacer-after' style={{ height: `${offsetAfter}px` }} />
+      );
     }
 
     return rows;
-  }, [emojis, visibleRowRange, selectedEmoji, COLUMN_COUNT, rowCount, EMOJI_CELL_HEIGHT]);
+  }, [
+    emojis,
+    visibleRowRange,
+    selectedEmoji,
+    COLUMN_COUNT,
+    rowCount,
+    EMOJI_CELL_HEIGHT,
+  ]);
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className='w-full h-full flex flex-col'>
       <div
         ref={containerRef}
-        className="flex-1 overflow-y-auto overflow-x-hidden w-full"
-        role="region"
-        aria-label="Emoji grid"
-      >
-        <div className="space-y-3 p-1">
+        className='flex-1 overflow-y-auto overflow-x-hidden w-full rounded-3xl border border-[color-mix(in_srgb,var(--color-border-primary)_80%,transparent_20%)] bg-[color-mix(in_srgb,var(--color-bg-secondary)_85%,transparent_15%)] shadow-[0_24px_60px_-40px_rgba(0,0,0,0.6)]'
+        role='region'
+        aria-label='Emoji grid'>
+        <div className='space-y-3 p-2 sm:p-3'>
           {visibleRows}
           {emojis.length === 0 && (
-            <p className="text-center text-slate-500 dark:text-slate-400 py-12" role="status">
+            <p
+              className='text-center text-[var(--color-text-secondary)] py-12'
+              role='status'>
               No emojis found. Try a different search or filter.
             </p>
           )}

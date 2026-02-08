@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import '../styles/landing.css';
 import Button from '../components/ui/Button';
 
 // Note: Using homepage-banner.png from public folder for optimal asset serving
@@ -8,97 +7,592 @@ const preview = '/homepage-banner.png';
 ---
 
 <Layout>
-  <div class="container">
-    <main id="main-content">
-      <section class="hero">
-        <div class="hero-inner">
-          <div class="hero-copy">
-            <span class="badge">Open Source · Fast · Lightweight</span>
-            <h1>Find the Perfect Emoji in Seconds</h1>
-            <p class="lead">
-              Nmoji helps you discover, filter and copy emojis quickly — built for speed and
-              delight. Use it in the browser or as a lightweight extension.
-            </p>
+  <div class="relative min-h-screen overflow-hidden bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
+    <div class="pointer-events-none absolute -top-32 right-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_srgb,var(--color-action-default)_30%,transparent_70%)_0%,_transparent_65%)] blur-2xl"></div>
+    <div class="pointer-events-none absolute -bottom-40 left-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_srgb,var(--color-success)_25%,transparent_75%)_0%,_transparent_70%)] blur-2xl"></div>
 
-            <div class="hero-ctas">
-              <Button href="/app" variant="primary">Try Nmoji — Free</Button>
-              <Button
-                href="https://github.com/narainkarthikv/Nmoji"
-                variant="secondary"
-                className="ml-2"
-                target="_blank"
-              >
-                View on GitHub
-              </Button>
+    <main id="main-content" class="relative">
+      <section class="px-6 lg:px-10">
+        <div class="mx-auto max-w-6xl py-16 lg:py-24">
+          <div class="relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+            <div class="absolute -top-16 left-0 h-24 w-24 rounded-full bg-[color-mix(in_srgb,var(--color-action-default)_25%,transparent_75%)] blur-2xl"></div>
+            <div class="absolute -bottom-12 right-0 h-28 w-28 rounded-full bg-[color-mix(in_srgb,var(--color-success)_25%,transparent_75%)] blur-3xl"></div>
+
+            <div class="relative">
+              <div class="inline-flex items-center gap-3 rounded-full border border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
+                <span class="inline-flex h-2 w-2 rounded-full bg-[var(--color-success)]"></span>
+                Open Source · Fast · Lightweight
+              </div>
+
+              <h1 class="mt-6 text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+                Find the <span class="hero-highlight">Perfect Emoji</span> in Seconds
+              </h1>
+              <p class="mt-4 max-w-[56ch] text-lg text-[var(--color-text-secondary)]">
+                Nmoji helps you discover, filter, and copy emojis quickly — built for speed and
+                delight. Use it in the browser with rich details and smart suggestions.
+              </p>
+
+              <div class="mt-8 flex flex-wrap items-center gap-3">
+                <Button href="/app" variant="primary" className="px-6 py-3 text-base">
+                  Try Nmoji — Free
+                </Button>
+                <Button
+                  href="https://github.com/narainkarthikv/Nmoji"
+                  variant="secondary"
+                  className="px-6 py-3 text-base"
+                  target="_blank"
+                >
+                  View on GitHub
+                </Button>
+              </div>
+
+              <div class="mt-8 grid gap-3 sm:grid-cols-3">
+                <div class="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-secondary)] px-3 py-3 text-sm text-[var(--color-text-secondary)]">
+                  🔎 Instant search & filters
+                </div>
+                <div class="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-secondary)] px-3 py-3 text-sm text-[var(--color-text-secondary)]">
+                  ⚡ Blazing fast, minimal footprint
+                </div>
+                <div class="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-secondary)] px-3 py-3 text-sm text-[var(--color-text-secondary)]">
+                  🌗 Theme friendly (dark/light)
+                </div>
+              </div>
+
+              <div class="mt-10 flex flex-wrap items-center gap-3 text-xs text-[var(--color-text-secondary)]">
+                <span class="rounded-full border border-[var(--color-border-primary)] px-3 py-1">
+                  Local-first
+                </span>
+                <span class="rounded-full border border-[var(--color-border-primary)] px-3 py-1">
+                  Smart suggestions
+                </span>
+                <span class="rounded-full border border-[var(--color-border-primary)] px-3 py-1">
+                  Clean clipboard flow
+                </span>
+              </div>
             </div>
 
-            <ul class="quick-features">
-              <li>🔎 Instant search & filters</li>
-              <li>⚡ Blazing fast, minimal footprint</li>
-              <li>🌗 Theme friendly (dark/light)</li>
-            </ul>
-          </div>
+            <div class="relative">
+              <div class="hero-card hero-card-left absolute -left-6 top-20 hidden w-44 rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-4 text-xs text-[var(--color-text-secondary)] shadow-lg lg:block">
+                <p class="font-semibold text-[var(--color-text-primary)]">Suggested picks</p>
+                <p class="mt-2">Related + popular emojis, right where you need them.</p>
+              </div>
+              <div class="hero-card hero-card-right absolute -right-6 bottom-20 hidden w-48 rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-4 text-xs text-[var(--color-text-secondary)] shadow-lg lg:block">
+                <p class="font-semibold text-[var(--color-text-primary)]">Focused UI</p>
+                <p class="mt-2">Search, filter, copy. No extra noise.</p>
+              </div>
 
-          <div class="hero-preview" aria-hidden="true">
-            <div class="preview-card">
-              <img
-                src={preview}
-                alt="Nmoji emoji browser interface showing search and emoji selection"
-                class="object-cover rounded-xl max-w-full mx-auto"
-                loading="lazy"
-                width="500"
-                height="400"
-              />
-              <div class="preview-footer">
-                <Button href="/app" variant="primary" className="small-cta">Open app</Button>
-                <span class="preview-hint">Click to explore emojis</span>
+              <div class="absolute inset-0 -z-10 rounded-[32px] bg-[linear-gradient(150deg,_color-mix(in_srgb,var(--color-action-default)_20%,transparent_80%)_0%,_transparent_70%)] blur-2xl"></div>
+              <div class="rounded-[28px] border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-4 shadow-2xl">
+                <div class="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-bg-secondary)] px-4 py-2 text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+                  Live preview
+                </div>
+                <img
+                  src={preview}
+                  alt="Nmoji emoji browser interface showing search and emoji selection"
+                  class="mt-4 w-full rounded-2xl object-cover"
+                  loading="lazy"
+                  width="500"
+                  height="400"
+                />
+                <div class="mt-4 flex items-center justify-between gap-3 rounded-2xl bg-[var(--color-bg-secondary)] px-4 py-3">
+                  <Button href="/app" variant="primary" className="px-4 py-2 text-sm">
+                    Open app
+                  </Button>
+                  <span class="text-xs text-[var(--color-text-secondary)]">
+                    Click to explore emojis
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="features">
-        <h2>Why Choose Nmoji?</h2>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <span class="feature-icon" aria-hidden="true">🔍</span>
-            <h3>Smart Search</h3>
-            <p>Filter emojis by name, category, or tags</p>
+      <section id="privacy" class="px-6 lg:px-10">
+        <div class="mx-auto max-w-6xl py-16 lg:py-20">
+          <div class="text-center">
+            <p class="text-sm uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+              Privacy, for real
+            </p>
+            <h2 class="mt-3 text-3xl font-semibold sm:text-4xl">
+              Your emoji workflow stays on your device
+            </h2>
+            <p class="mx-auto mt-4 max-w-[62ch] text-base text-[var(--color-text-secondary)]">
+              Nmoji runs entirely in the browser. No accounts, no analytics scripts, no hidden
+              uploads. Just fast emoji discovery with zero data drama.
+            </p>
           </div>
-          <div class="feature-card">
-            <span class="feature-icon" aria-hidden="true">⚡</span>
-            <h3>Lightning Fast</h3>
-            <p>Quick and responsive emoji selection</p>
-          </div>
-          <div class="feature-card">
-            <span class="feature-icon" aria-hidden="true">🌗</span>
-            <h3>Dark Mode</h3>
-            <p>Easy on your eyes with theme options</p>
-          </div>
-          <div class="feature-card">
-            <span class="feature-icon" aria-hidden="true">💡</span>
-            <h3>Intuitive Design</h3>
-            <p>Simple and user-friendly interface</p>
+
+          <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6">
+              <div class="text-3xl">🔐</div>
+              <h3 class="mt-4 text-lg font-semibold">Local-first by default</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                The emoji data ships with the app. No remote lookups, no data harvesters.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6">
+              <div class="text-3xl">🚫</div>
+              <h3 class="mt-4 text-lg font-semibold">No accounts, ever</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                Open it and start picking emojis. No signup walls or verification hoops.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6">
+              <div class="text-3xl">🛡️</div>
+              <h3 class="mt-4 text-lg font-semibold">Zero tracking</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                No analytics, pixels, or behavioral profiling. Your intent stays yours.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6">
+              <div class="text-3xl">⚡</div>
+              <h3 class="mt-4 text-lg font-semibold">Instant response</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                Search and filter without waiting for servers to respond.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6">
+              <div class="text-3xl">🌐</div>
+              <h3 class="mt-4 text-lg font-semibold">Works even offline-ish</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                Once loaded, Nmoji stays usable even on flaky connections.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6">
+              <div class="text-3xl">🧭</div>
+              <h3 class="mt-4 text-lg font-semibold">You control the flow</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                Copy once, paste anywhere. Nmoji never holds your clipboard hostage.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="open-source">
-        <h2>Open Source Project</h2>
-        <p>Nmoji is completely open source and welcomes contributions from the community.</p>
-        <div class="action-buttons">
-          <Button
-            href="https://github.com/narainkarthikv/Nmoji"
-            variant="secondary"
-            className="mr-2"
-            target="_blank"
-          >
-            View on GitHub
-          </Button>
-          <Button href="/app" variant="primary">Try Nmoji Now</Button>
+      <section class="px-6 lg:px-10">
+        <div class="mx-auto max-w-6xl py-16">
+          <div class="text-center">
+            <p class="text-sm uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+              Everything you need
+            </p>
+            <h2 class="mt-3 text-3xl font-semibold sm:text-4xl">
+              Built for speed, clarity, and creative flow
+            </h2>
+            <p class="mx-auto mt-4 max-w-[60ch] text-base text-[var(--color-text-secondary)]">
+              Nmoji keeps your emoji choices focused and fast, with thoughtful UI details that
+              stay out of your way.
+            </p>
+          </div>
+
+          <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <div class="text-3xl">🔍</div>
+              <h3 class="mt-4 text-lg font-semibold">Smart search & filters</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                Find by name, category, or tags with zero lag.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <div class="text-3xl">⚡</div>
+              <h3 class="mt-4 text-lg font-semibold">Virtual scrolling</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                Large emoji sets stay smooth and responsive.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <div class="text-3xl">🎯</div>
+              <h3 class="mt-4 text-lg font-semibold">Copy-friendly UX</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                One click to copy, then paste anywhere you work.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <div class="text-3xl">🌗</div>
+              <h3 class="mt-4 text-lg font-semibold">Theme ready</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                Dark and light modes with balanced contrast.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <div class="text-3xl">✨</div>
+              <h3 class="mt-4 text-lg font-semibold">Related & popular picks</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                Discover context-aware suggestions right inside the details panel.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <div class="text-3xl">🪶</div>
+              <h3 class="mt-4 text-lg font-semibold">Lightweight footprint</h3>
+              <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+                Fast load times without bloated dependencies.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
+
+      <section class="px-6 lg:px-10">
+        <div class="mx-auto max-w-6xl py-16">
+          <div class="rounded-[32px] border border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] p-8 md:p-10">
+            <div class="grid gap-8 md:grid-cols-[1.1fr_0.9fr] items-center">
+              <div>
+                <p class="text-sm uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+                  No lock-in
+                </p>
+                <h2 class="mt-3 text-3xl font-semibold sm:text-4xl">
+                  Emoji access that travels with you
+                </h2>
+                <p class="mt-4 text-base text-[var(--color-text-secondary)]">
+                  Nmoji is built to be flexible. Keep it open in a tab, pin it for quick access,
+                  and stay in flow wherever you type.
+                </p>
+                <ul class="mt-6 space-y-3 text-sm text-[var(--color-text-secondary)]">
+                  <li class="flex items-start gap-3">
+                    <span class="text-[var(--color-action-default)]">✓</span>
+                    Copy once, paste everywhere
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="text-[var(--color-action-default)]">✓</span>
+                    Works across desktop and mobile browsers
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="text-[var(--color-action-default)]">✓</span>
+                    Pin the tab for one-click emoji access
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="text-[var(--color-action-default)]">✓</span>
+                    No sign-in required to get started
+                  </li>
+                </ul>
+              </div>
+              <div class="flex items-center justify-center">
+                <div class="rounded-3xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-8 text-center shadow-sm">
+                  <div class="text-5xl">📦</div>
+                  <p class="mt-4 text-sm text-[var(--color-text-secondary)]">
+                    Portable emoji access without the baggage.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-6 lg:px-10">
+        <div class="mx-auto max-w-6xl py-16">
+          <div class="text-center">
+            <p class="text-sm uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+              Transparent tech
+            </p>
+            <h2 class="mt-3 text-3xl font-semibold sm:text-4xl">
+              The honest breakdown of how Nmoji works
+            </h2>
+            <p class="mx-auto mt-4 max-w-[64ch] text-base text-[var(--color-text-secondary)]">
+              No hidden services. No mystery APIs. Just a clean, open stack designed for speed and
+              trust.
+            </p>
+          </div>
+
+          <div class="mt-10 grid gap-6 md:grid-cols-2">
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6">
+              <h3 class="text-lg font-semibold">Where the data lives</h3>
+              <ul class="mt-4 space-y-3 text-sm text-[var(--color-text-secondary)]">
+                <li class="flex items-start gap-2">
+                  <span class="text-[var(--color-action-default)]">→</span>
+                  Static emoji data served from the app bundle
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-[var(--color-action-default)]">→</span>
+                  Client-side filtering only, no remote queries
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-[var(--color-action-default)]">→</span>
+                  No databases to leak because we do not run one
+                </li>
+              </ul>
+            </div>
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6">
+              <h3 class="text-lg font-semibold">What we intentionally avoid</h3>
+              <ul class="mt-4 space-y-3 text-sm text-[var(--color-text-secondary)]">
+                <li class="flex items-start gap-2">
+                  <span class="text-[var(--color-error)]">✗</span>
+                  Tracking pixels, cookies for profiling, or ad scripts
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-[var(--color-error)]">✗</span>
+                  Analytics dashboards tied to user behavior
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-[var(--color-error)]">✗</span>
+                  Forced accounts, logins, or cloud sync traps
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-6 lg:px-10">
+        <div class="mx-auto max-w-6xl py-16">
+          <div class="rounded-[32px] bg-[linear-gradient(135deg,_color-mix(in_srgb,var(--color-action-default)_60%,transparent_40%)_0%,_color-mix(in_srgb,var(--color-success)_45%,transparent_55%)_100%)] p-10 text-white">
+            <div class="text-center">
+              <h2 class="text-3xl font-semibold sm:text-4xl">Ready to emoji faster?</h2>
+              <p class="mx-auto mt-4 max-w-[60ch] text-base text-white/90">
+                Skip the noise and get straight to the emoji you want. Clean, fast, and privacy
+                friendly.
+              </p>
+              <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+                <Button href="/app" variant="primary" className="px-6 py-3 text-base">
+                  Open Nmoji
+                </Button>
+                <Button
+                  href="https://github.com/narainkarthikv/Nmoji"
+                  variant="secondary"
+                  className="px-6 py-3 text-base"
+                  target="_blank"
+                >
+                  Star on GitHub
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-6 lg:px-10">
+        <div class="mx-auto max-w-6xl py-16">
+          <div class="rounded-[32px] border border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] p-10 text-center">
+            <p class="text-sm uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+              Wisdom Fox Community
+            </p>
+            <h2 class="mt-3 text-3xl font-semibold sm:text-4xl">
+              Support privacy-first, open source craft
+            </h2>
+            <p class="mx-auto mt-4 max-w-[64ch] text-base text-[var(--color-text-secondary)]">
+              Nmoji is maintained by the Wisdom Fox community. If the project saves you time,
+              consider fueling the next release with a coffee or a small pledge.
+            </p>
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="https://ko-fi.com/wisdomfox"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 rounded-xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] px-6 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
+              >
+                ☕ Buy us a coffee
+              </a>
+              <a
+                href="https://patreon.com/user?u=72747187"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 rounded-xl bg-[var(--color-action-default)] px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5"
+              >
+                💚 Support on Patreon
+              </a>
+            </div>
+            <p class="mt-6 text-xs text-[var(--color-text-secondary)]">
+              Donations are optional. Nmoji will always be free and open source.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="px-6 lg:px-10">
+        <div class="mx-auto max-w-6xl border-t border-[var(--color-border-primary)] py-12">
+          <div class="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+            <div>
+              <h3 class="text-lg font-semibold">Nmoji</h3>
+              <p class="mt-3 text-sm text-[var(--color-text-secondary)]">
+                A fast, privacy-first emoji picker built by the Wisdom Fox community.
+              </p>
+              <p class="mt-4 text-xs text-[var(--color-text-secondary)]">
+                © 2026 Nmoji. Crafted with care for an open web.
+              </p>
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+                Project
+              </h4>
+              <ul class="mt-4 space-y-2 text-sm">
+                <li>
+                  <a
+                    href="/app"
+                    class="text-[var(--color-text-secondary)] transition hover:text-[var(--color-text-primary)]"
+                  >
+                    Open app
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/narainkarthikv/Nmoji"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--color-text-secondary)] transition hover:text-[var(--color-text-primary)]"
+                  >
+                    GitHub repo
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/narainkarthikv/Nmoji/issues"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--color-text-secondary)] transition hover:text-[var(--color-text-primary)]"
+                  >
+                    Issues & roadmap
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+                Community
+              </h4>
+              <ul class="mt-4 space-y-2 text-sm">
+                <li>
+                  <a
+                    href="https://github.com/narainkarthikv/Nmoji/blob/main/CONTRIBUTING.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--color-text-secondary)] transition hover:text-[var(--color-text-primary)]"
+                  >
+                    Contributing
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/narainkarthikv/Nmoji/blob/main/CODE_OF_CONDUCT.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--color-text-secondary)] transition hover:text-[var(--color-text-primary)]"
+                  >
+                    Code of conduct
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/narainkarthikv/Nmoji/blob/main/SECURITY.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--color-text-secondary)] transition hover:text-[var(--color-text-primary)]"
+                  >
+                    Security policy
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+                Legal
+              </h4>
+              <ul class="mt-4 space-y-2 text-sm">
+                <li>
+                  <a
+                    href="https://github.com/narainkarthikv/Nmoji/blob/main/MIT-LICENSE.txt"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--color-text-secondary)] transition hover:text-[var(--color-text-primary)]"
+                  >
+                    MIT License
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/narainkarthikv/Nmoji/blob/main/README.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--color-text-secondary)] transition hover:text-[var(--color-text-primary)]"
+                  >
+                    Documentation
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/narainkarthikv/Nmoji/releases"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--color-text-secondary)] transition hover:text-[var(--color-text-primary)]"
+                  >
+                    Release notes
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
     </main>
   </div>
 </Layout>
+
+<style>
+  .hero-highlight {
+    position: relative;
+    display: inline-block;
+    color: var(--color-action-default);
+    text-decoration-color: color-mix(
+      in srgb,
+      var(--color-action-default) 70%,
+      transparent 30%
+    );
+    text-decoration-thickness: 0.2em;
+    text-underline-offset: 0.12em;
+  }
+
+  .hero-card {
+    backdrop-filter: blur(12px);
+    animation: hero-card-float 7s ease-in-out infinite,
+      hero-card-in 600ms ease both;
+    will-change: transform, opacity;
+  }
+
+  .hero-card-left {
+    animation-delay: 0.2s, 0s;
+  }
+
+  .hero-card-right {
+    animation-delay: 0.6s, 0.1s;
+  }
+
+  @keyframes hero-card-float {
+    0% {
+      transform: translate3d(0, 0, 0);
+      opacity: 0.95;
+    }
+    50% {
+      transform: translate3d(0, -6px, 0);
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+      opacity: 0.95;
+    }
+  }
+
+  @keyframes hero-card-in {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 10px, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-card {
+      animation: none;
+    }
+  }
+</style>
+
+<style is:global>
+  html,
+  body {
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+</style>

@@ -8,7 +8,7 @@ interface Props {
   compact?: boolean;
 }
 
-const selectClasses = `px-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-full transition-all duration-300 bg-white/95 dark:bg-slate-800/95 text-slate-900 dark:text-slate-100 text-sm cursor-pointer appearance-none bg-[url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")] bg-no-repeat bg-[right_10px_center] bg-[length:12px] focus:border-blue-400 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] focus:outline-none hover:border-slate-400 dark:hover:border-slate-500 motion-safe:hover:scale-105 motion-safe:active:scale-95`;
+const selectClasses = `px-3 py-2.5 rounded-full border border-[color-mix(in_srgb,var(--color-border-primary)_85%,transparent_15%)] bg-[color-mix(in_srgb,var(--color-surface-primary)_92%,transparent_8%)] text-[var(--color-text-primary)] text-sm cursor-pointer appearance-none shadow-[0_10px_24px_-22px_rgba(0,0,0,0.5)] transition-all duration-300 bg-[url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")] bg-no-repeat bg-[right_10px_center] bg-[length:12px] focus:border-[var(--color-action-default)] focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--color-action-default)_28%,transparent_72%)] focus:outline-none hover:border-[var(--color-action-hover)] motion-safe:hover:scale-105 motion-safe:active:scale-95`;
 
 export function FilterBar({ emojis, onFilter, compact = false }: Props) {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -23,16 +23,31 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
 
   // Memoize options lists for stable rendering
   const categoryOptions = useMemo(
-    () => categories.map((cat) => <option key={cat} value={cat}>{cat}</option>),
-    [categories],
+    () =>
+      categories.map((cat) => (
+        <option key={cat} value={cat}>
+          {cat}
+        </option>
+      )),
+    [categories]
   );
   const tagOptions = useMemo(
-    () => tags.map((tag) => <option key={tag} value={tag}>{tag}</option>),
-    [tags],
+    () =>
+      tags.map((tag) => (
+        <option key={tag} value={tag}>
+          {tag}
+        </option>
+      )),
+    [tags]
   );
   const aliasOptions = useMemo(
-    () => aliases.map((alias) => <option key={alias} value={alias}>{alias}</option>),
-    [aliases],
+    () =>
+      aliases.map((alias) => (
+        <option key={alias} value={alias}>
+          {alias}
+        </option>
+      )),
+    [aliases]
   );
 
   // Debounced filter update to prevent excessive filtering
@@ -43,7 +58,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
         onFilter(category, tag, alias);
       }, 80);
     },
-    [onFilter],
+    [onFilter]
   );
 
   // Handle filter changes with debouncing
@@ -53,7 +68,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
       setSelectedCategory(value);
       debouncedFilter(value, selectedTag, selectedAlias);
     },
-    [selectedTag, selectedAlias, debouncedFilter],
+    [selectedTag, selectedAlias, debouncedFilter]
   );
 
   const handleTagChange = useCallback(
@@ -62,7 +77,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
       setSelectedTag(value);
       debouncedFilter(selectedCategory, value, selectedAlias);
     },
-    [selectedCategory, selectedAlias, debouncedFilter],
+    [selectedCategory, selectedAlias, debouncedFilter]
   );
 
   const handleAliasChange = useCallback(
@@ -71,7 +86,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
       setSelectedAlias(value);
       debouncedFilter(selectedCategory, selectedTag, value);
     },
-    [selectedCategory, selectedTag, debouncedFilter],
+    [selectedCategory, selectedTag, debouncedFilter]
   );
 
   // Cleanup on unmount
@@ -83,47 +98,18 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
 
   if (compact) {
     return (
-      <div className="flex gap-2 flex-wrap">
-        <label className="sr-only" htmlFor="category-select">
+      <div className='flex gap-2 flex-wrap'>
+        <label className='sr-only' htmlFor='category-select'>
           Category filter
         </label>
         <select
-          id="category-select"
+          id='category-select'
           className={`${selectClasses} min-w-[120px]`}
           value={selectedCategory}
           onChange={handleCategoryChange}
-          aria-label="Filter emojis by category"
-        >
-          <option value="">Categories</option>
+          aria-label='Filter emojis by category'>
+          <option value=''>Categories</option>
           {categoryOptions}
-        </select>
-
-        <label className="sr-only" htmlFor="tag-select">
-          Tag filter
-        </label>
-        <select
-          id="tag-select"
-          className={`${selectClasses} min-w-[100px]`}
-          value={selectedTag}
-          onChange={handleTagChange}
-          aria-label="Filter emojis by tag"
-        >
-          <option value="">Tags</option>
-          {tagOptions}
-        </select>
-
-        <label className="sr-only" htmlFor="alias-select">
-          Alias filter
-        </label>
-        <select
-          id="alias-select"
-          className={`${selectClasses} min-w-[100px]`}
-          value={selectedAlias}
-          onChange={handleAliasChange}
-          aria-label="Filter emojis by alias"
-        >
-          <option value="">Aliases</option>
-          {aliasOptions}
         </select>
       </div>
     );
@@ -131,77 +117,71 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
 
   return (
     <div>
-      <div className="hidden lg:flex gap-3 flex-wrap justify-start w-full">
-        <label className="sr-only" htmlFor="category-select">
+      <div className='hidden lg:flex gap-3 flex-wrap justify-start w-full'>
+        <label className='sr-only' htmlFor='category-select'>
           Category filter
         </label>
         <select
-          id="category-select"
+          id='category-select'
           className={`${selectClasses} min-w-[140px] max-w-[220px]`}
           value={selectedCategory}
           onChange={handleCategoryChange}
-          aria-label="Filter emojis by category"
-        >
-          <option value="">All Categories</option>
+          aria-label='Filter emojis by category'>
+          <option value=''>All Categories</option>
           {categoryOptions}
         </select>
 
-        <label className="sr-only" htmlFor="tag-select">
+        <label className='sr-only' htmlFor='tag-select'>
           Tag filter
         </label>
         <select
-          id="tag-select"
+          id='tag-select'
           className={`${selectClasses} min-w-[140px] max-w-[220px]`}
           value={selectedTag}
           onChange={handleTagChange}
-          aria-label="Filter emojis by tag"
-        >
-          <option value="">All Tags</option>
+          aria-label='Filter emojis by tag'>
+          <option value=''>All Tags</option>
           {tagOptions}
         </select>
 
-        <label className="sr-only" htmlFor="alias-select">
+        <label className='sr-only' htmlFor='alias-select'>
           Alias filter
         </label>
         <select
-          id="alias-select"
+          id='alias-select'
           className={`${selectClasses} min-w-[140px] max-w-[220px]`}
           value={selectedAlias}
           onChange={handleAliasChange}
-          aria-label="Filter emojis by alias"
-        >
-          <option value="">All Aliases</option>
+          aria-label='Filter emojis by alias'>
+          <option value=''>All Aliases</option>
           {aliasOptions}
         </select>
       </div>
 
       {/* Mobile accordion */}
-      <div className="lg:hidden flex flex-col gap-2">
+      <div className='lg:hidden flex flex-col gap-2'>
         <select
           className={`${selectClasses} w-full`}
           value={selectedCategory}
           onChange={handleCategoryChange}
-          aria-label="Mobile filter by category"
-        >
-          <option value="">All Categories</option>
+          aria-label='Mobile filter by category'>
+          <option value=''>All Categories</option>
           {categoryOptions}
         </select>
         <select
           className={`${selectClasses} w-full`}
           value={selectedTag}
           onChange={handleTagChange}
-          aria-label="Mobile filter by tag"
-        >
-          <option value="">All Tags</option>
+          aria-label='Mobile filter by tag'>
+          <option value=''>All Tags</option>
           {tagOptions}
         </select>
         <select
           className={`${selectClasses} w-full`}
           value={selectedAlias}
           onChange={handleAliasChange}
-          aria-label="Mobile filter by alias"
-        >
-          <option value="">All Aliases</option>
+          aria-label='Mobile filter by alias'>
+          <option value=''>All Aliases</option>
           {aliasOptions}
         </select>
       </div>

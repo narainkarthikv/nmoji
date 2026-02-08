@@ -3,37 +3,119 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet" />
+
+    <title>
+      Nmoji - Privacy-Friendly Emoji Picker | Fast Search, Local-First
+    </title>
+    <meta
+      name="title"
+      content="Nmoji - Privacy-Friendly Emoji Picker | Fast Search, Local-First" />
     <meta
       name="description"
-      content="Nmoji - A straightforward web application for quick emoji selection and filtering. Find, filter, and explore emojis by categories, tags, and names."
-    />
+      content="Nmoji is a fast, lightweight emoji picker with local-first search and zero tracking. Browse by category, tags, and aliases with instant copy." />
+    <meta name="author" content="Wisdom Fox Community" />
     <meta
       name="keywords"
-      content="emoji, emoji selector, emoji filter, emoji search, web application, open source"
-    />
-    <meta name="author" content="Wisdom Fox Community" />
-    <meta property="og:title" content="Nmoji - Easy Emoji Selection Tool" />
+      content="emoji picker, emoji search, emoji filter, emoji tags, emoji aliases, local-first app, privacy friendly, open source emoji tool, lightweight emoji browser" />
+    <meta name="theme-color" content="#3B82F6" />
+    <meta name="color-scheme" content="light dark" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nmoji" />
+    <meta property="og:url" content="https://nmoji.netlify.app" />
+    <meta
+      property="og:title"
+      content="Nmoji - Find the Perfect Emoji in Seconds" />
     <meta
       property="og:description"
-      content="Find and filter emojis quickly with Nmoji. Search by name, category, or tags."
-    />
+      content="Browse, filter, and copy emojis instantly. Local-first, open source, and privacy-friendly." />
     <meta property="og:image" content="/homepage-banner.png" />
-    <meta property="og:url" content="https://nmoji.netlify.app" />
-    <title>Nmoji - Easy Emoji Selection Tool</title>
-    <link rel="stylesheet" href="src/styles/main.css" />
-    <link rel="stylesheet" href="src/styles/theme.css" />
-    <link rel="stylesheet" href="src/styles/landing.css" />
+    <meta
+      property="og:image:alt"
+      content="Nmoji emoji picker interface preview" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nmoji - Emoji Picker" />
+    <meta
+      name="twitter:description"
+      content="Fast emoji search with local-first privacy. Copy emojis in one click." />
+    <meta name="twitter:image" content="/homepage-banner.png" />
+    <meta name="twitter:image:alt" content="Nmoji emoji picker preview" />
+
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="/favicon.ico" />
+
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
+
+    <link rel="canonical" href="https://nmoji.netlify.app" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Nmoji",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Web Browser",
+        "browserRequirements": "Requires JavaScript. Compatible with Chrome, Firefox, Safari, Edge.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Organization",
+          "name": "Wisdom Fox Community",
+          "url": "https://github.com/narainkarthikv/Nmoji"
+        },
+        "description": "Nmoji is a fast, lightweight emoji picker that lets you search by name, category, tags, and aliases. Local-first and privacy-friendly, with one-click copy.",
+        "featureList": [
+          "Instant emoji search and filters",
+          "Category, tags, and aliases",
+          "Local-first, privacy-friendly",
+          "One-click copy to clipboard",
+          "Dark and light themes",
+          "Open source"
+        ],
+        "softwareHelp": {
+          "@type": "WebPage",
+          "url": "https://nmoji.netlify.app"
+        },
+        "screenshot": "https://nmoji.netlify.app/homepage-banner.png",
+        "url": "https://nmoji.netlify.app",
+        "keywords": "emoji picker, emoji search, emoji filter, privacy friendly"
+      }
+    </script>
+
+    <link rel="stylesheet" href="src/styles/main.css" />
+    <link rel="stylesheet" href="src/styles/theme.css" />
+    <link rel="stylesheet" href="src/styles/landing.css" />
   </head>
   <body>
     <div class="container">
       <main>
         <section class="hero">
           <h1>Find the Perfect Emoji in Seconds</h1>
-          <p>A straightforward, fast, and intuitive emoji selection tool for everyone.</p>
-          <a href="src/pages/app.html" class="cta-button">Start Using Nmoji →</a>
+          <p>
+            A fast, privacy-friendly emoji picker built for clarity and speed.
+          </p>
+          <a href="src/pages/app.html" class="cta-button"
+            >Start Using Nmoji -></a
+          >
         </section>
 
         <section class="features">
@@ -42,7 +124,7 @@
             <div class="feature-card">
               <span class="feature-icon">🔍</span>
               <h3>Smart Search</h3>
-              <p>Filter emojis by name, category, or tags</p>
+              <p>Filter emojis by name, category, tags, and aliases</p>
             </div>
             <div class="feature-card">
               <span class="feature-icon">⚡</span>
@@ -51,22 +133,27 @@
             </div>
             <div class="feature-card">
               <span class="feature-icon">🌗</span>
-              <h3>Dark Mode</h3>
-              <p>Easy on your eyes with theme options</p>
+              <h3>Theme Friendly</h3>
+              <p>Light and dark modes with balanced contrast</p>
             </div>
             <div class="feature-card">
               <span class="feature-icon">💡</span>
               <h3>Intuitive Design</h3>
-              <p>Simple and user-friendly interface</p>
+              <p>Clean, minimal interface built for focus</p>
             </div>
           </div>
         </section>
 
         <section class="open-source">
           <h2>Open Source Project</h2>
-          <p>Nmoji is completely open source and welcomes contributions from the community.</p>
+          <p>
+            Nmoji is open source and welcomes contributions from the community.
+          </p>
           <div class="action-buttons">
-            <a href="https://github.com/narainkarthikv/Nmoji" class="github-button" target="_blank"
+            <a
+              href="https://github.com/narainkarthikv/Nmoji"
+              class="github-button"
+              target="_blank"
               >View on GitHub</a
             >
             <a href="src/pages/app.html" class="try-button">Try Nmoji Now</a>

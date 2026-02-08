@@ -52,20 +52,26 @@ export function EmojiApp() {
     saveTheme(theme);
   }, [theme]);
 
-  const handleSearch = useCallback((query: string) => {
-    const results = searchEmojis(emojis, query);
-    setFilteredEmojis(results);
-  }, [emojis]);
+  const handleSearch = useCallback(
+    (query: string) => {
+      const results = searchEmojis(emojis, query);
+      setFilteredEmojis(results);
+    },
+    [emojis]
+  );
 
-  const handleFilter = useCallback((category: string, tag: string, alias: string) => {
-    const results = filterEmojis(
-      emojis,
-      category || undefined,
-      tag || undefined,
-      alias || undefined,
-    );
-    setFilteredEmojis(results);
-  }, [emojis]);
+  const handleFilter = useCallback(
+    (category: string, tag: string, alias: string) => {
+      const results = filterEmojis(
+        emojis,
+        category || undefined,
+        tag || undefined,
+        alias || undefined
+      );
+      setFilteredEmojis(results);
+    },
+    [emojis]
+  );
 
   const handleEmojiSelect = useCallback((emoji: Emoji) => {
     setSelectedEmoji(emoji);
@@ -83,50 +89,59 @@ export function EmojiApp() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <div className="text-center p-6">
-          <h2 className="text-2xl font-bold text-red-600 mb-2">Error Loading Emojis</h2>
-          <p className="text-slate-600 dark:text-slate-400">{error.message}</p>
+      <div className='min-h-screen flex items-center justify-center bg-[var(--color-bg-primary)]'>
+        <div className='text-center p-6'>
+          <h2 className='text-2xl font-bold text-[var(--color-error)] mb-2'>
+            Error Loading Emojis
+          </h2>
+          <p className='text-[var(--color-text-secondary)]'>{error.message}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <div className='relative h-screen w-screen overflow-hidden flex flex-col bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] transition-colors duration-300'>
+      <div className='pointer-events-none absolute -top-24 right-[-10%] h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_srgb,var(--color-action-default)_18%,transparent_82%)_0%,_transparent_70%)] blur-3xl'></div>
+      <div className='pointer-events-none absolute -bottom-28 left-[-10%] h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_srgb,var(--color-action-default)_18%,transparent_82%)_0%,_transparent_70%)] blur-3xl'></div>
+
       {/* Header - Fixed height */}
-      <header className="flex-shrink-0 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 min-w-0">
+      <header className='flex-shrink-0 border-b border-[var(--color-border-primary)] bg-[color-mix(in_srgb,var(--color-surface-primary)_88%,transparent_12%)] backdrop-blur-xl shadow-[0_12px_30px_-24px_rgba(0,0,0,0.5)]'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
+          <div className='flex items-center justify-between gap-4'>
+            <div className='flex items-center gap-3 min-w-0'>
               <a
-                href="/"
-                aria-label="Back to landing page"
-                className="inline-flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
-              >
-                <span className="sr-only">Back to home</span>
+                href='/'
+                aria-label='Back to landing page'
+                className='inline-flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-full border border-[var(--color-border-primary)] bg-[color-mix(in_srgb,var(--color-surface-primary)_92%,transparent_8%)] hover:bg-[var(--color-surface-secondary)] shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--color-bg-primary)] focus:ring-[var(--color-action-default)]'>
+                <span className='sr-only'>Back to home</span>
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-slate-700 dark:text-slate-200"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='h-5 w-5 text-[var(--color-text-primary)]'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
                   strokeWidth={2}
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  aria-hidden='true'>
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M15 19l-7-7 7-7'
+                  />
                 </svg>
               </a>
 
-              <div className="min-w-0">
-                <h1 className="text-2xl font-extrabold tracking-tight truncate">Nmoji</h1>
-                <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
+              <div className='min-w-0'>
+                <h1 className='text-2xl font-extrabold tracking-tight truncate'>
+                  Nmoji
+                </h1>
+                <p className='text-sm text-[var(--color-text-secondary)] truncate'>
                   Browse emojis — fast & lovely
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 flex-shrink-0">
+            <div className='flex items-center gap-3 flex-shrink-0'>
               <ThemeToggle theme={theme} onToggle={handleThemeToggle} />
             </div>
           </div>
@@ -134,9 +149,9 @@ export function EmojiApp() {
       </header>
 
       {/* Search & Filter Bar - Fixed height */}
-      <div className="flex-shrink-0 border-b border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
+      <div className='flex-shrink-0 border-b border-[var(--color-border-primary)] bg-[color-mix(in_srgb,var(--color-surface-primary)_92%,transparent_8%)] backdrop-blur-xl shadow-[0_10px_24px_-20px_rgba(0,0,0,0.5)]'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3'>
+          <div className='flex flex-col md:flex-row gap-3 items-stretch md:items-center'>
             <SearchBar onSearch={handleSearch} compact />
             <FilterBar onFilter={handleFilter} emojis={emojis} compact />
           </div>
@@ -144,14 +159,16 @@ export function EmojiApp() {
       </div>
 
       {/* Main Content - Flexible, scrollable */}
-      <main className="flex-1 overflow-hidden">
-        <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr,340px] gap-6 h-full">
+      <main className='flex-1 overflow-hidden'>
+        <div className='h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'>
+          <div className='grid grid-cols-1 lg:grid-cols-[1fr,360px] gap-8 h-full'>
             {/* Emoji Grid - Scrollable */}
-            <section className="overflow-y-auto min-h-0">
+            <section className='overflow-y-auto min-h-0'>
               {isLoading ? (
-                <div className="text-center py-12">
-                  <p className="text-slate-500 dark:text-slate-400">Loading emojis...</p>
+                <div className='text-center py-12'>
+                  <p className='text-[var(--color-text-secondary)]'>
+                    Loading emojis...
+                  </p>
                 </div>
               ) : (
                 <EmojiGrid
@@ -163,7 +180,7 @@ export function EmojiApp() {
             </section>
 
             {/* Emoji Description - Sticky */}
-            <aside className="overflow-y-auto min-h-0">
+            <aside className='overflow-y-auto min-h-0'>
               <EmojiDescription
                 emoji={selectedEmoji}
                 allEmojis={emojis}

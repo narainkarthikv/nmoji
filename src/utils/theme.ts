@@ -23,7 +23,10 @@ export function getInitialTheme(): ThemeMode {
   }
 
   // Fall back to system preference
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  if (
+    window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+  ) {
     return 'dark';
   }
 
@@ -69,7 +72,9 @@ export function toggleTheme(currentTheme: ThemeMode): ThemeMode {
 /**
  * Watch for system theme changes and update app accordingly
  */
-export function watchSystemTheme(callback: (theme: ThemeMode) => void): () => void {
+export function watchSystemTheme(
+  callback: (theme: ThemeMode) => void
+): () => void {
   if (typeof window === 'undefined') {
     return () => {};
   }

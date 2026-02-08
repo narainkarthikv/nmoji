@@ -1,17 +1,42 @@
 /* Theme variables */
 :root {
   /* Light theme */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc; /* very light */
-  --bg-header: #ffffff;
-  --bg-card: #ffffff;
-  --text-primary: #0f172a; /* slate-900 */
-  --text-secondary: #475569; /* slate-600 */
-  --border-color: #e6eef8;
-  --accent-color: #2563eb; /* blue-600 */
-  --accent-600: #2563eb;
-  --hover-color: #1e40af; /* darker blue */
-  --shadow-color: rgba(2, 6, 23, 0.08);
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-surface-primary: #ffffff;
+  --color-surface-secondary: #f5f5f5;
+  --color-surface-overlay: rgba(0, 0, 0, 0.5);
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+  --color-text-inverse: #ffffff;
+  --color-action-default: #3b82f6;
+  --color-action-hover: #2563eb;
+  --color-action-active: #1d4ed8;
+  --color-action-disabled: #d1d5db;
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-border-primary: #e5e7eb;
+  --color-border-subtle: #f0f0f0;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+
+  /* Aliases for existing styles */
+  --bg-primary: var(--color-bg-primary);
+  --bg-secondary: var(--color-bg-secondary);
+  --bg-header: var(--color-surface-primary);
+  --bg-card: var(--color-surface-primary);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+  --border-color: var(--color-border-primary);
+  --accent-color: var(--color-action-default);
+  --accent-600: var(--color-action-default);
+  --hover-color: var(--color-action-hover);
+  --primary-color: var(--color-action-default);
+  --primary-dark: var(--color-action-active);
+  --card-background: var(--color-surface-primary);
+  --text-color: var(--color-text-primary);
 }
 
 /* Dark theme variables - toggled by adding 'dark' to <html> */
@@ -19,17 +44,42 @@ html.dark,
 /* support local app wrapper scoping */
 .theme-dark,
 .theme-dark * {
-  --bg-primary: #0b1220;
-  --bg-secondary: #071027;
-  --bg-header: #071027;
-  --bg-card: #0f1724;
-  --text-primary: #e6eef8;
-  --text-secondary: #94a3b8;
-  --border-color: #0f1724;
-  --accent-color: #60a5fa; /* lighter blue for contrast */
-  --accent-600: #60a5fa;
-  --hover-color: #93c5fd;
-  --shadow-color: rgba(2, 6, 23, 0.5);
+  --color-bg-primary: #0b1118;
+  --color-bg-secondary: #121b26;
+  --color-surface-primary: #121b26;
+  --color-surface-secondary: #0f1822;
+  --color-surface-overlay: rgba(2, 10, 18, 0.65);
+  --color-text-primary: #eaf2f6;
+  --color-text-secondary: #9fb0c3;
+  --color-text-muted: #7c8ca0;
+  --color-text-inverse: #0b1118;
+  --color-action-default: #3b82f6;
+  --color-action-hover: #2563eb;
+  --color-action-active: #1e4fbf;
+  --color-action-disabled: #1f2c3b;
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-border-primary: #1e2c3c;
+  --color-border-subtle: #0f1822;
+  --shadow-color: rgba(2, 10, 18, 0.5);
+
+  /* Aliases for existing styles */
+  --bg-primary: var(--color-bg-primary);
+  --bg-secondary: var(--color-bg-secondary);
+  --bg-header: var(--color-surface-primary);
+  --bg-card: var(--color-surface-primary);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+  --border-color: var(--color-border-primary);
+  --accent-color: var(--color-action-default);
+  --accent-600: var(--color-action-default);
+  --hover-color: var(--color-action-hover);
+  --primary-color: var(--color-action-default);
+  --primary-dark: var(--color-action-active);
+  --card-background: var(--color-surface-primary);
+  --text-color: var(--color-text-primary);
 }
 
 /* Base styles with variables */

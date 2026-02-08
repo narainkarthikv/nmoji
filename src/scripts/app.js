@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       },
-      { threshold: 0.1 },
+      { threshold: 0.1 }
     );
 
     const emojiElements = document.querySelectorAll('.emoji');
@@ -255,11 +255,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // If no filters are active, show all emojis
     if (!filterValue && !selectedCategory && !selectedTag && !selectedAlias) {
-      matchingIndices = new Set(Array.from({ length: emojiData.length }, (_, i) => i));
+      matchingIndices = new Set(
+        Array.from({ length: emojiData.length }, (_, i) => i)
+      );
     } else {
       // Start with category filter as it's usually the most restrictive
       if (selectedCategory) {
-        matchingIndices = new Set(emojiIndexes.byCategory[selectedCategory] || []);
+        matchingIndices = new Set(
+          emojiIndexes.byCategory[selectedCategory] || []
+        );
       }
 
       // Apply tag filter
@@ -268,7 +272,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (matchingIndices.size === 0) {
           matchingIndices = tagMatches;
         } else {
-          matchingIndices = new Set([...matchingIndices].filter((x) => tagMatches.has(x)));
+          matchingIndices = new Set(
+            [...matchingIndices].filter((x) => tagMatches.has(x))
+          );
         }
       }
 
@@ -278,7 +284,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (matchingIndices.size === 0) {
           matchingIndices = aliasMatches;
         } else {
-          matchingIndices = new Set([...matchingIndices].filter((x) => aliasMatches.has(x)));
+          matchingIndices = new Set(
+            [...matchingIndices].filter((x) => aliasMatches.has(x))
+          );
         }
       }
 
@@ -290,20 +298,27 @@ document.addEventListener('DOMContentLoaded', () => {
         searchWords.forEach((word) => {
           // Check description index
           if (emojiIndexes.byDescription.has(word)) {
-            searchMatches = new Set([...searchMatches, ...emojiIndexes.byDescription.get(word)]);
+            searchMatches = new Set([
+              ...searchMatches,
+              ...emojiIndexes.byDescription.get(word),
+            ]);
           }
         });
 
         if (matchingIndices.size === 0) {
           matchingIndices = searchMatches;
         } else {
-          matchingIndices = new Set([...matchingIndices].filter((x) => searchMatches.has(x)));
+          matchingIndices = new Set(
+            [...matchingIndices].filter((x) => searchMatches.has(x))
+          );
         }
       }
     }
 
     // Convert matching indices to emoji objects
-    const filteredEmojis = Array.from(matchingIndices).map((index) => emojiData[index]);
+    const filteredEmojis = Array.from(matchingIndices).map(
+      (index) => emojiData[index]
+    );
     displayEmojis(filteredEmojis);
   }
 
@@ -357,7 +372,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Also find emojis in the same category
-    const categoryEmojis = emojiIndexes.byCategory[selectedEmoji.category] || new Set();
+    const categoryEmojis =
+      emojiIndexes.byCategory[selectedEmoji.category] || new Set();
     categoryEmojis.forEach((index) => {
       if (emojiData[index].emoji !== selectedEmoji.emoji) {
         relatedIndices.add(index);
@@ -407,7 +423,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
 
     // Tag matching
-    const commonTags = emoji1.tags?.filter((tag) => emoji2.tags?.includes(tag))?.length || 0;
+    const commonTags =
+      emoji1.tags?.filter((tag) => emoji2.tags?.includes(tag))?.length || 0;
     score += commonTags * 2;
 
     // Category matching
