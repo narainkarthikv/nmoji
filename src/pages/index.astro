@@ -2,8 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import Button from '../components/ui/Button';
 
-// Note: Using homepage-banner.png from public folder for optimal asset serving
-const preview = '/homepage-banner.png';
+// Note: Using app-banner.png from public folder for optimal asset serving
+const preview = '/app-banner.png';
 ---
 
 <Layout>
@@ -72,7 +72,7 @@ const preview = '/homepage-banner.png';
             </div>
 
             <div class="relative">
-              <div class="hero-card hero-card-left absolute -left-6 top-20 hidden w-44 rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-4 text-xs text-[var(--color-text-secondary)] shadow-lg lg:block">
+              <div class="hero-card absolute -left-10 top-12  hidden w-44 rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-4 text-xs text-[var(--color-text-secondary)] shadow-lg lg:block">
                 <p class="font-semibold text-[var(--color-text-primary)]">Suggested picks</p>
                 <p class="mt-2">Related + popular emojis, right where you need them.</p>
               </div>
