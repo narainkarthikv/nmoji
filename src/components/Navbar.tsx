@@ -39,13 +39,13 @@ export default function Navbar() {
       <div className='flex items-center gap-3'>
         <a
           href='/app'
-          className='px-3 py-2 rounded-md bg-[var(--accent-color)] text-[var(--color-text-inverse)] text-sm font-medium transition-all duration-200 hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--color-bg-primary)] focus:ring-[var(--color-action-default)] motion-safe:hover:scale-105 motion-safe:active:scale-95'>
+          className='px-3 py-2 rounded-lg bg-[var(--color-action-default)] text-[var(--color-text-inverse)] text-sm font-medium transition-colors duration-200 hover:bg-[var(--color-action-hover)] active:bg-[var(--color-action-active)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-primary)] focus-visible:ring-[var(--color-action-default)]'>
           Open App
         </a>
         <button
           aria-pressed={isDark}
           onClick={toggle}
-          className='p-2 rounded-md bg-transparent border border-[var(--border-color)] text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-action-default)] motion-safe:hover:scale-110 motion-safe:active:scale-95'>
+          className='p-2 rounded-lg bg-transparent border border-[var(--border-color)] text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-default)]'>
           <span
             className={`inline-block transition-transform duration-300 ${isDark ? 'rotate-180' : 'rotate-0'}`}>
             {isDark ? '🌙' : '🌞'}

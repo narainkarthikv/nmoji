@@ -191,6 +191,12 @@ npx astro check
 - **Design Tokens**: Use CSS custom properties for themes
 - **Responsive**: Mobile-first approach with `sm:`, `md:`, `lg:` prefixes
 
+### Design System & UI Guidelines
+
+Refer to `design-system.md` for detailed design tokens, color palette, typography, and component patterns. When implementing UI components, always reference the design system for consistency.
+
+---
+
 ### Accessibility
 
 - Semantic HTML elements

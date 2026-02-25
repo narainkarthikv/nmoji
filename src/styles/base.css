@@ -100,15 +100,15 @@
 
 @layer components {
   .emoji-base {
-    @apply flex items-center justify-center rounded-xl cursor-pointer transition-all duration-200;
+    @apply flex items-center justify-center rounded-lg cursor-pointer transition-colors duration-200;
   }
 
   .emoji-card {
-    @apply bg-white dark:bg-card-background text-inherit shadow-sm hover:translate-y-[-2px] hover:shadow-md;
+    @apply bg-white dark:bg-card-background text-inherit border border-[var(--color-border-primary)] hover:bg-[var(--color-surface-secondary)];
   }
 
   .emoji-selected {
-    @apply bg-primary text-white shadow-lg scale-105 hover:shadow-xl hover:bg-primary-dark;
+    @apply bg-primary text-white border border-[var(--color-action-default)] hover:bg-primary-dark;
   }
 
   /* Pop-in animation for emojis entering the viewport */
@@ -147,17 +147,6 @@
     animation: fadeInUp 0.5s ease-out forwards;
   }
 
-  /* Subtle scale pulse on hover */
-  @keyframes scaleHover {
-    0%,
-    100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-  }
-
   /* Smooth slide in from left */
   @keyframes slideInLeft {
     from {
@@ -190,23 +179,6 @@
     animation: slideInRight 0.4s ease-out forwards;
   }
 
-  /* Gentle pulse for focus states */
-  @keyframes focusPulse {
-    0% {
-      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
-    }
-    70% {
-      box-shadow: 0 0 0 6px rgba(59, 130, 246, 0);
-    }
-    100% {
-      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
-    }
-  }
-
-  .animate-focus-pulse {
-    animation: focusPulse 1.5s cubic-bezier(0.4, 0, 0.6, 1);
-  }
-
   /* Respects prefers-reduced-motion */
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -231,18 +203,18 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(203, 213, 225);
+  background: var(--color-border-primary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(148, 163, 184);
+  background: var(--color-text-muted);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: rgb(71, 85, 99);
+  background: var(--color-border-primary);
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: rgb(100, 116, 139);
+  background: var(--color-text-muted);
 }

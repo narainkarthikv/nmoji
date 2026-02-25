@@ -54,7 +54,7 @@ export function SearchBar({ onSearch, compact = false }: Props) {
         <input
           id='emoji-search'
           aria-label='Search emojis by name, category, tags, or aliases'
-          className={`w-full rounded-full border border-[color-mix(in_srgb,var(--color-border-primary)_85%,transparent_15%)] bg-[color-mix(in_srgb,var(--color-surface-primary)_92%,transparent_8%)] text-[var(--color-text-primary)] shadow-[0_12px_30px_-24px_rgba(0,0,0,0.5)] outline-none transition-all duration-300 focus:border-[var(--color-action-default)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-action-default)_30%,transparent_70%)] placeholder-[var(--color-text-muted)] ${
+          className={`w-full rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] text-[var(--color-text-primary)] outline-none transition-colors duration-200 focus:border-[var(--color-action-default)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-action-default)_25%,transparent_75%)] placeholder-[var(--color-text-muted)] ${
             compact ? 'py-2.5 px-4 pr-10 text-sm' : 'py-3 px-4 pr-11 text-base'
           }`}
           type='search'
@@ -65,7 +65,7 @@ export function SearchBar({ onSearch, compact = false }: Props) {
         {searchTerm && (
           <button
             onClick={handleClear}
-            className={`absolute top-1/2 -translate-y-1/2 right-2 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] p-1.5 rounded-full hover:bg-[var(--color-bg-secondary)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-action-default)_35%,transparent_65%)] motion-safe:hover:scale-110 motion-safe:active:scale-95 ${
+            className={`absolute top-1/2 -translate-y-1/2 right-2 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] p-1.5 rounded-md hover:bg-[var(--color-bg-secondary)] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--color-action-default)_35%,transparent_65%)] ${
               compact ? 'text-sm' : ''
             }`}
             aria-label='Clear search'>

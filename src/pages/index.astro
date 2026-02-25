@@ -8,19 +8,19 @@ const preview = '/app-banner.png';
 
 <Layout>
   <div class="relative min-h-screen overflow-hidden bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
-    <div class="pointer-events-none absolute -top-32 right-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_srgb,var(--color-action-default)_30%,transparent_70%)_0%,_transparent_65%)] blur-2xl"></div>
-    <div class="pointer-events-none absolute -bottom-40 left-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_srgb,var(--color-success)_25%,transparent_75%)_0%,_transparent_70%)] blur-2xl"></div>
+    <div class="pointer-events-none absolute -top-32 right-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_srgb,var(--color-action-default)_18%,transparent_82%)_0%,_transparent_72%)] blur-xl"></div>
+    <div class="pointer-events-none absolute -bottom-40 left-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_srgb,var(--color-action-default)_14%,transparent_86%)_0%,_transparent_74%)] blur-xl"></div>
 
     <main id="main-content" class="relative">
       <section class="px-6 lg:px-10">
         <div class="mx-auto max-w-6xl py-16 lg:py-24">
           <div class="relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-            <div class="absolute -top-16 left-0 h-24 w-24 rounded-full bg-[color-mix(in_srgb,var(--color-action-default)_25%,transparent_75%)] blur-2xl"></div>
-            <div class="absolute -bottom-12 right-0 h-28 w-28 rounded-full bg-[color-mix(in_srgb,var(--color-success)_25%,transparent_75%)] blur-3xl"></div>
+            <div class="absolute -top-16 left-0 h-24 w-24 rounded-full bg-[color-mix(in_srgb,var(--color-action-default)_16%,transparent_84%)] blur-xl"></div>
+            <div class="absolute -bottom-12 right-0 h-28 w-28 rounded-full bg-[color-mix(in_srgb,var(--color-action-default)_14%,transparent_86%)] blur-2xl"></div>
 
             <div class="relative">
               <div class="inline-flex items-center gap-3 rounded-full border border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
-                <span class="inline-flex h-2 w-2 rounded-full bg-[var(--color-success)]"></span>
+                <span class="inline-flex h-2 w-2 rounded-full bg-[var(--color-action-default)]"></span>
                 Open Source · Fast · Lightweight
               </div>
 
@@ -72,17 +72,17 @@ const preview = '/app-banner.png';
             </div>
 
             <div class="relative">
-              <div class="hero-card absolute -left-10 top-12  hidden w-44 rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-4 text-xs text-[var(--color-text-secondary)] shadow-lg lg:block">
+              <div class="hero-card absolute -left-10 top-12  hidden w-44 rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-4 text-xs text-[var(--color-text-secondary)] lg:block">
                 <p class="font-semibold text-[var(--color-text-primary)]">Suggested picks</p>
                 <p class="mt-2">Related + popular emojis, right where you need them.</p>
               </div>
-              <div class="hero-card hero-card-right absolute -right-6 bottom-20 hidden w-48 rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-4 text-xs text-[var(--color-text-secondary)] shadow-lg lg:block">
+              <div class="hero-card hero-card-right absolute -right-6 bottom-20 hidden w-48 rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-4 text-xs text-[var(--color-text-secondary)] lg:block">
                 <p class="font-semibold text-[var(--color-text-primary)]">Focused UI</p>
                 <p class="mt-2">Search, filter, copy. No extra noise.</p>
               </div>
 
-              <div class="absolute inset-0 -z-10 rounded-[32px] bg-[linear-gradient(150deg,_color-mix(in_srgb,var(--color-action-default)_20%,transparent_80%)_0%,_transparent_70%)] blur-2xl"></div>
-              <div class="rounded-[28px] border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-4 shadow-2xl">
+              <div class="absolute inset-0 -z-10 rounded-[32px] bg-[linear-gradient(150deg,_color-mix(in_srgb,var(--color-action-default)_12%,transparent_88%)_0%,_transparent_72%)] blur-xl"></div>
+              <div class="rounded-[28px] border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-4 shadow-sm">
                 <div class="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-bg-secondary)] px-4 py-2 text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
                   Live preview
                 </div>
@@ -186,42 +186,42 @@ const preview = '/app-banner.png';
           </div>
 
           <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 transition-colors hover:bg-[var(--color-surface-secondary)]">
               <div class="text-3xl">🔍</div>
               <h3 class="mt-4 text-lg font-semibold">Smart search & filters</h3>
               <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
                 Find by name, category, or tags with zero lag.
               </p>
             </div>
-            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 transition-colors hover:bg-[var(--color-surface-secondary)]">
               <div class="text-3xl">⚡</div>
               <h3 class="mt-4 text-lg font-semibold">Virtual scrolling</h3>
               <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
                 Large emoji sets stay smooth and responsive.
               </p>
             </div>
-            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 transition-colors hover:bg-[var(--color-surface-secondary)]">
               <div class="text-3xl">🎯</div>
               <h3 class="mt-4 text-lg font-semibold">Copy-friendly UX</h3>
               <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
                 One click to copy, then paste anywhere you work.
               </p>
             </div>
-            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 transition-colors hover:bg-[var(--color-surface-secondary)]">
               <div class="text-3xl">🌗</div>
               <h3 class="mt-4 text-lg font-semibold">Theme ready</h3>
               <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
                 Dark and light modes with balanced contrast.
               </p>
             </div>
-            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 transition-colors hover:bg-[var(--color-surface-secondary)]">
               <div class="text-3xl">✨</div>
               <h3 class="mt-4 text-lg font-semibold">Related & popular picks</h3>
               <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
                 Discover context-aware suggestions right inside the details panel.
               </p>
             </div>
-            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+            <div class="rounded-2xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-6 transition-colors hover:bg-[var(--color-surface-secondary)]">
               <div class="text-3xl">🪶</div>
               <h3 class="mt-4 text-lg font-semibold">Lightweight footprint</h3>
               <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
@@ -335,10 +335,10 @@ const preview = '/app-banner.png';
 
       <section class="px-6 lg:px-10">
         <div class="mx-auto max-w-6xl py-16">
-          <div class="rounded-[32px] bg-[linear-gradient(135deg,_color-mix(in_srgb,var(--color-action-default)_60%,transparent_40%)_0%,_color-mix(in_srgb,var(--color-success)_45%,transparent_55%)_100%)] p-10 text-white">
+          <div class="rounded-[32px] border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-10 text-[var(--color-text-primary)]">
             <div class="text-center">
               <h2 class="text-3xl font-semibold sm:text-4xl">Ready to emoji faster?</h2>
-              <p class="mx-auto mt-4 max-w-[60ch] text-base text-white/90">
+              <p class="mx-auto mt-4 max-w-[60ch] text-base text-[var(--color-text-secondary)]">
                 Skip the noise and get straight to the emoji you want. Clean, fast, and privacy
                 friendly.
               </p>
@@ -378,7 +378,7 @@ const preview = '/app-banner.png';
                 href="https://ko-fi.com/wisdomfox"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 rounded-xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] px-6 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
+                class="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] px-6 py-3 text-sm font-semibold transition-colors hover:bg-[var(--color-surface-secondary)]"
               >
                 ☕ Buy us a coffee
               </a>
@@ -386,7 +386,7 @@ const preview = '/app-banner.png';
                 href="https://patreon.com/user?u=72747187"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 rounded-xl bg-[var(--color-action-default)] px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5"
+                class="inline-flex items-center gap-2 rounded-lg bg-[var(--color-action-default)] px-6 py-3 text-sm font-semibold text-[var(--color-text-inverse)] transition-colors hover:bg-[var(--color-action-hover)]"
               >
                 💚 Support on Patreon
               </a>
@@ -541,50 +541,7 @@ const preview = '/app-banner.png';
   }
 
   .hero-card {
-    backdrop-filter: blur(12px);
-    animation: hero-card-float 7s ease-in-out infinite,
-      hero-card-in 600ms ease both;
-    will-change: transform, opacity;
-  }
-
-  .hero-card-left {
-    animation-delay: 0.2s, 0s;
-  }
-
-  .hero-card-right {
-    animation-delay: 0.6s, 0.1s;
-  }
-
-  @keyframes hero-card-float {
-    0% {
-      transform: translate3d(0, 0, 0);
-      opacity: 0.95;
-    }
-    50% {
-      transform: translate3d(0, -6px, 0);
-      opacity: 1;
-    }
-    100% {
-      transform: translate3d(0, 0, 0);
-      opacity: 0.95;
-    }
-  }
-
-  @keyframes hero-card-in {
-    0% {
-      opacity: 0;
-      transform: translate3d(0, 10px, 0);
-    }
-    100% {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-card {
-      animation: none;
-    }
+    backdrop-filter: blur(6px);
   }
 </style>
 
