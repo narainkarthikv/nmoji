@@ -143,8 +143,8 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
                 aria-pressed={selectedEmoji?.emoji === emoji.emoji}
                 aria-label={`${emoji.description}. Category: ${emoji.category}`}
                 title={`${emoji.description} — ${emoji.category}`}
-                className={`flex items-center justify-center aspect-square rounded-2xl p-2 transition-all duration-200 ease-out select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[color-mix(in_srgb,var(--color-action-default)_70%,var(--color-action-hover)_30%)] focus:ring-offset-[var(--color-bg-primary)] bg-[color-mix(in_srgb,var(--color-surface-primary)_92%,transparent_8%)] text-2xl shadow-[0_12px_30px_-22px_rgba(0,0,0,0.55)] hover:shadow-[0_18px_36px_-22px_rgba(0,0,0,0.55)] active:scale-95 motion-safe:hover:scale-105 motion-safe:active:scale-95 animate-pop-in
-                  ${selectedEmoji?.emoji === emoji.emoji ? 'ring-2 ring-[color-mix(in_srgb,var(--color-action-default)_80%,var(--color-action-hover)_20%)] scale-110 bg-[color-mix(in_srgb,var(--color-action-default)_90%,var(--color-action-hover)_10%)] text-[var(--color-text-inverse)] shadow-[0_20px_50px_-22px_rgba(0,0,0,0.65)]' : 'hover:bg-[var(--color-surface-secondary)]'}`}
+                className={`flex items-center justify-center aspect-square rounded-lg p-2 transition-colors duration-200 ease-out select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-action-default)] focus-visible:ring-offset-[var(--color-bg-primary)] border text-2xl animate-pop-in
+                  ${selectedEmoji?.emoji === emoji.emoji ? 'border-[var(--color-action-default)] bg-[var(--color-action-default)] text-[var(--color-text-inverse)]' : 'border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] hover:bg-[var(--color-surface-secondary)]'}`}
                 style={{
                   animationDelay: `${(index % 12) * 15}ms`,
                   willChange: 'transform, opacity',
@@ -182,7 +182,7 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
     <div className='w-full h-full flex flex-col'>
       <div
         ref={containerRef}
-        className='flex-1 overflow-y-auto overflow-x-hidden w-full rounded-3xl border border-[color-mix(in_srgb,var(--color-border-primary)_80%,transparent_20%)] bg-[color-mix(in_srgb,var(--color-bg-secondary)_85%,transparent_15%)] shadow-[0_24px_60px_-40px_rgba(0,0,0,0.6)]'
+        className='flex-1 overflow-y-auto overflow-x-hidden w-full rounded-xl border border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)]'
         role='region'
         aria-label='Emoji grid'>
         <div className='space-y-3 p-2 sm:p-3'>

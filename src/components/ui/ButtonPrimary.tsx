@@ -12,7 +12,7 @@ export default function ButtonPrimary({
   return (
     <button
       {...rest}
-      className={`px-4 py-2 rounded-md text-[var(--color-text-inverse)] bg-[var(--color-action-default)] hover:bg-[var(--color-action-hover)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-action-default)] motion-safe:hover:shadow-lg motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-95 ${className}`}>
+      className={`px-4 py-2 rounded-lg text-[var(--color-text-inverse)] bg-[var(--color-action-default)] hover:bg-[var(--color-action-hover)] active:bg-[var(--color-action-active)] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-default)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-primary)] ${className}`}>
       {children}
     </button>
   );

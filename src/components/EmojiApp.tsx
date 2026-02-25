@@ -102,18 +102,15 @@ export function EmojiApp() {
 
   return (
     <div className='relative h-screen w-screen overflow-hidden flex flex-col bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] transition-colors duration-300'>
-      <div className='pointer-events-none absolute -top-24 right-[-10%] h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_srgb,var(--color-action-default)_18%,transparent_82%)_0%,_transparent_70%)] blur-3xl'></div>
-      <div className='pointer-events-none absolute -bottom-28 left-[-10%] h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_srgb,var(--color-action-default)_18%,transparent_82%)_0%,_transparent_70%)] blur-3xl'></div>
-
       {/* Header - Fixed height */}
-      <header className='flex-shrink-0 border-b border-[var(--color-border-primary)] bg-[color-mix(in_srgb,var(--color-surface-primary)_88%,transparent_12%)] backdrop-blur-xl shadow-[0_12px_30px_-24px_rgba(0,0,0,0.5)]'>
+      <header className='flex-shrink-0 border-b border-[var(--color-border-primary)] bg-[var(--color-surface-primary)]'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
           <div className='flex items-center justify-between gap-4'>
             <div className='flex items-center gap-3 min-w-0'>
               <a
                 href='/'
                 aria-label='Back to landing page'
-                className='inline-flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-full border border-[var(--color-border-primary)] bg-[color-mix(in_srgb,var(--color-surface-primary)_92%,transparent_8%)] hover:bg-[var(--color-surface-secondary)] shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--color-bg-primary)] focus:ring-[var(--color-action-default)]'>
+                className='inline-flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] hover:bg-[var(--color-surface-secondary)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-primary)] focus-visible:ring-[var(--color-action-default)]'>
                 <span className='sr-only'>Back to home</span>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -136,7 +133,7 @@ export function EmojiApp() {
                   Nmoji
                 </h1>
                 <p className='text-sm text-[var(--color-text-secondary)] truncate'>
-                  Browse emojis — fast & lovely
+                  Wisdom Fox emoji picker
                 </p>
               </div>
             </div>
@@ -149,7 +146,7 @@ export function EmojiApp() {
       </header>
 
       {/* Search & Filter Bar - Fixed height */}
-      <div className='flex-shrink-0 border-b border-[var(--color-border-primary)] bg-[color-mix(in_srgb,var(--color-surface-primary)_92%,transparent_8%)] backdrop-blur-xl shadow-[0_10px_24px_-20px_rgba(0,0,0,0.5)]'>
+      <div className='flex-shrink-0 border-b border-[var(--color-border-primary)] bg-[var(--color-surface-primary)]'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3'>
           <div className='flex flex-col md:flex-row gap-3 items-stretch md:items-center'>
             <SearchBar onSearch={handleSearch} compact />

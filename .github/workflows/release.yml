@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.0.0'
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract changelog section
+        id: extract
+        run: |
+          version=${GITHUB_REF_NAME}
+          # strip leading 'v' for matching heading
+          heading=${version#v}
+          # grab the section from CHANGELOG.md
+          body=$(awk '/^## \['"$heading"'\]/ {flag=1; next} /^## \[/{if(flag) exit} flag' CHANGELOG.md)
+          # trim trailing empty lines
+          body=$(echo "$body" | sed -e ':a' -e '/^$/{$d;N;ba'} )
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$body" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Create release for tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_BODY: ${{ steps.extract.outputs.body }}
+        run: |
+          version=${GITHUB_REF_NAME}
+          if gh release view "$version" >/dev/null 2>&1; then
+            gh release edit "$version" --notes "$RELEASE_BODY"
+          else
+            gh release create "$version" --notes "$RELEASE_BODY" --draft=false --prerelease=false
+          fi

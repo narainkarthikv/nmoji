@@ -10,14 +10,14 @@ type Props = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const base =
-  'inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 motion-safe:active:scale-95';
+  'inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-primary)]';
 const variants: Record<Variant, string> = {
   primary:
-    'bg-[var(--color-action-default)] text-[var(--color-text-inverse)] hover:bg-[var(--color-action-hover)] focus:ring-[var(--color-action-default)] motion-safe:hover:shadow-lg motion-safe:hover:-translate-y-0.5',
+    'bg-[var(--color-action-default)] text-[var(--color-text-inverse)] hover:bg-[var(--color-action-hover)] active:bg-[var(--color-action-active)] focus-visible:ring-[var(--color-action-default)]',
   secondary:
-    'bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border-primary)] hover:bg-[var(--color-bg-secondary)] focus:ring-[var(--color-action-default)] motion-safe:hover:shadow-md motion-safe:hover:-translate-y-0.5',
+    'bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border-primary)] hover:bg-[var(--color-bg-secondary)] active:bg-[var(--color-surface-secondary)] focus-visible:ring-[var(--color-action-default)]',
   accent:
-    'bg-[var(--color-success)] text-[var(--color-text-inverse)] hover:bg-[color-mix(in_srgb,var(--color-success)_85%,black_15%)] focus:ring-[var(--color-success)] motion-safe:hover:shadow-lg motion-safe:hover:-translate-y-0.5',
+    'bg-[var(--color-action-default)] text-[var(--color-text-inverse)] hover:bg-[var(--color-action-hover)] active:bg-[var(--color-action-active)] focus-visible:ring-[var(--color-action-default)]',
 };
 
 export default function Button({
