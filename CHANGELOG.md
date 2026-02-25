@@ -35,6 +35,7 @@ No unreleased changes yet.
 - Project migrated from earlier static/JS setup to Astro-based structure.
 - Styling system moved to Tailwind CSS with subsequent consistency improvements.
 - Default development branch and workflow setup updated for deployment and contribution flow.
+- Codebase UI components and pages aligned with Wisdom Fox design-system practices.
 
 ### Fixed
 
@@ -49,6 +50,7 @@ No unreleased changes yet.
 - README updated repeatedly to reflect current setup and features.
 - Contributors and repository metadata documentation added and maintained.
 - Community process docs and templates expanded over time.
+- Design-system guidance references and documentation alignment updated for contributor workflows.
 
 ### Refactored
 
