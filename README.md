@@ -193,8 +193,9 @@ If Nmoji helps you find the perfect emoji:
 
 ## 🔗 Links
 
-- **Live Demo**: [https://nmoji.netlify.app/](https://nmoji.netlify.app/)
-- **Repository**: [https://github.com/narainkarthikv/Nmoji](https://github.com/narainkarthikv/Nmoji)
+- **Production Demo**: [https://nmoji.netlify.app/](https://nmoji.netlify.app/)
+- **Development Demo**: [https://nmoji-dev.vercel.app/](https://nmoji-dev.vercel.app/)
+- **Repository**: [https://github.com/narainkarthikv/Nmoji](https://github.com/narainkarthikv/nmoji)
 
 ---
 
