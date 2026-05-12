@@ -1,13 +1,14 @@
 {
   "name": "nmoji",
-  "version": "1.0.0",
-  "description": "A straightforward web application for quick emoji selection and filtering",
+  "version": "1.1.0",
+  "description": "Quick emoji selection and filtering, beautifully designed and optimized.",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro check",
     "clean": "rm -rf dist node_modules .astro",
     "astro": "astro"
   },

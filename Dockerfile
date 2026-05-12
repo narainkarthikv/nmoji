@@ -1,36 +1,17 @@
-# Build stage - Create optimized build
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm install
-
-# Copy source code
 COPY . .
-
-# Build the application
 RUN npm run build
 
-# Development stage - For development with hot reload
-FROM node:20-alpine
+FROM nginx:1.27-alpine AS runtime
 
-WORKDIR /app
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy package files
-COPY package*.json ./
+EXPOSE 80
 
-# Install dependencies
-RUN npm install
-
-# Copy source code
-COPY . .
-
-# Expose Vite dev server port
-EXPOSE 3000
-
-# Start the development server
-CMD ["npm", "run", "dev"]
+CMD ["nginx", "-g", "daemon off;"]

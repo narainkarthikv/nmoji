@@ -21,11 +21,8 @@ jobs:
         id: extract
         run: |
           version=${GITHUB_REF_NAME}
-          # strip leading 'v' for matching heading
           heading=${version#v}
-          # grab the section from CHANGELOG.md
           body=$(awk '/^## \['"$heading"'\]/ {flag=1; next} /^## \[/{if(flag) exit} flag' CHANGELOG.md)
-          # trim trailing empty lines
           body=$(echo "$body" | sed -e ':a' -e '/^$/{$d;N;ba'} )
           echo "body<<EOF" >> $GITHUB_OUTPUT
           echo "$body" >> $GITHUB_OUTPUT

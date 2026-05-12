@@ -1,23 +1,30 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. Contributors and maintainers **must** record every meaningful change here using an industry-standard format.
-
-To keep the history clear:
-
-1. Follow the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
-2. Use [Semantic Versioning](https://semver.org/spec/v2.0.0.html) for releases.
-3. Prefer [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) when writing commit messages so that changelog entries can be generated and reviewed easily.
-4. Update the **Unreleased** section with each pull request; group changes under `Added`, `Changed`, `Fixed`, etc.
-5. When cutting a release, move entries into a versioned heading and tag the GitHub release accordingly.
-
-These practices make it easier for everyone to track what's been done and why, and ensure our changelog remains a reliable source of truth.
+All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-No unreleased changes yet.
+## [1.1.0] - 2026-05-12
+
+### Added
+
+- Added Docker containerization support for deployment workflows.
+- Added `.dockerignore` to keep container builds smaller and focused on runtime files.
+- Added GitHub Sponsors and funding metadata for community support.
+- Added a dedicated CI workflow for install and production build verification.
+
+### Changed
+
+- Updated production and development demo URLs in project documentation.
+- Improved first-time contributor greeting workflow copy and trigger behavior.
+- Broadened the release workflow tag pattern to support standard SemVer releases.
+
+### Fixed
+
+- Corrected greeting workflow issues that affected contributor onboarding automation.
 
 ## [1.0.0] - 2026-02-25
 
@@ -56,5 +63,6 @@ No unreleased changes yet.
 
 - Internal codebase cleanup and structural updates during UI/system migrations.
 
-[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/narainkarthikv/nmoji/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/narainkarthikv/nmoji/releases/tag/v1.0.0
