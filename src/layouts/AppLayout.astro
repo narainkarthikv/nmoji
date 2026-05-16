@@ -26,13 +26,11 @@ const description = 'Browse and search through emojis with categories, tags, and
     <!-- Favicons -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap"
-    />
+    <!-- Local font preloads -->
+    <link rel="preload" href="/fonts/Sora/static/Sora-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Sora/static/Sora-Medium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Sora/static/Sora-SemiBold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Sora/static/Sora-Bold.woff2" as="font" type="font/woff2" crossorigin />
 
     <title>{title}</title>
 
