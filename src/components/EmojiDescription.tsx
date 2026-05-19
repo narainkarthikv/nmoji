@@ -4,7 +4,7 @@ import { findRelatedEmojis } from '../utils/emoji';
 import { emitESMImage } from 'astro/dist/assets/utils';
 
 interface Props {
-  emoji?: Emoji | null;
+  emoji: Emoji;
   allEmojis: Emoji[];
   onEmojiSelect: (emoji: Emoji) => void;
   defaultMessage?: string;
@@ -19,7 +19,6 @@ export function EmojiDescription({
   defaultMessage,
 }: Props) {
   const [openMobile, setOpenMobile] = useState(false);
-  // if (!emoji) return null;
 
   // Auto open mobile drawer when selection changes on small screens
   useEffect(() => {
@@ -28,7 +27,8 @@ export function EmojiDescription({
       typeof window !== 'undefined' &&
       window.matchMedia('(max-width: 1024px)').matches;
     if (isSmall) setOpenMobile(true);
-  }, [emoji]);
+    else setOpenMobile(false);
+  }, [emoji, window]);
 
   // Memoized related emojis calculation
   const relatedEmojis = useMemo(() => {
@@ -66,15 +66,21 @@ export function EmojiDescription({
           {openMobile ? 'Close' : 'Open'}
         </button>
       </div>
-      
-      <div className=' w-full h-full fixed inset-0 z-30 bg-black/30 backdrop-blur-sm' onClick={() => onEmojiSelect(onClosePanel)} aria-hidden='true' />
+
+      {/* Mobile overlay handles closing the panel */}
+      {openMobile && (
+        <div
+          className=' w-full h-full fixed inset-0 z-30 bg-black/30 backdrop-blur-sm'
+          onClick={() => onClosePanel()}
+          aria-hidden='true'
+        />
+      )}
 
       <div
         id='emoji-detail'
         role='region'
         aria-label='Emoji details panel'
         className={`max-w-full rounded-xl z-50 border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-5 transition-all duration-200 ease-out overflow-auto lg:overflow-visible lg:relative ${openMobile ? 'fixed left-4 right-4 bottom-4 z-40 max-h-[65vh] lg:static lg:max-h-none animate-fade-in-up lg:animate-none' : 'hidden lg:block'}`}>
-        
         {!shouldShowDetails ? (
           <p
             className='text-center text-[var(--color-text-secondary)] opacity-80 py-8'
@@ -170,7 +176,6 @@ export function EmojiDescription({
             </div>
           </div>
         )}
-
       </div>
     </div>
   );
