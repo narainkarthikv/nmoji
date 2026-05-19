@@ -1,21 +1,25 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import type { Emoji } from '../types/emoji';
 import { findRelatedEmojis } from '../utils/emoji';
+import { emitESMImage } from 'astro/dist/assets/utils';
 
 interface Props {
   emoji?: Emoji | null;
   allEmojis: Emoji[];
   onEmojiSelect: (emoji: Emoji) => void;
   defaultMessage?: string;
+  onClosePanel: () => void;
 }
 
 export function EmojiDescription({
   emoji,
   allEmojis,
   onEmojiSelect,
+  onClosePanel,
   defaultMessage,
 }: Props) {
   const [openMobile, setOpenMobile] = useState(false);
+  // if (!emoji) return null;
 
   // Auto open mobile drawer when selection changes on small screens
   useEffect(() => {
@@ -52,7 +56,7 @@ export function EmojiDescription({
   return (
     <div>
       {/* Mobile header toggle */}
-      <div className='lg:hidden mb-3 flex items-center justify-between'>
+      <div className='lg:hidden mb-3  relative flex items-center justify-between'>
         <h3 className='text-lg font-semibold'>Details</h3>
         <button
           aria-expanded={openMobile}
@@ -62,12 +66,15 @@ export function EmojiDescription({
           {openMobile ? 'Close' : 'Open'}
         </button>
       </div>
+      
+      <div className=' w-full h-full fixed inset-0 z-30 bg-black/30 backdrop-blur-sm' onClick={() => onEmojiSelect(onClosePanel)} aria-hidden='true' />
 
       <div
         id='emoji-detail'
         role='region'
         aria-label='Emoji details panel'
-        className={`w-full rounded-xl border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-5 transition-all duration-200 ease-out overflow-auto lg:overflow-visible lg:relative ${openMobile ? 'fixed left-4 right-4 bottom-4 z-40 max-h-[65vh] lg:static lg:max-h-none animate-fade-in-up lg:animate-none' : 'hidden lg:block'}`}>
+        className={`max-w-full rounded-xl z-50 border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] p-5 transition-all duration-200 ease-out overflow-auto lg:overflow-visible lg:relative ${openMobile ? 'fixed left-4 right-4 bottom-4 z-40 max-h-[65vh] lg:static lg:max-h-none animate-fade-in-up lg:animate-none' : 'hidden lg:block'}`}>
+        
         {!shouldShowDetails ? (
           <p
             className='text-center text-[var(--color-text-secondary)] opacity-80 py-8'
@@ -163,6 +170,7 @@ export function EmojiDescription({
             </div>
           </div>
         )}
+
       </div>
     </div>
   );

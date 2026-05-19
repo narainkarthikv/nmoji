@@ -82,7 +82,9 @@ export function EmojiApp() {
       });
     }
   }, []);
-
+  const onClosePanel = useCallback(() => {
+    setSelectedEmoji(null);
+  }, []);
   const handleThemeToggle = useCallback(() => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   }, []);
@@ -177,20 +179,23 @@ export function EmojiApp() {
             </section>
 
             {/* Emoji Description - Sticky */}
-            <aside className='overflow-y-auto min-h-0'>
-              <EmojiDescription
-                emoji={selectedEmoji}
-                allEmojis={emojis}
-                onEmojiSelect={handleEmojiSelect}
-                defaultMessage={
-                  !emojis.length
-                    ? 'Loading emojis...'
-                    : !selectedEmoji
-                      ? 'Tap or click an emoji to see details'
-                      : undefined
-                }
-              />
-            </aside>
+            {!!selectedEmoji && (
+              <aside className='overflow-y-auto min-h-0'>
+                <EmojiDescription
+                  emoji={selectedEmoji}
+                  allEmojis={emojis}
+                  onEmojiSelect={handleEmojiSelect}
+                  onClosePanel={onClosePanel}
+                  defaultMessage={
+                    !emojis.length
+                      ? 'Loading emojis...'
+                      : !selectedEmoji
+                        ? 'Tap or click an emoji to see details'
+                        : undefined
+                  }
+                />
+              </aside>
+            )}
           </div>
         </div>
       </main>
