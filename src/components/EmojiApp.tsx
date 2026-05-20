@@ -15,7 +15,7 @@ export function EmojiApp() {
   const [theme, setTheme] = useState<ThemeMode>(() => getInitialTheme());
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-
+  const isSmallScreen = typeof window !== 'undefined' && window.matchMedia('(max-width: 1024px)').matches;
   // Fetch emoji data
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -31,7 +31,7 @@ export function EmojiApp() {
         setEmojis(data);
         setFilteredEmojis(data);
         // Set first emoji as selected
-        if (data.length > 0) {
+        if (data.length > 0 && !isSmallScreen) { // Only auto-select on first page load on larger screens
           setSelectedEmoji(data[0]);
         }
       } catch (err) {
@@ -82,7 +82,10 @@ export function EmojiApp() {
       });
     }
   }, []);
-
+  // this works only for Mobile or small screens
+  const onClosePanel = useCallback(() => {
+    setSelectedEmoji(null);
+  }, []);
   const handleThemeToggle = useCallback(() => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   }, []);
@@ -177,20 +180,24 @@ export function EmojiApp() {
             </section>
 
             {/* Emoji Description - Sticky */}
-            <aside className='overflow-y-auto min-h-0'>
-              <EmojiDescription
-                emoji={selectedEmoji}
-                allEmojis={emojis}
-                onEmojiSelect={handleEmojiSelect}
-                defaultMessage={
-                  !emojis.length
-                    ? 'Loading emojis...'
-                    : !selectedEmoji
-                      ? 'Tap or click an emoji to see details'
-                      : undefined
-                }
-              />
-            </aside>
+            {!!selectedEmoji && (
+              <aside className='overflow-y-auto min-h-0'>
+                <EmojiDescription
+                  emoji={selectedEmoji}
+                  allEmojis={emojis}
+                  onEmojiSelect={handleEmojiSelect}
+                  // Handles closing the panel on mobile only
+                  onClosePanel={onClosePanel}
+                  defaultMessage={
+                    !emojis.length
+                      ? 'Loading emojis...'
+                      : !selectedEmoji
+                        ? 'Tap or click an emoji to see details'
+                        : undefined
+                  }
+                />
+              </aside>
+            )}
           </div>
         </div>
       </main>
