@@ -1,14 +1,16 @@
 ![License](https://img.shields.io/github/license/narainkarthikv/Nmoji)
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+[![CI](https://github.com/narainkarthikv/Nmoji/actions/workflows/ci.yml/badge.svg)](https://github.com/narainkarthikv/Nmoji/actions/workflows/ci.yml)
+[![Release](https://github.com/narainkarthikv/Nmoji/actions/workflows/release.yml/badge.svg)](https://github.com/narainkarthikv/Nmoji/actions/workflows/release.yml)
+![Version](https://img.shields.io/badge/version-1.1.0-blue)
 ![Last Commit](https://img.shields.io/github/last-commit/narainkarthikv/Nmoji)
 [![GitHub issues](https://img.shields.io/github/issues/narainkarthikv/Nmoji)](https://github.com/narainkarthikv/Nmoji/issues)
 [![GitHub stars](https://img.shields.io/github/stars/narainkarthikv/Nmoji)](https://github.com/narainkarthikv/Nmoji/stargazers)
 
-# 🔎 Nmoji
+# Nmoji
 
-**Quick emoji selection and filtering—beautifully designed and optimized**
+**Quick emoji selection and filtering, beautifully designed and optimized.**
 
-Nmoji is a lightweight, high-performance web application for quick emoji search, discovery, and filtering. Whether you need to find the perfect emoji for your message or explore by category, Nmoji makes it fast and fun. 😉✨
+Nmoji is a lightweight, high-performance web application for emoji search, discovery, filtering, and quick copying. Whether you need the perfect emoji for a message or want to browse by category, Nmoji keeps the flow fast and friendly.
 
 ## ✨ Features
 
@@ -52,6 +54,13 @@ npm run dev
 ```
 
 Visit **http://localhost:3000** to see the app.
+
+### Docker
+
+```bash
+docker build -t nmoji .
+docker run --rm -p 3000:80 nmoji
+```
 
 ### Production Build
 
@@ -115,6 +124,7 @@ Nmoji does not require any environment variables for local development.
 ```bash
 npm run dev          # Start development server
 npm run build        # Build for production
+npm run check        # Run Astro and TypeScript checks
 npm run preview      # Preview production build
 npm run clean        # Clean build artifacts
 npm run astro        # Run Astro commands
@@ -169,7 +179,7 @@ We welcome contributions from the community! Here's how to get started:
 - [Code of Conduct](./CODE_OF_CONDUCT.md) - Community guidelines
 - [Security Policy](./SECURITY.md) - How to report vulnerabilities
 - [Contributors](./Contributors.md) - Contributor list
-- [License](./MIT-LICENSE.txt) - MIT License details
+- [License](./LICENSE) - MIT License details
 
 ## 🔒 Security
 
@@ -177,7 +187,7 @@ We take security seriously. If you discover a security vulnerability, please see
 
 ## 📜 License
 
-This project is licensed under the **MIT License** - see [MIT-LICENSE.txt](./MIT-LICENSE.txt) for details.
+This project is licensed under the **MIT License** - see [LICENSE](./LICENSE) for details.
 
 **Summary:** You are free to use, modify, and distribute this software for any purpose, including commercial use.
 
@@ -199,6 +209,6 @@ If Nmoji helps you find the perfect emoji:
 
 ---
 
-**Built with ❤️ by the Wisdom Fox community**
+**Built with care by the Wisdom Fox community**
 
-Let's build the best emoji picker together! 🚀
+Let's build the best emoji picker together.
