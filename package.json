@@ -1,6 +1,6 @@
 {
   "name": "nmoji",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Quick emoji selection and filtering, beautifully designed and optimized.",
   "type": "module",
   "scripts": {

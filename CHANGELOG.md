@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-06-01
+
+### Fixed
+
+- Removed noisy console logging from the extension popup and improved clipboard feedback UX.
+- Prevented full popup reload when toggling favorites; DOM updates now happen in-place.
+- Bumped extension manifest `version` to semver-compliant `1.0.0`.
+- Bumped project `package.json` patch version to `1.1.1`.
+
 ## [1.1.0] - 2026-05-12
 
 ### Added
@@ -63,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Internal codebase cleanup and structural updates during UI/system migrations.
 
-[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/narainkarthikv/nmoji/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/narainkarthikv/nmoji/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/narainkarthikv/nmoji/releases/tag/v1.0.0

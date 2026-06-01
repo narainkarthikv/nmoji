@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Nmoji Extension",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Quick access to emojis via Nmoji extension.",
   "action": {
     "default_popup": "popup.html",
