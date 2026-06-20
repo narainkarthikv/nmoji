@@ -34,11 +34,19 @@ test.describe('Smoke Tests', () => {
     await page.goto('/app');
     await page.waitForLoadState('networkidle');
 
-    const searchInput = page.locator('input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]').first();
-    const isSearchInputVisible = await searchInput.isVisible({ timeout: 2000 }).catch(() => false);
-    
+    const searchInput = page
+      .locator(
+        'input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]'
+      )
+      .first();
+    const isSearchInputVisible = await searchInput
+      .isVisible({ timeout: 2000 })
+      .catch(() => false);
+
     // Either search input or page content should be visible
-    expect(isSearchInputVisible || (await page.textContent('body'))).toBeTruthy();
+    expect(
+      isSearchInputVisible || (await page.textContent('body'))
+    ).toBeTruthy();
   });
 
   test('should have responsive layout on mobile', async ({ page }) => {

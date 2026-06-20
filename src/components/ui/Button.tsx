@@ -2,12 +2,18 @@ import React from 'react';
 
 type Variant = 'primary' | 'secondary' | 'accent';
 
-type Props = {
+type ButtonProps = {
   variant?: Variant;
   href?: string;
   children: React.ReactNode;
   className?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+};
+
+type AnchorProps = ButtonProps & React.AnchorHTMLAttributes<HTMLAnchorElement>;
+type NativeButtonProps = ButtonProps &
+  React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+type Props = AnchorProps | NativeButtonProps;
 
 const base =
   'inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-primary)]';
@@ -31,15 +37,19 @@ export default function Button({
 
   if (href) {
     return (
-      // eslint-disable-next-line jsx-a11y/anchor-has-content
-      <a href={href} className={cls} {...(rest as any)}>
+      <a
+        href={href}
+        className={cls}
+        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}>
         {children}
       </a>
     );
   }
 
   return (
-    <button className={cls} {...rest}>
+    <button
+      className={cls}
+      {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}>
       {children}
     </button>
   );

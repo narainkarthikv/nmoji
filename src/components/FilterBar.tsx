@@ -14,7 +14,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedTag, setSelectedTag] = useState('');
   const [selectedAlias, setSelectedAlias] = useState('');
-  const filterTimeoutRef = useRef<NodeJS.Timeout>();
+  const filterTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   // Memoize filter extractions to avoid recalculating on every render
   const categories = useMemo(() => extractCategories(emojis), [emojis]);

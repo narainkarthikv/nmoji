@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import type { Emoji } from '../types/emoji';
 import { findRelatedEmojis } from '../utils/emoji';
-import { emitESMImage } from 'astro/dist/assets/utils';
 
 interface Props {
   emoji: Emoji;

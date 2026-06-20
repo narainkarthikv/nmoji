@@ -6,10 +6,18 @@ test.describe('Search Functionality Integration Tests', () => {
     await page.waitForLoadState('networkidle');
   });
 
-  test('should search for valid emoji keyword and display results', async ({ page }) => {
-    const searchInput = page.locator('input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]').first();
-    const isSearchVisible = await searchInput.isVisible({ timeout: 2000 }).catch(() => false);
-    
+  test('should search for valid emoji keyword and display results', async ({
+    page,
+  }) => {
+    const searchInput = page
+      .locator(
+        'input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]'
+      )
+      .first();
+    const isSearchVisible = await searchInput
+      .isVisible({ timeout: 2000 })
+      .catch(() => false);
+
     if (isSearchVisible) {
       await searchInput.fill('smile');
       await page.waitForTimeout(500);
@@ -21,8 +29,14 @@ test.describe('Search Functionality Integration Tests', () => {
   });
 
   test('should clear search and show all emojis', async ({ page }) => {
-    const searchInput = page.locator('input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]').first();
-    const isSearchVisible = await searchInput.isVisible({ timeout: 2000 }).catch(() => false);
+    const searchInput = page
+      .locator(
+        'input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]'
+      )
+      .first();
+    const isSearchVisible = await searchInput
+      .isVisible({ timeout: 2000 })
+      .catch(() => false);
 
     if (isSearchVisible) {
       await searchInput.fill('smile');
@@ -37,8 +51,14 @@ test.describe('Search Functionality Integration Tests', () => {
   });
 
   test('should handle empty search results gracefully', async ({ page }) => {
-    const searchInput = page.locator('input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]').first();
-    const isSearchVisible = await searchInput.isVisible({ timeout: 2000 }).catch(() => false);
+    const searchInput = page
+      .locator(
+        'input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]'
+      )
+      .first();
+    const isSearchVisible = await searchInput
+      .isVisible({ timeout: 2000 })
+      .catch(() => false);
 
     if (isSearchVisible) {
       await searchInput.fill('xyznonexistent12345');
@@ -50,8 +70,14 @@ test.describe('Search Functionality Integration Tests', () => {
   });
 
   test('should perform real-time search with debouncing', async ({ page }) => {
-    const searchInput = page.locator('input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]').first();
-    const isSearchVisible = await searchInput.isVisible({ timeout: 2000 }).catch(() => false);
+    const searchInput = page
+      .locator(
+        'input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]'
+      )
+      .first();
+    const isSearchVisible = await searchInput
+      .isVisible({ timeout: 2000 })
+      .catch(() => false);
 
     if (isSearchVisible) {
       await searchInput.type('h', { delay: 100 });
@@ -71,9 +97,17 @@ test.describe('Search Functionality Integration Tests', () => {
     }
   });
 
-  test('should maintain search state after page interaction', async ({ page }) => {
-    const searchInput = page.locator('input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]').first();
-    const isSearchVisible = await searchInput.isVisible({ timeout: 2000 }).catch(() => false);
+  test('should maintain search state after page interaction', async ({
+    page,
+  }) => {
+    const searchInput = page
+      .locator(
+        'input[type="text"], input[placeholder*="search" i], input[placeholder*="emoji" i]'
+      )
+      .first();
+    const isSearchVisible = await searchInput
+      .isVisible({ timeout: 2000 })
+      .catch(() => false);
 
     if (isSearchVisible) {
       await searchInput.fill('love');

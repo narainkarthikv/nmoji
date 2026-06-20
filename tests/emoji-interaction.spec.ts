@@ -22,8 +22,10 @@ test.describe('Emoji Interaction & Copy Functionality', () => {
     const firstEmoji = page.locator('[class*="emoji"], button').first();
     await expect(firstEmoji).toBeVisible();
 
-    const clipboardHandle = await page.evaluateHandle(() => navigator.clipboard);
-    let clipboardContent = '';
+    const _clipboardHandle = await page.evaluateHandle(
+      () => navigator.clipboard
+    );
+    const _clipboardContent = '';
 
     page.on('console', (msg) => {
       if (msg.text().includes('copied')) {
@@ -40,21 +42,27 @@ test.describe('Emoji Interaction & Copy Functionality', () => {
     }
   });
 
-  test('should display emoji details when emoji is selected', async ({ page }) => {
+  test('should display emoji details when emoji is selected', async ({
+    page,
+  }) => {
     const firstEmoji = page.locator('[class*="emoji"], button').first();
     await expect(firstEmoji).toBeVisible();
 
     await firstEmoji.click();
     await page.waitForTimeout(300);
 
-    const detailPanel = page.locator('[class*="description"], [class*="detail"], [class*="info"]').first();
+    const detailPanel = page
+      .locator('[class*="description"], [class*="detail"], [class*="info"]')
+      .first();
     if (await detailPanel.isVisible({ timeout: 1000 }).catch(() => false)) {
       await expect(detailPanel).toBeVisible();
     }
   });
 
   test('should handle multiple emoji selections', async ({ page }) => {
-    const emojis = page.locator('[class*="emoji"], button').filter({ hasNot: page.locator('svg') });
+    const emojis = page
+      .locator('[class*="emoji"], button')
+      .filter({ hasNot: page.locator('svg') });
     const count = await emojis.count();
 
     if (count >= 2) {
@@ -75,7 +83,9 @@ test.describe('Emoji Interaction & Copy Functionality', () => {
     }
   });
 
-  test('should support keyboard navigation for emoji selection', async ({ page }) => {
+  test('should support keyboard navigation for emoji selection', async ({
+    page,
+  }) => {
     await page.keyboard.press('Tab');
     await page.waitForTimeout(200);
 

@@ -22,7 +22,7 @@ export function useThrottle<T>(
   delay: number = 16
 ) {
   const lastRun = useRef(Date.now());
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     const now = Date.now();

@@ -14,7 +14,10 @@ test.describe('Navigation & UI Integration Tests', () => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 
-    const appLink = page.locator('a, button').filter({ hasText: /app|emoji|picker/i }).first();
+    const appLink = page
+      .locator('a, button')
+      .filter({ hasText: /app|emoji|picker/i })
+      .first();
     if (await appLink.isVisible({ timeout: 1000 }).catch(() => false)) {
       await appLink.click();
       await page.waitForLoadState('networkidle');
@@ -43,15 +46,19 @@ test.describe('Navigation & UI Integration Tests', () => {
     await page.waitForLoadState('networkidle');
 
     const navbar = page.locator('nav, header, [role="navigation"]').first();
-    const isNavbarVisible = await navbar.isVisible({ timeout: 1000 }).catch(() => false);
+    const isNavbarVisible = await navbar
+      .isVisible({ timeout: 1000 })
+      .catch(() => false);
     expect(isNavbarVisible || true).toBeTruthy();
   });
 
-  test('should support keyboard navigation throughout app', async ({ page }) => {
+  test('should support keyboard navigation throughout app', async ({
+    page,
+  }) => {
     await page.goto('/app');
     await page.waitForLoadState('networkidle');
 
-    let focusChanged = false;
+    const _focusChanged = false;
     page.on('console', (msg) => {
       if (msg.text().includes('focus')) {
         focusChanged = true;

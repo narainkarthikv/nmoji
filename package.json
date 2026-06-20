@@ -1,6 +1,6 @@
 {
   "name": "nmoji",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Quick emoji selection and filtering, beautifully designed and optimized.",
   "type": "module",
   "scripts": {
@@ -11,6 +11,10 @@
     "check": "astro check",
     "clean": "rm -rf dist node_modules .astro",
     "astro": "astro",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.astro",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.astro --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
@@ -26,14 +30,21 @@
   },
   "devDependencies": {
     "@astrojs/tailwind": "^6.0.2",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.61.0",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@types/styled-components": "^5.1.26",
+    "@typescript-eslint/eslint-plugin": "^8.61.1",
+    "@typescript-eslint/parser": "^8.61.1",
     "autoprefixer": "^10.4.21",
+    "caniuse-lite": "^1.0.30001799",
+    "eslint": "^10.5.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.61.1"
   }
 }

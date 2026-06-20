@@ -29,7 +29,9 @@ fetch(chrome.runtime.getURL('NmojiList.json'))
         toggleFavorite(emoji);
 
         const favs = JSON.parse(localStorage.getItem('favorites')) || [];
-        const target = favs.includes(emoji) ? favoritesContainer : emojiContainer;
+        const target = favs.includes(emoji)
+          ? favoritesContainer
+          : emojiContainer;
 
         if (span.parentElement) span.parentElement.removeChild(span);
         target.appendChild(span);

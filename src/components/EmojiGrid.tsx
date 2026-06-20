@@ -17,7 +17,7 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   const COLUMN_COUNT = 9;
   const EMOJI_CELL_HEIGHT = 92;
@@ -25,7 +25,6 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
   const SCROLL_THROTTLE = 16; // ~60fps
 
   const rowCount = Math.ceil(emojis.length / COLUMN_COUNT);
-  const gridHeight = rowCount * EMOJI_CELL_HEIGHT;
 
   // Throttled scroll handler - update at most every 16ms (60fps)
   const handleScroll = useCallback(() => {
@@ -67,7 +66,7 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
     };
 
     updateHeight();
-    let resizeTimeout: NodeJS.Timeout;
+    let resizeTimeout: ReturnType<typeof setTimeout>;
     const resizeObserver = new ResizeObserver(() => {
       // Debounce resize updates to avoid thrashing
       if (resizeTimeout) clearTimeout(resizeTimeout);

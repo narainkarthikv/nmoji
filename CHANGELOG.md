@@ -7,22 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-06-20
+
 ### Added
 
-- Added comprehensive Playwright E2E test suite with 28 test cases covering critical user workflows
-  - Smoke tests for basic functionality and initial load verification
-  - Search functionality tests for emoji search and filtering
-  - Emoji interaction tests for selection and copy functionality
-  - Navigation and UI tests for navigation flows and accessibility
-  - Responsive design tests for multi-viewport and mobile behavior
-- Added Playwright configuration for Chromium and mobile Chrome testing
-- Added test scripts to `package.json`:
-  - `npm run test:e2e` - Run all tests
-  - `npm run test:e2e:ui` - Run tests with UI mode
-  - `npm run test:e2e:debug` - Run tests in debug mode
-  - `npm run test:e2e:report` - View HTML test report
-- Added comprehensive testing documentation in `tests/README.md`
-- Added Playwright test artifacts to `.gitignore` (test-results, playwright-report, .auth)
+- Added comprehensive ESLint configuration with TypeScript support (`eslint.config.js`)
+  - Configured ESLint v9 flat config format
+  - TypeScript linting with `@typescript-eslint` plugin
+  - Custom rules for code quality and consistency
+  - Browser global support for client-side code
+- Added linting and formatting scripts to `package.json`:
+  - `npm run lint` - Check for linting issues across `.js,.jsx,.ts,.tsx,.astro` files
+  - `npm run lint:fix` - Auto-fix fixable linting issues
+  - `npm run format` - Format code with Prettier
+  - `npm run format:check` - Check code formatting without changes
+- Added `@playwright/test` package to enable E2E test execution
+- Enhanced CI/CD workflow with additional quality checks:
+  - TypeScript type checking via `npm run check`
+  - Code formatting validation via `npm run format:check`
+  - Comprehensive linting via `npm run lint`
+
+### Fixed
+
+- Fixed TypeScript type errors with `NodeJS.Timeout` by replacing with `ReturnType<typeof setTimeout>`
+  - Applied fix to `EmojiGrid.tsx`, `SearchBar.tsx`, `FilterBar.tsx`, and `useDebounce.ts`
+- Fixed Button component TypeScript typing to support both anchor and button element props
+  - Separated `AnchorProps` and `NativeButtonProps` types
+  - Allows `target` attribute on anchor-based buttons
+- Removed unused imports and variables
+  - Removed unused `emitESMImage` import from `EmojiDescription.tsx`
+  - Removed unused `useCallback` import from `useVirtualScroll.ts`
+  - Prefixed unused variables with underscore to comply with linting rules
+- Fixed `useVirtualScroll` hook to properly export `containerRef` in return type
+- Changed `let` to `const` for non-reassigned variables in `app.js` and test files
+- Changed `console.log` to `console.warn` to comply with console linting rules
+- Code formatting standardization across all source files via Prettier
+
+### Changed
+
+- Updated GitHub Actions CI workflow (`ci.yml`) to include:
+  - TypeScript check step before linting
+  - Code formatting check before build
+  - Improved job naming from "Lint and Build" to reflect all quality checks
 
 ## [1.1.1] - 2026-06-01
 
