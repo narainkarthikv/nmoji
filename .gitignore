@@ -136,3 +136,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 dist/
+
+# Playwright E2E tests
+test-results/
+playwright-report/
+.auth/
+

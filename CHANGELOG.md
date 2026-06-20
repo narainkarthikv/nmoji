@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added comprehensive Playwright E2E test suite with 28 test cases covering critical user workflows
+  - Smoke tests for basic functionality and initial load verification
+  - Search functionality tests for emoji search and filtering
+  - Emoji interaction tests for selection and copy functionality
+  - Navigation and UI tests for navigation flows and accessibility
+  - Responsive design tests for multi-viewport and mobile behavior
+- Added Playwright configuration for Chromium and mobile Chrome testing
+- Added test scripts to `package.json`:
+  - `npm run test:e2e` - Run all tests
+  - `npm run test:e2e:ui` - Run tests with UI mode
+  - `npm run test:e2e:debug` - Run tests in debug mode
+  - `npm run test:e2e:report` - View HTML test report
+- Added comprehensive testing documentation in `tests/README.md`
+- Added Playwright test artifacts to `.gitignore` (test-results, playwright-report, .auth)
+
 ## [1.1.1] - 2026-06-01
 
 ### Fixed
