@@ -15,19 +15,26 @@ fetch(chrome.runtime.getURL('NmojiList.json'))
       span.textContent = emoji;
       span.classList.add('emoji-item');
 
-      // Copy to clipboard on click
+      // Copy to clipboard on click with visual feedback
       span.addEventListener('click', () => {
         navigator.clipboard
           .writeText(emoji)
-          .then(() => console.log(`${emoji} copied to clipboard!`))
+          .then(() => showCopyFeedback(span))
           .catch((err) => console.error('Clipboard error:', err));
       });
 
-      // Right-click to toggle favorite
+      // Right-click to toggle favorite without full reload
       span.addEventListener('contextmenu', (e) => {
         e.preventDefault();
         toggleFavorite(emoji);
-        location.reload(); // Reload to update favorites view
+
+        const favs = JSON.parse(localStorage.getItem('favorites')) || [];
+        const target = favs.includes(emoji)
+          ? favoritesContainer
+          : emojiContainer;
+
+        if (span.parentElement) span.parentElement.removeChild(span);
+        target.appendChild(span);
       });
 
       // Append to appropriate container
@@ -50,4 +57,10 @@ function toggleFavorite(emoji) {
   }
 
   localStorage.setItem('favorites', JSON.stringify(favs));
+}
+
+// Simple visual feedback for clipboard copy
+function showCopyFeedback(el) {
+  el.classList.add('copied');
+  setTimeout(() => el.classList.remove('copied'), 1400);
 }

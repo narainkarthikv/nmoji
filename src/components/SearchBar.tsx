@@ -7,7 +7,7 @@ interface Props {
 
 export function SearchBar({ onSearch, compact = false }: Props) {
   const [searchTerm, setSearchTerm] = useState('');
-  const searchTimeoutRef = useRef<NodeJS.Timeout>();
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   // Debounce search to avoid excessive filtering
   const debouncedSearch = useCallback(

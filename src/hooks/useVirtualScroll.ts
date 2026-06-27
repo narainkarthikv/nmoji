@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface VirtualScrollConfig {
   itemHeight: number;
@@ -11,6 +11,7 @@ interface VirtualScrollState {
   endIndex: number;
   offsetY: number;
   visibleItems: number;
+  containerRef: React.RefObject<HTMLDivElement>;
 }
 
 export function useVirtualScroll(
@@ -40,18 +41,11 @@ export function useVirtualScroll(
     return () => container.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Expose the container ref through a custom hook pattern
-  useVirtualScroll.containerRef = containerRef;
-
   return {
     startIndex,
     endIndex,
     offsetY,
     visibleItems,
+    containerRef,
   };
-}
-
-// Helper to get container ref
-export function getVirtualScrollContainer() {
-  return useVirtualScroll.containerRef;
 }

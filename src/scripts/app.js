@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Optimized data structures
   let emojiData = [];
-  let emojiIndexes = {
+  const emojiIndexes = {
     byCategory: {},
     byTag: {},
     byAlias: {},
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /**
    * Lazy loading implementation with IntersectionObserver.
    */
-  function lazyLoadEmojis() {
+  function _lazyLoadEmojis() {
     const observer = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const GRID_ROWS = 5;
   const GRID_COLS = 8;
   const GRID_SIZE = GRID_ROWS * GRID_COLS;
-  const PAGES_TO_PRELOAD = 2;
+  const _PAGES_TO_PRELOAD = 2;
 
   /**
    * Display emojis in a grid layout with pagination
@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     navigator.clipboard
       .writeText(text)
       .then(() => {
-        console.log('Text copied to clipboard');
+        console.warn('Text copied to clipboard');
         setTimeout(() => element.classList.remove('clicked'), 750);
       })
       .catch((err) => console.error('Failed to copy text:', err));
