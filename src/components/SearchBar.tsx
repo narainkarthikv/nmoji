@@ -8,6 +8,7 @@ interface Props {
 export function SearchBar({ onSearch, compact = false }: Props) {
   const [searchTerm, setSearchTerm] = useState('');
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Debounce search to avoid excessive filtering
   const debouncedSearch = useCallback(
@@ -38,6 +39,29 @@ export function SearchBar({ onSearch, compact = false }: Props) {
     onSearch('');
   }, [onSearch]);
 
+  // Handle Ctrl+K and Escape keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const ctrl = e.ctrlKey || e.metaKey;
+
+      // Ctrl+K or Cmd+K to focus search
+      if (ctrl && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+
+      // Escape to clear search
+      if (e.key === 'Escape' && inputRef.current?.value) {
+        e.preventDefault();
+        handleClear();
+        inputRef.current?.blur();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleClear]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -52,6 +76,7 @@ export function SearchBar({ onSearch, compact = false }: Props) {
       </label>
       <div className='relative w-full'>
         <input
+          ref={inputRef}
           id='emoji-search'
           aria-label='Search emojis by name, category, tags, or aliases'
           className={`w-full rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] text-[var(--color-text-primary)] outline-none transition-colors duration-200 focus:border-[var(--color-action-default)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-action-default)_25%,transparent_75%)] placeholder-[var(--color-text-muted)] ${

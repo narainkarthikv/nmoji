@@ -4,9 +4,12 @@ import { SearchBar } from './SearchBar';
 import { FilterBar } from './FilterBar';
 import { EmojiDescription } from './EmojiDescription';
 import { ThemeToggle } from './ThemeToggle';
+import { KeyboardShortcuts } from './KeyboardShortcuts';
+import { CombosPanel } from './CombosPanel';
 import type { Emoji, ThemeMode } from '../types/emoji';
 import { searchEmojis, filterEmojis } from '../utils/emoji';
 import { getInitialTheme, saveTheme, applyTheme } from '../utils/theme';
+import { setupKeyboardShortcuts } from '../utils/keyboard';
 
 export function EmojiApp() {
   const [emojis, setEmojis] = useState<Emoji[]>([]);
@@ -15,6 +18,8 @@ export function EmojiApp() {
   const [theme, setTheme] = useState<ThemeMode>(() => getInitialTheme());
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [showShortcuts, setShowShortcuts] = useState(false);
+  const [activeTab, setActiveTab] = useState<'app' | 'combos'>('app');
   const isSmallScreen =
     typeof window !== 'undefined' &&
     window.matchMedia('(max-width: 1024px)').matches;
@@ -55,6 +60,34 @@ export function EmojiApp() {
     saveTheme(theme);
   }, [theme]);
 
+  // Setup global keyboard shortcuts
+  useEffect(() => {
+    if (emojis.length === 0) return;
+
+    // Get unique categories from emojis
+    const categories = Array.from(new Set(emojis.map((e) => e.category)));
+
+    const unsubscribe = setupKeyboardShortcuts({
+      help: () => setShowShortcuts(true),
+      reset: () => {
+        setFilteredEmojis(emojis);
+      },
+      category: (categoryIndex?: string) => {
+        if (!categoryIndex) return;
+        const index = parseInt(categoryIndex, 10) - 1; // Convert 1-9 to 0-8
+        if (index >= 0 && index < categories.length) {
+          const category = categories[index];
+          const filtered = emojis.filter((e) => e.category === category);
+          setFilteredEmojis(filtered);
+        }
+      },
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [emojis]);
+
   const handleSearch = useCallback(
     (query: string) => {
       const results = searchEmojis(emojis, query);
@@ -85,7 +118,7 @@ export function EmojiApp() {
       });
     }
   }, []);
-  // this works only for Mobile or small screens
+  // Used to close the detail panel on small screens.
   const onClosePanel = useCallback(() => {
     setSelectedEmoji(null);
   }, []);
@@ -144,7 +177,36 @@ export function EmojiApp() {
               </div>
             </div>
 
-            <div className='flex items-center gap-3 flex-shrink-0'>
+            <div className='flex min-w-0 items-center gap-3 flex-shrink-0'>
+              <div
+                className='flex items-center gap-1 rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] p-1'
+                role='tablist'
+                aria-label='Emoji views'>
+                <button
+                  onClick={() => setActiveTab('app')}
+                  className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                    activeTab === 'app'
+                      ? 'bg-[var(--color-action-default)] text-white shadow-sm'
+                      : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-primary)] hover:text-[var(--color-text-primary)]'
+                  } focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-default)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--color-bg-secondary)]`}
+                  role='tab'
+                  aria-selected={activeTab === 'app'}
+                  aria-controls='app-panel'>
+                  🔍 Emojis
+                </button>
+                <button
+                  onClick={() => setActiveTab('combos')}
+                  className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                    activeTab === 'combos'
+                      ? 'bg-[var(--color-action-default)] text-white shadow-sm'
+                      : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-primary)] hover:text-[var(--color-text-primary)]'
+                  } focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-default)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--color-bg-secondary)]`}
+                  role='tab'
+                  aria-selected={activeTab === 'combos'}
+                  aria-controls='combos-panel'>
+                  ❤️ Combos
+                </button>
+              </div>
               <ThemeToggle theme={theme} onToggle={handleThemeToggle} />
             </div>
           </div>
@@ -162,48 +224,70 @@ export function EmojiApp() {
       </div>
 
       {/* Main Content - Flexible, scrollable */}
-      <main className='flex-1 overflow-hidden'>
-        <div className='h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'>
-          <div className='grid grid-cols-1 lg:grid-cols-[1fr,360px] gap-8 h-full'>
-            {/* Emoji Grid - Scrollable */}
-            <section className='overflow-y-auto min-h-0'>
-              {isLoading ? (
-                <div className='text-center py-12'>
-                  <p className='text-[var(--color-text-secondary)]'>
-                    Loading emojis...
-                  </p>
-                </div>
-              ) : (
-                <EmojiGrid
-                  emojis={filteredEmojis}
-                  onEmojiSelect={handleEmojiSelect}
-                  selectedEmoji={selectedEmoji}
-                />
-              )}
-            </section>
+      <main className='flex-1 overflow-hidden flex flex-col'>
+        <div className='flex-1 overflow-hidden'>
+          <div className='h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'>
+            {activeTab === 'app' ? (
+              <div className='grid grid-cols-1 lg:grid-cols-[1fr,360px] gap-8 h-full'>
+                {/* Emoji Grid - Scrollable */}
+                <section className='overflow-y-auto min-h-0'>
+                  {isLoading ? (
+                    <div className='text-center py-12'>
+                      <p className='text-[var(--color-text-secondary)]'>
+                        Loading emojis...
+                      </p>
+                    </div>
+                  ) : (
+                    <EmojiGrid
+                      emojis={filteredEmojis}
+                      onEmojiSelect={handleEmojiSelect}
+                      selectedEmoji={selectedEmoji}
+                    />
+                  )}
+                </section>
 
-            {/* Emoji Description - Sticky */}
-            {!!selectedEmoji && (
-              <aside className='overflow-y-auto min-h-0'>
-                <EmojiDescription
-                  emoji={selectedEmoji}
-                  allEmojis={emojis}
-                  onEmojiSelect={handleEmojiSelect}
-                  // Handles closing the panel on mobile only
-                  onClosePanel={onClosePanel}
-                  defaultMessage={
-                    !emojis.length
-                      ? 'Loading emojis...'
-                      : !selectedEmoji
-                        ? 'Tap or click an emoji to see details'
-                        : undefined
-                  }
-                />
-              </aside>
+                {/* Emoji Description - Sticky */}
+                {!!selectedEmoji && (
+                  <aside className='overflow-y-auto min-h-0'>
+                    <EmojiDescription
+                      emoji={selectedEmoji}
+                      allEmojis={emojis}
+                      onEmojiSelect={handleEmojiSelect}
+                      onClosePanel={onClosePanel}
+                      defaultMessage={
+                        !emojis.length
+                          ? 'Loading emojis...'
+                          : !selectedEmoji
+                            ? 'Tap or click an emoji to see details'
+                            : undefined
+                      }
+                    />
+                  </aside>
+                )}
+              </div>
+            ) : (
+              <div id='combos-panel' className='h-full min-h-0 overflow-hidden'>
+                <CombosPanel />
+              </div>
             )}
           </div>
         </div>
       </main>
+
+      {/* Floating keyboard shortcuts action */}
+      <button
+        onClick={() => setShowShortcuts(true)}
+        className='fixed bottom-6 right-6 z-30 inline-flex h-12 w-12 items-center justify-center rounded-full border border-[var(--color-border-primary)] bg-[var(--color-action-default)] text-xl text-white shadow-lg transition-transform hover:scale-105 hover:bg-[var(--color-action-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-default)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-primary)]'
+        title='Keyboard shortcuts (press ?)'
+        aria-label='Show keyboard shortcuts'>
+        ⌨️
+      </button>
+
+      {/* Keyboard Shortcuts Modal */}
+      <KeyboardShortcuts
+        isOpen={showShortcuts}
+        onClose={() => setShowShortcuts(false)}
+      />
     </div>
   );
 }

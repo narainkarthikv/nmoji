@@ -18,6 +18,7 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
   const [scrollTop, setScrollTop] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const [focusedIndex, setFocusedIndex] = useState<number>(0);
 
   const COLUMN_COUNT = 9;
   const EMOJI_CELL_HEIGHT = 92;
@@ -92,6 +93,58 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
     },
     [onEmojiSelect]
   );
+
+  // Handle arrow key navigation through emoji grid
+  useEffect(() => {
+    if (!containerRef.current || emojis.length === 0) return;
+
+    const handleArrowKeys = (e: KeyboardEvent) => {
+      if (
+        !['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)
+      ) {
+        return;
+      }
+
+      e.preventDefault();
+      let nextIndex = focusedIndex;
+
+      switch (e.key) {
+        case 'ArrowUp':
+          nextIndex = Math.max(0, focusedIndex - COLUMN_COUNT);
+          break;
+        case 'ArrowDown':
+          nextIndex = Math.min(emojis.length - 1, focusedIndex + COLUMN_COUNT);
+          break;
+        case 'ArrowLeft':
+          nextIndex = focusedIndex === 0 ? emojis.length - 1 : focusedIndex - 1;
+          break;
+        case 'ArrowRight':
+          nextIndex = focusedIndex === emojis.length - 1 ? 0 : focusedIndex + 1;
+          break;
+      }
+
+      if (nextIndex !== focusedIndex && nextIndex < emojis.length) {
+        setFocusedIndex(nextIndex);
+        onEmojiSelect(emojis[nextIndex]);
+
+        // Scroll to make focused emoji visible
+        const row = Math.floor(nextIndex / COLUMN_COUNT);
+        const rowTop = row * EMOJI_CELL_HEIGHT;
+        const rowBottom = rowTop + EMOJI_CELL_HEIGHT;
+        const containerScrollTop = containerRef.current!.scrollTop;
+        const containerBottom = containerScrollTop + containerHeight;
+
+        if (rowTop < containerScrollTop) {
+          containerRef.current!.scrollTop = rowTop;
+        } else if (rowBottom > containerBottom) {
+          containerRef.current!.scrollTop = rowBottom - containerHeight;
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleArrowKeys);
+    return () => document.removeEventListener('keydown', handleArrowKeys);
+  }, [focusedIndex, emojis, COLUMN_COUNT, containerHeight, onEmojiSelect]);
 
   // Calculate visible row range for efficient rendering
   const visibleRowRange = useMemo(() => {
