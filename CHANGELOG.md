@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-08-17
+
+### Added
+
+- Added a dedicated Combos tab for browsing and copying ZWJ emoji sequences.
+- Added an informative ZWJ guide explaining composition, copying, examples, and platform compatibility.
+- Added a floating keyboard-shortcuts action button.
+
+### Changed
+
+- Moved the Emojis and Combos navigation tabs into the application header beside the theme switcher.
+- Restored the Emojis tab's selected-emoji details and related/popular emoji sidebar.
+- Made the ZWJ sequence list independently scrollable on the Combos tab.
+
+### Fixed
+
+- Prevented combo selections from being treated as regular emoji records, eliminating the `undefined` display error.
+
 ## [1.2.0] - 2026-06-20
 
 ### Added
@@ -115,7 +133,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Internal codebase cleanup and structural updates during UI/system migrations.
 
-[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/narainkarthikv/nmoji/compare/v1.2.0...v1.3.0
+[1.2.0]: https://github.com/narainkarthikv/nmoji/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/narainkarthikv/nmoji/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/narainkarthikv/nmoji/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/narainkarthikv/nmoji/releases/tag/v1.0.0
