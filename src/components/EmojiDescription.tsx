@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import type { Emoji } from '../types/emoji';
 import { findRelatedEmojis } from '../utils/emoji';
+import type { EmojiCollection } from '../types/collection';
 
 interface Props {
   emoji: Emoji;
@@ -8,6 +9,8 @@ interface Props {
   onEmojiSelect: (emoji: Emoji) => void;
   defaultMessage?: string;
   onClosePanel: () => void;
+  collections: EmojiCollection[];
+  onToggleCollection: (collectionId: string, emoji: string) => void;
 }
 
 export function EmojiDescription({
@@ -16,6 +19,8 @@ export function EmojiDescription({
   onEmojiSelect,
   onClosePanel,
   defaultMessage,
+  collections,
+  onToggleCollection,
 }: Props) {
   const [openMobile, setOpenMobile] = useState(false);
 
@@ -134,17 +139,51 @@ export function EmojiDescription({
               )}
             </div>
 
-            <div className='space-y-4'>
+            <div className='rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] p-4'>
+              <h4 className='text-sm font-semibold text-[var(--color-text-primary)]'>
+                Collections
+              </h4>
+              <p className='mt-1 text-xs text-[var(--color-text-secondary)]'>
+                Add or remove this emoji from your packs.
+              </p>
+              <div className='mt-3 space-y-2'>
+                {collections
+                  .filter((collection) => collection.id !== 'all')
+                  .map((collection) => {
+                    const included = collection.emojis.includes(emoji.emoji);
+                    return (
+                      <label
+                        key={collection.id}
+                        className='flex cursor-pointer items-center gap-2 text-sm text-[var(--color-text-primary)]'>
+                        <input
+                          type='checkbox'
+                          checked={included}
+                          onChange={() =>
+                            onToggleCollection(collection.id, emoji.emoji)
+                          }
+                          className='h-4 w-4 accent-[var(--color-action-default)]'
+                        />
+                        {collection.name}
+                        <span className='ml-auto text-xs text-[var(--color-text-secondary)]'>
+                          {collection.emojis.length}
+                        </span>
+                      </label>
+                    );
+                  })}
+              </div>
+            </div>
+
+            <div className='grid grid-cols-1 gap-4 xl:grid-cols-2'>
               {relatedEmojis.length > 0 && (
-                <div className='bg-[var(--color-bg-secondary)] border border-[var(--color-border-primary)] p-4 rounded-lg animate-fade-in-up'>
+                <div className='min-w-0 rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] p-3 animate-fade-in-up'>
                   <h4 className='text-sm font-semibold'>Related</h4>
-                  <div className='mt-3 grid grid-cols-6 gap-2'>
+                  <div className='mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4 xl:grid-cols-3'>
                     {relatedEmojis.map((related, idx) => (
                       <button
                         key={`related-${related.emoji}-${idx}`}
                         onClick={() => handleRelatedEmojiSelect(related)}
                         title={related.description}
-                        className='w-10 h-10 flex items-center justify-center rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] hover:bg-[var(--color-surface-secondary)] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-default)]'
+                        className='flex aspect-square w-full items-center justify-center rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] text-lg transition-colors duration-200 hover:bg-[var(--color-surface-secondary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-default)]'
                         aria-label={`Select ${related.description}`}>
                         {related.emoji}
                       </button>
@@ -155,16 +194,16 @@ export function EmojiDescription({
 
               {popularEmojis.length > 0 && (
                 <div
-                  className='bg-[var(--color-bg-secondary)] border border-[var(--color-border-primary)] p-4 rounded-lg animate-fade-in-up'
+                  className='min-w-0 rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] p-3 animate-fade-in-up'
                   style={{ animationDelay: '100ms' }}>
                   <h4 className='text-sm font-semibold'>Popular</h4>
-                  <div className='mt-3 grid grid-cols-6 gap-2'>
+                  <div className='mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4 xl:grid-cols-3'>
                     {popularEmojis.map((popular, idx) => (
                       <button
                         key={`popular-${popular.emoji}-${idx}`}
                         onClick={() => handleRelatedEmojiSelect(popular)}
                         title={popular.description}
-                        className='w-10 h-10 flex items-center justify-center rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] hover:bg-[var(--color-surface-secondary)] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-default)]'
+                        className='flex aspect-square w-full items-center justify-center rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] text-lg transition-colors duration-200 hover:bg-[var(--color-surface-secondary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-default)]'
                         aria-label={`Select ${popular.description}`}>
                         {popular.emoji}
                       </button>

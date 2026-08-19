@@ -10,6 +10,10 @@ import type { Emoji, ThemeMode } from '../types/emoji';
 import { searchEmojis, filterEmojis } from '../utils/emoji';
 import { getInitialTheme, saveTheme, applyTheme } from '../utils/theme';
 import { setupKeyboardShortcuts } from '../utils/keyboard';
+import { useCollections } from '../hooks/useCollections';
+import { CollectionsPanel } from './CollectionsPanel';
+import { CreateCollectionModal } from './CreateCollectionModal';
+import type { EmojiCollection } from '../types/collection';
 
 export function EmojiApp() {
   const [emojis, setEmojis] = useState<Emoji[]>([]);
@@ -20,6 +24,10 @@ export function EmojiApp() {
   const [error, setError] = useState<Error | null>(null);
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [activeTab, setActiveTab] = useState<'app' | 'combos'>('app');
+  const collections = useCollections(emojis);
+  const [editingCollection, setEditingCollection] =
+    useState<EmojiCollection | null>(null);
+  const [collectionModalOpen, setCollectionModalOpen] = useState(false);
   const isSmallScreen =
     typeof window !== 'undefined' &&
     window.matchMedia('(max-width: 1024px)').matches;
@@ -54,6 +62,8 @@ export function EmojiApp() {
     loadEmojis();
   }, []);
 
+  const collectionEmojis = collections.visibleEmojis;
+
   // Apply theme to DOM
   useEffect(() => {
     applyTheme(theme);
@@ -70,7 +80,7 @@ export function EmojiApp() {
     const unsubscribe = setupKeyboardShortcuts({
       help: () => setShowShortcuts(true),
       reset: () => {
-        setFilteredEmojis(emojis);
+        setFilteredEmojis(collectionEmojis);
       },
       category: (categoryIndex?: string) => {
         if (!categoryIndex) return;
@@ -86,27 +96,65 @@ export function EmojiApp() {
     return () => {
       unsubscribe();
     };
-  }, [emojis]);
+  }, [emojis, collectionEmojis]);
 
   const handleSearch = useCallback(
     (query: string) => {
-      const results = searchEmojis(emojis, query);
+      const results = searchEmojis(collectionEmojis, query);
       setFilteredEmojis(results);
     },
-    [emojis]
+    [collectionEmojis]
   );
 
   const handleFilter = useCallback(
     (category: string, tag: string, alias: string) => {
       const results = filterEmojis(
-        emojis,
+        collectionEmojis,
         category || undefined,
         tag || undefined,
         alias || undefined
       );
       setFilteredEmojis(results);
     },
-    [emojis]
+    [collectionEmojis]
+  );
+
+  useEffect(() => {
+    setFilteredEmojis(collectionEmojis);
+  }, [collectionEmojis]);
+
+  const selectCollection = useCallback(
+    (id: string) => {
+      collections.setActiveCollection(id);
+    },
+    [collections]
+  );
+
+  const openCreateCollection = useCallback(() => {
+    setEditingCollection(null);
+    setCollectionModalOpen(true);
+  }, []);
+
+  const openEditCollection = useCallback((collection: EmojiCollection) => {
+    setEditingCollection(collection);
+    setCollectionModalOpen(true);
+  }, []);
+
+  const saveCollection = useCallback(
+    (draft: { name: string; description?: string; emojis: string[] }) => {
+      if (editingCollection)
+        collections.editCollection(editingCollection.id, draft);
+      else collections.addCollection(draft);
+    },
+    [collections, editingCollection]
+  );
+
+  const deleteCollection = useCallback(
+    (collection: EmojiCollection) => {
+      if (window.confirm(`Delete “${collection.name}”? This cannot be undone.`))
+        collections.deleteCollection(collection.id);
+    },
+    [collections]
   );
 
   const handleEmojiSelect = useCallback((emoji: Emoji) => {
@@ -214,11 +262,23 @@ export function EmojiApp() {
       </header>
 
       {/* Search & Filter Bar - Fixed height */}
-      <div className='flex-shrink-0 border-b border-[var(--color-border-primary)] bg-[var(--color-surface-primary)]'>
+      <div className='relative z-[60] flex-shrink-0 border-b border-[var(--color-border-primary)] bg-[var(--color-surface-primary)]'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3'>
           <div className='flex flex-col md:flex-row gap-3 items-stretch md:items-center'>
             <SearchBar onSearch={handleSearch} compact />
-            <FilterBar onFilter={handleFilter} emojis={emojis} compact />
+            <FilterBar
+              onFilter={handleFilter}
+              emojis={collectionEmojis}
+              compact
+            />
+            <CollectionsPanel
+              collections={collections.collections}
+              activeCollection={collections.activeCollection}
+              onSelect={selectCollection}
+              onCreate={openCreateCollection}
+              onEdit={openEditCollection}
+              onDelete={deleteCollection}
+            />
           </div>
         </div>
       </div>
@@ -252,6 +312,8 @@ export function EmojiApp() {
                     <EmojiDescription
                       emoji={selectedEmoji}
                       allEmojis={emojis}
+                      collections={collections.collections}
+                      onToggleCollection={collections.toggleEmoji}
                       onEmojiSelect={handleEmojiSelect}
                       onClosePanel={onClosePanel}
                       defaultMessage={
@@ -287,6 +349,14 @@ export function EmojiApp() {
       <KeyboardShortcuts
         isOpen={showShortcuts}
         onClose={() => setShowShortcuts(false)}
+      />
+      <CreateCollectionModal
+        isOpen={collectionModalOpen}
+        collection={editingCollection}
+        collections={collections.collections}
+        emojis={emojis}
+        onClose={() => setCollectionModalOpen(false)}
+        onSave={saveCollection}
       />
     </div>
   );
