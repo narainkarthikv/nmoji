@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-08-19
+
+### Added
+
+- Added emoji collections with predefined Reactions, Activities, Nature, Office Emojis, Social Media, Travel, and All Emojis packs.
+- Added custom collection creation and editing with name validation, descriptions, emoji search, and multi-select editing.
+- Added local browser persistence for collections and the active collection through the `nmoji-collections` storage key.
+- Added collection membership controls to the emoji details panel.
+
+### Changed
+
+- Search and category filters now operate within the selected collection.
+- Added collection counts and responsive collection selection controls to the emoji toolbar.
+- Reworked Related and Popular emoji sections to use the details sidebar space more efficiently on larger screens.
+
+### Fixed
+
+- Prevented the collection selector dropdown from rendering behind the emoji details panel.
+
 ## [1.3.0] - 2026-08-17
 
 ### Added
@@ -133,7 +152,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Internal codebase cleanup and structural updates during UI/system migrations.
 
-[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/narainkarthikv/nmoji/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/narainkarthikv/nmoji/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/narainkarthikv/nmoji/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/narainkarthikv/nmoji/compare/v1.1.0...v1.1.1

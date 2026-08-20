@@ -64,7 +64,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright smoke tests
-        run: npm run test:e2e
+        run: npx playwright test --workers=4
 
       - name: Upload Playwright artifacts
         if: failure()
@@ -101,7 +101,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright regression tests
-        run: npm run test:e2e
+        run: npx playwright test --workers=4
 
       - name: Upload Playwright artifacts
         if: failure()
