@@ -27,13 +27,13 @@ export function KeyboardShortcuts({ isOpen, onClose }: Props) {
     <>
       {/* Backdrop */}
       <div
-        className='fixed inset-0 bg-black/50 transition-opacity duration-200 z-40'
+        className='fixed inset-0 bg-black/50 transition-opacity duration-200 z-[65]'
         onClick={onClose}
         aria-hidden='true'
       />
 
       {/* Modal */}
-      <div className='fixed inset-0 flex items-center justify-center p-4 z-50 pointer-events-none'>
+      <div className='fixed inset-0 flex items-center justify-center p-4 z-[70] pointer-events-none'>
         <div
           className='bg-[var(--color-surface-primary)] rounded-lg border border-[var(--color-border-primary)] shadow-lg max-w-md w-full pointer-events-auto'
           role='dialog'

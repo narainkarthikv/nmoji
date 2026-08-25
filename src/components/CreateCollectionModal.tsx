@@ -54,7 +54,7 @@ export function CreateCollectionModal({
   };
   return (
     <div
-      className='fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-3 backdrop-blur-sm sm:items-center'
+      className='fixed inset-0 z-[70] flex items-end justify-center bg-black/40 p-3 backdrop-blur-sm sm:items-center'
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}>
