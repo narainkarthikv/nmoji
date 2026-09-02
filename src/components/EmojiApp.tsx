@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { flushSync } from 'react-dom';
 import { EmojiGrid } from './EmojiGrid';
 import { SearchBar } from './SearchBar';
 import { FilterBar } from './FilterBar';
@@ -14,6 +15,10 @@ import { useCollections } from '../hooks/useCollections';
 import { CollectionsPanel } from './CollectionsPanel';
 import { CreateCollectionModal } from './CreateCollectionModal';
 import type { EmojiCollection } from '../types/collection';
+
+type ViewTransitionDocument = Document & {
+  startViewTransition?: (update: () => void) => { finished: Promise<void> };
+};
 
 export function EmojiApp() {
   const [emojis, setEmojis] = useState<Emoji[]>([]);
@@ -171,8 +176,29 @@ export function EmojiApp() {
     setSelectedEmoji(null);
   }, []);
   const handleThemeToggle = useCallback(() => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-  }, []);
+    const nextTheme = theme === 'light' ? 'dark' : 'light';
+    const root = document.documentElement;
+    const viewTransitionDocument = document as ViewTransitionDocument;
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    if (!viewTransitionDocument.startViewTransition || prefersReducedMotion) {
+      setTheme(nextTheme);
+      return;
+    }
+
+    // Disable per-component color transitions while the viewport snapshot fades.
+    root.classList.add('theme-switching');
+    const transition = viewTransitionDocument.startViewTransition(() => {
+      flushSync(() => setTheme(nextTheme));
+    });
+
+    transition.finished.then(
+      () => root.classList.remove('theme-switching'),
+      () => root.classList.remove('theme-switching')
+    );
+  }, [theme]);
 
   if (error) {
     return (
