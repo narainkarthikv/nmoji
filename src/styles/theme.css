@@ -20,6 +20,7 @@
   --color-border-primary: #e5e7eb;
   --color-border-subtle: #f0f0f0;
   --shadow-color: rgba(0, 0, 0, 0.08);
+  --scrollbar-thumb: #3b82f6;
 
   /* Aliases for existing styles */
   --bg-primary: var(--color-bg-primary);
@@ -63,6 +64,7 @@ html.dark,
   --color-border-primary: #1e2c3c;
   --color-border-subtle: #0f1822;
   --shadow-color: rgba(2, 10, 18, 0.5);
+  --scrollbar-thumb: #60a5fa;
 
   /* Aliases for existing styles */
   --bg-primary: var(--color-bg-primary);
@@ -115,11 +117,6 @@ body {
 #emojiContainer {
   background-color: var(--bg-secondary);
   border-color: var(--border-color);
-}
-
-#emojiContainer::-webkit-scrollbar-track,
-.filter-select::-webkit-scrollbar-track {
-  background-color: var(--bg-secondary);
 }
 
 .emoji {
@@ -187,4 +184,18 @@ body,
     color 0.3s ease,
     border-color 0.3s ease,
     box-shadow 0.3s ease;
+}
+
+/* Theme changes are animated as one viewport snapshot instead of per element. */
+html.theme-switching,
+html.theme-switching * {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 180ms;
+    animation-timing-function: ease-out;
+  }
 }

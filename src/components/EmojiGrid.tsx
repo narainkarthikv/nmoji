@@ -195,14 +195,14 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
                 aria-pressed={selectedEmoji?.emoji === emoji.emoji}
                 aria-label={`${emoji.description}. Category: ${emoji.category}`}
                 title={`${emoji.description} — ${emoji.category}`}
-                className={`flex items-center justify-center aspect-square rounded-lg p-2 transition-colors duration-200 ease-out select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-action-default)] focus-visible:ring-offset-[var(--color-bg-primary)] border text-2xl animate-pop-in
-                  ${selectedEmoji?.emoji === emoji.emoji ? 'border-[var(--color-action-default)] bg-[var(--color-action-default)] text-[var(--color-text-inverse)]' : 'border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] hover:bg-[var(--color-surface-secondary)]'}`}
+                className={`flex items-center justify-center aspect-square rounded-lg p-2 transition-[background-color,border-color,color,transform,box-shadow] duration-200 ease-out select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-action-default)] focus-visible:ring-offset-[var(--color-bg-primary)] border text-2xl animate-pop-in
+                  ${selectedEmoji?.emoji === emoji.emoji ? 'border-[var(--color-action-default)] bg-[var(--color-action-default)] text-[var(--color-text-inverse)] shadow-inner' : 'border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] hover:bg-[var(--color-surface-secondary)]'}`}
                 style={{
                   animationDelay: `${(index % 12) * 15}ms`,
                   willChange: 'transform, opacity',
                 }}>
                 <span
-                  className='leading-none text-[clamp(1.5rem,4vw,2.4rem)]'
+                  className={`leading-none text-[clamp(1.5rem,4vw,2.4rem)] ${selectedEmoji?.emoji === emoji.emoji ? 'animate-emoji-select' : ''}`}
                   aria-hidden='true'>
                   {emoji.emoji}
                 </span>

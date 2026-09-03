@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-09-02
+
+### Changed
+
+- Added a viewport-based theme transition to make light and dark mode changes smoother without animating every emoji individually.
+- Updated scrollbars to use slim, theme-aware blue tones in both light and dark modes.
+- Added press-and-release scale feedback to make emoji selection more noticeable.
+
 ## [1.4.0] - 2026-08-19
 
 ### Added
