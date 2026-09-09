@@ -104,7 +104,7 @@ export function EmojiDescription({
             <div className='flex items-center gap-4'>
               <div className='group relative'>
                 <div
-                  className='w-14 h-14 flex items-center justify-center rounded-lg bg-[var(--color-surface-secondary)] border border-[var(--color-border-primary)] text-3xl'
+                  className='w-14 h-14 flex items-center justify-center rounded-lg bg-[var(--color-surface-secondary)] border border-[var(--color-border-primary)] text-3xl transition-all duration-150 group-hover:blur-[2px]'
                   aria-hidden='true'>
                   {emoji.emoji}
                 </div>
