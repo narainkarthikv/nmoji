@@ -3,6 +3,14 @@ import type { Emoji } from '../types/emoji';
 import { findRelatedEmojis } from '../utils/emoji';
 import type { EmojiCollection } from '../types/collection';
 
+function copyEmoji(emoji: string) {
+  if (typeof navigator !== 'undefined' && navigator.clipboard) {
+    navigator.clipboard.writeText(emoji).catch((err) => {
+      console.error('Clipboard error:', err);
+    });
+  }
+}
+
 interface Props {
   emoji: Emoji;
   allEmojis: Emoji[];
@@ -94,10 +102,18 @@ export function EmojiDescription({
         ) : (
           <div className='space-y-4'>
             <div className='flex items-center gap-4'>
-              <div
-                className='w-14 h-14 flex items-center justify-center rounded-lg bg-[var(--color-surface-secondary)] border border-[var(--color-border-primary)] text-3xl'
-                aria-hidden='true'>
-                {emoji.emoji}
+              <div className='group relative'>
+                <div
+                  className='w-14 h-14 flex items-center justify-center rounded-lg bg-[var(--color-surface-secondary)] border border-[var(--color-border-primary)] text-3xl'
+                  aria-hidden='true'>
+                  {emoji.emoji}
+                </div>
+                <button
+                  onClick={() => copyEmoji(emoji.emoji)}
+                  className='absolute inset-0 flex items-center justify-center rounded-lg bg-[var(--color-action-default)]/80 text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-default)]'
+                  aria-label={`Copy ${emoji.description}`}>
+                  Copy
+                </button>
               </div>
               <div>
                 <h2 className='text-xl font-semibold leading-tight'>
