@@ -28,14 +28,15 @@ export function CollectionsPanel({
         onClick={() => setOpen((value) => !value)}
         className='flex w-full items-center justify-between gap-3 rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-bg-secondary)] px-3 py-2 text-left text-sm hover:bg-[var(--color-surface-secondary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-default)]'>
         <span className='min-w-0 truncate'>
-          📚 {activeCollection?.name ?? 'Collections'}{' '}
-          <span className='text-[var(--color-text-secondary)]'>
-            (
-            {activeCollection?.id === 'all'
-              ? 'all'
-              : (activeCollection?.emojis.length ?? 0)}
-            )
-          </span>
+          📚 {activeCollection?.name ?? 'Collections'}
+          {activeCollection && activeCollection.id !== 'all' && (
+            <>
+              {' '}
+              <span className='text-[var(--color-text-secondary)]'>
+                ({activeCollection.emojis.length})
+              </span>
+            </>
+          )}
         </span>
         <span aria-hidden='true'>⌄</span>
       </button>
@@ -60,7 +61,7 @@ export function CollectionsPanel({
                   {collection.name}
                 </span>
                 <span className='float-right text-[var(--color-text-secondary)]'>
-                  {collection.id === 'all' ? 'all' : collection.emojis.length}
+                  {collection.id === 'all' ? '' : collection.emojis.length}
                 </span>
               </button>
               {collection.id !== 'all' && (
