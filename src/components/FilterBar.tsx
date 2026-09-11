@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useMemo } from 'react';
 import type { Emoji } from '../types/emoji';
 import { extractCategories, extractTags, extractAliases } from '../utils/emoji';
+import { CATEGORY_ICONS } from '../lib/constants';
 
 interface Props {
   emojis: Emoji[];
@@ -26,7 +27,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
     () =>
       categories.map((cat) => (
         <option key={cat} value={cat}>
-          {cat}
+          {CATEGORY_ICONS[cat] ? `${CATEGORY_ICONS[cat]} ${cat}` : cat}
         </option>
       )),
     [categories]
