@@ -51,3 +51,15 @@ export const ARIA_LABELS = {
   backToHome: 'Back to home page',
   selectEmoji: (description: string) => `Select ${description}`,
 };
+
+export const CATEGORY_ICONS: Record<string, string> = {
+  'Smileys & Emotion': '😀',
+  'People & Body': '🧑',
+  'Animals & Nature': '🐾',
+  'Food & Drink': '🍔',
+  'Travel & Places': '✈️',
+  Activities: '⚽',
+  Objects: '💡',
+  Symbols: '🔣',
+  Flags: '🚩',
+};

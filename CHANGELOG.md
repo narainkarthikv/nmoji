@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.2] - 2026-09-12
+
+### Fixed
+
+- Removed internal category and collection keys from user-facing dropdown labels.
+- Added regression coverage for clean category and collection labels.
+
 ## [1.4.1] - 2026-09-02
 
 ### Changed
@@ -160,7 +167,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Internal codebase cleanup and structural updates during UI/system migrations.
 
-[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.4.2...HEAD
+[1.4.2]: https://github.com/narainkarthikv/nmoji/compare/v1.4.1...v1.4.2
+[1.4.1]: https://github.com/narainkarthikv/nmoji/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/narainkarthikv/nmoji/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/narainkarthikv/nmoji/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/narainkarthikv/nmoji/compare/v1.1.1...v1.2.0

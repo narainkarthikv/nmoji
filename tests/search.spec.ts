@@ -120,4 +120,29 @@ test.describe('Search Functionality Integration Tests', () => {
       expect(await searchInput.inputValue()).toBe('love');
     }
   });
+
+  test('should display clean category and collection dropdown labels without internal keys', async ({
+    page,
+  }) => {
+    // Verify collection dropdown button displays user-facing label without internal '(all)' key
+    const collectionBtn = page
+      .locator('button[aria-haspopup="listbox"]')
+      .first();
+    if (await collectionBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
+      const text = await collectionBtn.textContent();
+      expect(text).toContain('All Emojis');
+      expect(text).not.toContain('(all)');
+    }
+
+    // Verify category select options display friendly names and icons without internal keys
+    const categorySelect = page.locator('#category-select').first();
+    if (await categorySelect.isVisible({ timeout: 2000 }).catch(() => false)) {
+      const optionTexts = await categorySelect
+        .locator('option')
+        .allTextContents();
+      for (const opt of optionTexts) {
+        expect(opt).not.toMatch(/\([a-z_]+\)/);
+      }
+    }
+  });
 });
