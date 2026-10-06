@@ -99,6 +99,9 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
     if (!containerRef.current || emojis.length === 0) return;
 
     const handleArrowKeys = (e: KeyboardEvent) => {
+      // Arrow navigation belongs to the grid only; do not steal keys from search,
+      // filters, dialogs, or other page controls.
+      if (!containerRef.current?.contains(document.activeElement)) return;
       if (
         !['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)
       ) {
@@ -145,6 +148,12 @@ export function EmojiGrid({ emojis, onEmojiSelect, selectedEmoji }: Props) {
     document.addEventListener('keydown', handleArrowKeys);
     return () => document.removeEventListener('keydown', handleArrowKeys);
   }, [focusedIndex, emojis, COLUMN_COUNT, containerHeight, onEmojiSelect]);
+
+  useEffect(() => {
+    setFocusedIndex((index) => Math.min(index, Math.max(0, emojis.length - 1)));
+    if (containerRef.current) containerRef.current.scrollTop = 0;
+    setScrollTop(0);
+  }, [emojis]);
 
   // Calculate visible row range for efficient rendering
   const visibleRowRange = useMemo(() => {

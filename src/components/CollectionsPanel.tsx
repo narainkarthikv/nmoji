@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { EmojiCollection } from '../types/collection';
 
 interface Props {
@@ -19,8 +19,33 @@ export function CollectionsPanel({
   onDelete,
 }: Props) {
   const [open, setOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const closeOnOutsidePointer = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        !panelRef.current?.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+
+    document.addEventListener('pointerdown', closeOnOutsidePointer);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsidePointer);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [open]);
+
   return (
-    <div className='relative z-[70] min-w-0 flex-1 md:max-w-xs'>
+    <div ref={panelRef} className='relative z-[70] min-w-0 flex-1 md:max-w-xs'>
       <button
         type='button'
         aria-haspopup='listbox'

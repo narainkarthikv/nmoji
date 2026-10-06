@@ -5,6 +5,60 @@
 
 import type { Emoji } from '../types/emoji';
 
+/** Treat the downloaded JSON as untrusted input and keep only renderable fields. */
+export function sanitizeEmojiData(value: unknown): Emoji[] {
+  if (!Array.isArray(value))
+    throw new Error('The emoji data response is not a list.');
+  const seen = new Set<string>();
+  const result: Emoji[] = [];
+  const cleanText = (input: unknown) =>
+    typeof input === 'string'
+      ? input
+          // eslint-disable-next-line no-control-regex
+          .replace(/[\u0000-\u001f\u007f\u202a-\u202e\u2066-\u2069]/g, '')
+          .trim()
+      : '';
+  for (const item of value.slice(0, 5000)) {
+    if (!item || typeof item !== 'object') continue;
+    const record = item as Record<string, unknown>;
+    const emoji = cleanText(record.emoji);
+    const description = cleanText(record.description);
+    const category = cleanText(record.category);
+    // A modest bound prevents pathological payloads from consuming excess memory/DOM time.
+    if (
+      !emoji ||
+      emoji.length > 32 ||
+      !description ||
+      description.length > 200 ||
+      !category ||
+      category.length > 80 ||
+      seen.has(emoji)
+    )
+      continue;
+    const strings = (input: unknown) =>
+      Array.isArray(input)
+        ? input
+            .filter(
+              (entry): entry is string =>
+                typeof entry === 'string' && cleanText(entry).length <= 80
+            )
+            .slice(0, 40)
+            .map(cleanText)
+        : undefined;
+    seen.add(emoji);
+    result.push({
+      emoji,
+      description,
+      category,
+      tags: strings(record.tags),
+      aliases: strings(record.aliases),
+    });
+  }
+  if (!result.length)
+    throw new Error('The emoji data response contains no valid emoji entries.');
+  return result;
+}
+
 /**
  * Search emojis across description, category, tags, and aliases
  * @param emojis - Array of emojis to search

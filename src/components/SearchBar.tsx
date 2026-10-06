@@ -2,13 +2,19 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 
 interface Props {
   onSearch: (query: string) => void;
+  value?: string;
   compact?: boolean;
 }
 
-export function SearchBar({ onSearch, compact = false }: Props) {
+export function SearchBar({ onSearch, value = '', compact = false }: Props) {
   const [searchTerm, setSearchTerm] = useState('');
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    setSearchTerm(value);
+  }, [value]);
 
   // Debounce search to avoid excessive filtering
   const debouncedSearch = useCallback(

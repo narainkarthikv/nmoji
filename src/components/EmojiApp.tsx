@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { flushSync } from 'react-dom';
 import { EmojiGrid } from './EmojiGrid';
 import { SearchBar } from './SearchBar';
@@ -8,7 +8,7 @@ import { ThemeToggle } from './ThemeToggle';
 import { KeyboardShortcuts } from './KeyboardShortcuts';
 import { CombosPanel } from './CombosPanel';
 import type { Emoji, ThemeMode } from '../types/emoji';
-import { searchEmojis, filterEmojis } from '../utils/emoji';
+import { searchEmojis, filterEmojis, sanitizeEmojiData } from '../utils/emoji';
 import { getInitialTheme, saveTheme, applyTheme } from '../utils/theme';
 import { setupKeyboardShortcuts } from '../utils/keyboard';
 import { useCollections } from '../hooks/useCollections';
@@ -22,11 +22,17 @@ type ViewTransitionDocument = Document & {
 
 export function EmojiApp() {
   const [emojis, setEmojis] = useState<Emoji[]>([]);
-  const [filteredEmojis, setFilteredEmojis] = useState<Emoji[]>([]);
   const [selectedEmoji, setSelectedEmoji] = useState<Emoji | null>(null);
   const [theme, setTheme] = useState<ThemeMode>(() => getInitialTheme());
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [loadAttempt, setLoadAttempt] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeFilters, setActiveFilters] = useState({
+    category: '',
+    tag: '',
+    alias: '',
+  });
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [activeTab, setActiveTab] = useState<'app' | 'combos'>('app');
   const collections = useCollections(emojis);
@@ -36,38 +42,104 @@ export function EmojiApp() {
   const isSmallScreen =
     typeof window !== 'undefined' &&
     window.matchMedia('(max-width: 1024px)').matches;
-  // Fetch emoji data
+  // Fetch emoji data with a bounded timeout and retries for transient failures.
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
+    let activeController: AbortController | null = null;
+    let mounted = true;
     const loadEmojis = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch('/NmojiList.json');
-        if (!response.ok) {
-          throw new Error('Failed to fetch emoji data');
+      setIsLoading(true);
+      setError(null);
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const controller = new AbortController();
+        activeController = controller;
+        let timedOut = false;
+        const timeout = window.setTimeout(() => {
+          timedOut = true;
+          controller.abort();
+        }, 10000);
+        try {
+          const response = await fetch('/NmojiList.json', {
+            signal: controller.signal,
+          });
+          if (!response.ok) {
+            if (response.status === 404)
+              throw new Error(
+                'Emoji data was not found (404). Check that /NmojiList.json is deployed.'
+              );
+            if (response.status >= 500)
+              throw new Error(
+                `The server could not load emoji data (${response.status}). Please retry shortly.`
+              );
+            throw new Error(
+              `Emoji data request failed (${response.status} ${response.statusText}).`
+            );
+          }
+          let payload: unknown;
+          try {
+            payload = await response.json();
+          } catch {
+            throw new Error(
+              'Emoji data returned invalid JSON. Check the deployed /NmojiList.json file.'
+            );
+          }
+          const data = sanitizeEmojiData(payload);
+          if (!mounted) return;
+          setEmojis(data);
+          if (data.length && !isSmallScreen) setSelectedEmoji(data[0]);
+          setIsLoading(false);
+          return;
+        } catch (err) {
+          if (!mounted) return;
+          const message = err instanceof Error ? err.message : '';
+          const finalError = timedOut
+            ? new Error(
+                'Loading emoji data timed out after 10 seconds. Check your connection and retry.'
+              )
+            : message.includes('404') ||
+                message.includes('server') ||
+                message.includes('valid') ||
+                message.includes('not a list')
+              ? new Error(message)
+              : new Error(
+                  'Could not reach emoji data. Check your connection and that this site is allowed to load its same-origin data (network or CORS failure).'
+                );
+          const permanentFailure =
+            /404|invalid JSON|not a list|no valid emoji|server could not load/i.test(
+              message
+            );
+          if (attempt === 2 || permanentFailure) {
+            setError(finalError);
+            setIsLoading(false);
+            return;
+          }
+          await new Promise((resolve) =>
+            window.setTimeout(resolve, 400 * (attempt + 1))
+          );
+          if (!mounted) return;
+        } finally {
+          window.clearTimeout(timeout);
         }
-        const data: Emoji[] = await response.json();
-        setEmojis(data);
-        setFilteredEmojis(data);
-        // Set first emoji as selected
-        if (data.length > 0 && !isSmallScreen) {
-          // Only auto-select on first page load on larger screens
-          setSelectedEmoji(data[0]);
-        }
-      } catch (err) {
-        const error = err instanceof Error ? err : new Error('Unknown error');
-        setError(error);
-        console.error('Error loading emoji data:', error);
-      } finally {
-        setIsLoading(false);
       }
     };
-
     loadEmojis();
-  }, []);
+    return () => {
+      mounted = false;
+      activeController?.abort();
+    };
+  }, [loadAttempt]);
 
   const collectionEmojis = collections.visibleEmojis;
+  const currentEmojis = useMemo(
+    () =>
+      filterEmojis(
+        searchEmojis(collectionEmojis, searchQuery),
+        activeFilters.category || undefined,
+        activeFilters.tag || undefined,
+        activeFilters.alias || undefined
+      ),
+    [collectionEmojis, searchQuery, activeFilters]
+  );
 
   // Apply theme to DOM
   useEffect(() => {
@@ -85,15 +157,15 @@ export function EmojiApp() {
     const unsubscribe = setupKeyboardShortcuts({
       help: () => setShowShortcuts(true),
       reset: () => {
-        setFilteredEmojis(collectionEmojis);
+        setSearchQuery('');
+        setActiveFilters({ category: '', tag: '', alias: '' });
       },
       category: (categoryIndex?: string) => {
         if (!categoryIndex) return;
         const index = parseInt(categoryIndex, 10) - 1; // Convert 1-9 to 0-8
         if (index >= 0 && index < categories.length) {
           const category = categories[index];
-          const filtered = emojis.filter((e) => e.category === category);
-          setFilteredEmojis(filtered);
+          setActiveFilters((current) => ({ ...current, category }));
         }
       },
     });
@@ -101,36 +173,24 @@ export function EmojiApp() {
     return () => {
       unsubscribe();
     };
-  }, [emojis, collectionEmojis]);
+  }, [emojis]);
 
-  const handleSearch = useCallback(
-    (query: string) => {
-      const results = searchEmojis(collectionEmojis, query);
-      setFilteredEmojis(results);
-    },
-    [collectionEmojis]
-  );
+  const handleSearch = useCallback((query: string) => {
+    setSearchQuery(query);
+  }, []);
 
   const handleFilter = useCallback(
     (category: string, tag: string, alias: string) => {
-      const results = filterEmojis(
-        collectionEmojis,
-        category || undefined,
-        tag || undefined,
-        alias || undefined
-      );
-      setFilteredEmojis(results);
+      setActiveFilters({ category, tag, alias });
     },
-    [collectionEmojis]
+    []
   );
-
-  useEffect(() => {
-    setFilteredEmojis(collectionEmojis);
-  }, [collectionEmojis]);
 
   const selectCollection = useCallback(
     (id: string) => {
       collections.setActiveCollection(id);
+      setActiveFilters({ category: '', tag: '', alias: '' });
+      setSelectedEmoji(null);
     },
     [collections]
   );
@@ -208,6 +268,11 @@ export function EmojiApp() {
             Error Loading Emojis
           </h2>
           <p className='text-[var(--color-text-secondary)]'>{error.message}</p>
+          <button
+            className='mt-4 rounded-lg bg-[var(--color-action-default)] px-4 py-2 text-white'
+            onClick={() => setLoadAttempt((attempt) => attempt + 1)}>
+            Retry loading emojis
+          </button>
         </div>
       </div>
     );
@@ -291,10 +356,11 @@ export function EmojiApp() {
       <div className='relative z-[60] flex-shrink-0 border-b border-[var(--color-border-primary)] bg-[var(--color-surface-primary)]'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3'>
           <div className='flex flex-col md:flex-row gap-3 items-stretch md:items-center'>
-            <SearchBar onSearch={handleSearch} compact />
+            <SearchBar onSearch={handleSearch} value={searchQuery} compact />
             <FilterBar
               onFilter={handleFilter}
               emojis={collectionEmojis}
+              filters={activeFilters}
               compact
             />
             <CollectionsPanel
@@ -325,7 +391,7 @@ export function EmojiApp() {
                     </div>
                   ) : (
                     <EmojiGrid
-                      emojis={filteredEmojis}
+                      emojis={currentEmojis}
                       onEmojiSelect={handleEmojiSelect}
                       selectedEmoji={selectedEmoji}
                     />
