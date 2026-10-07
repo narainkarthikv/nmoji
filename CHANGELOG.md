@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.3] - 2026-10-06
+
+### Added
+
+- Added a 10-second timeout, retry policy, actionable errors, and a retry action for emoji data loading.
+- Validate and sanitize downloaded emoji records before they enter application state.
+
+### Fixed
+
+- Keep search, filters, and collection results synchronized as users change collections and filters.
+- Restrict arrow-key navigation to the focused emoji grid and reset its scroll and focus position when results change.
+- Close the collections menu on outside clicks or Escape and clean up its event listeners.
+
 ## [1.4.2] - 2026-09-12
 
 ### Fixed
@@ -167,7 +180,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Internal codebase cleanup and structural updates during UI/system migrations.
 
-[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.4.2...HEAD
+[Unreleased]: https://github.com/narainkarthikv/nmoji/compare/v1.4.3...HEAD
+[1.4.3]: https://github.com/narainkarthikv/nmoji/compare/v1.4.2...v1.4.3
 [1.4.2]: https://github.com/narainkarthikv/nmoji/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/narainkarthikv/nmoji/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/narainkarthikv/nmoji/compare/v1.3.0...v1.4.0

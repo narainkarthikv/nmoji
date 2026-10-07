@@ -1,22 +1,24 @@
-import React, { useState, useCallback, useRef, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import type { Emoji } from '../types/emoji';
+import type { EmojiFilterState } from '../types/emoji';
 import { extractCategories, extractTags, extractAliases } from '../utils/emoji';
 import { CATEGORY_ICONS } from '../lib/constants';
 
 interface Props {
   emojis: Emoji[];
+  filters: EmojiFilterState;
   onFilter: (category: string, tag: string, alias: string) => void;
   compact?: boolean;
 }
 
 const selectClasses = `px-3 py-2.5 rounded-lg border border-[var(--color-border-primary)] bg-[var(--color-surface-primary)] text-[var(--color-text-primary)] text-sm cursor-pointer appearance-none transition-colors duration-200 bg-[url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")] bg-no-repeat bg-[right_10px_center] bg-[length:12px] focus:border-[var(--color-action-default)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-action-default)_25%,transparent_75%)] focus:outline-none hover:border-[var(--color-action-hover)]`;
 
-export function FilterBar({ emojis, onFilter, compact = false }: Props) {
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedTag, setSelectedTag] = useState('');
-  const [selectedAlias, setSelectedAlias] = useState('');
-  const filterTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
-
+export function FilterBar({
+  emojis,
+  filters,
+  onFilter,
+  compact = false,
+}: Props) {
   // Memoize filter extractions to avoid recalculating on every render
   const categories = useMemo(() => extractCategories(emojis), [emojis]);
   const tags = useMemo(() => extractTags(emojis), [emojis]);
@@ -51,51 +53,28 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
     [aliases]
   );
 
-  // Debounced filter update to prevent excessive filtering
-  const debouncedFilter = useCallback(
-    (category: string, tag: string, alias: string) => {
-      if (filterTimeoutRef.current) clearTimeout(filterTimeoutRef.current);
-      filterTimeoutRef.current = setTimeout(() => {
-        onFilter(category, tag, alias);
-      }, 80);
-    },
-    [onFilter]
-  );
-
-  // Handle filter changes with debouncing
+  // Apply filters immediately so collection changes cannot leave a delayed
+  // update from the previous collection queued behind the current UI state.
   const handleCategoryChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = e.target.value;
-      setSelectedCategory(value);
-      debouncedFilter(value, selectedTag, selectedAlias);
+      onFilter(e.target.value, filters.tag, filters.alias);
     },
-    [selectedTag, selectedAlias, debouncedFilter]
+    [filters, onFilter]
   );
 
   const handleTagChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = e.target.value;
-      setSelectedTag(value);
-      debouncedFilter(selectedCategory, value, selectedAlias);
+      onFilter(filters.category, e.target.value, filters.alias);
     },
-    [selectedCategory, selectedAlias, debouncedFilter]
+    [filters, onFilter]
   );
 
   const handleAliasChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = e.target.value;
-      setSelectedAlias(value);
-      debouncedFilter(selectedCategory, selectedTag, value);
+      onFilter(filters.category, filters.tag, e.target.value);
     },
-    [selectedCategory, selectedTag, debouncedFilter]
+    [filters, onFilter]
   );
-
-  // Cleanup on unmount
-  React.useEffect(() => {
-    return () => {
-      if (filterTimeoutRef.current) clearTimeout(filterTimeoutRef.current);
-    };
-  }, []);
 
   if (compact) {
     return (
@@ -103,15 +82,28 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
         <label className='sr-only' htmlFor='category-select'>
           Category filter
         </label>
-        <select
-          id='category-select'
-          className={`${selectClasses} min-w-[120px]`}
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-          aria-label='Filter emojis by category'>
-          <option value=''>Categories</option>
-          {categoryOptions}
-        </select>
+        <div className='relative'>
+          <select
+            id='category-select'
+            className={`${selectClasses} min-w-[120px] bg-none pr-9`}
+            value={filters.category}
+            onChange={handleCategoryChange}
+            aria-label='Filter emojis by category'>
+            <option value=''>Categories</option>
+            {categoryOptions}
+          </select>
+          <svg
+            aria-hidden='true'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className='pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--color-text-secondary)]'>
+            <path d='m6 9 6 6 6-6' />
+          </svg>
+        </div>
       </div>
     );
   }
@@ -125,7 +117,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
         <select
           id='category-select'
           className={`${selectClasses} min-w-[140px] max-w-[220px]`}
-          value={selectedCategory}
+          value={filters.category}
           onChange={handleCategoryChange}
           aria-label='Filter emojis by category'>
           <option value=''>All Categories</option>
@@ -138,7 +130,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
         <select
           id='tag-select'
           className={`${selectClasses} min-w-[140px] max-w-[220px]`}
-          value={selectedTag}
+          value={filters.tag}
           onChange={handleTagChange}
           aria-label='Filter emojis by tag'>
           <option value=''>All Tags</option>
@@ -151,7 +143,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
         <select
           id='alias-select'
           className={`${selectClasses} min-w-[140px] max-w-[220px]`}
-          value={selectedAlias}
+          value={filters.alias}
           onChange={handleAliasChange}
           aria-label='Filter emojis by alias'>
           <option value=''>All Aliases</option>
@@ -163,7 +155,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
       <div className='lg:hidden flex flex-col gap-2'>
         <select
           className={`${selectClasses} w-full`}
-          value={selectedCategory}
+          value={filters.category}
           onChange={handleCategoryChange}
           aria-label='Mobile filter by category'>
           <option value=''>All Categories</option>
@@ -171,7 +163,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
         </select>
         <select
           className={`${selectClasses} w-full`}
-          value={selectedTag}
+          value={filters.tag}
           onChange={handleTagChange}
           aria-label='Mobile filter by tag'>
           <option value=''>All Tags</option>
@@ -179,7 +171,7 @@ export function FilterBar({ emojis, onFilter, compact = false }: Props) {
         </select>
         <select
           className={`${selectClasses} w-full`}
-          value={selectedAlias}
+          value={filters.alias}
           onChange={handleAliasChange}
           aria-label='Mobile filter by alias'>
           <option value=''>All Aliases</option>
